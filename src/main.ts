@@ -1,5 +1,88 @@
+import { useApi } from './utils/useApi';
 import { createApp } from 'vue'
-import './style.css'
 import App from './App.vue'
+import './style.css'
+import navbarGlobal from '@src/components/navbar-global.vue';
+import 'primeicons/primeicons.css';
 
-createApp(App).mount('#app')
+import ToastService from 'primevue/toastservice'
+
+import Toast from 'primevue/toast' 
+
+import { definePreset } from '@primeuix/themes';
+import PrimeVue from "primevue/config";
+import Aura from "@primevue/themes/aura";
+
+import router from "./route";
+
+const BlueModern = definePreset(Aura, {
+    semantic: {
+        primary: {
+            50:  '{blue.50}',
+            100: '{blue.100}',
+            200: '{blue.200}',
+            300: '{blue.300}',
+            400: '{blue.400}',
+            500: '{blue.500}',
+            600: '{blue.600}',
+            700: '{blue.700}',
+            800: '{blue.800}',
+            900: '{blue.900}',
+            950: '{blue.950}',
+        },
+        colorScheme: {
+            light: {
+                primary: {
+                    color: '{blue.600}',
+                    inverseColor: '#ffffff',
+                    hoverColor: '{blue.700}',
+                    activeColor: '{blue.800}',
+                },
+                highlight: {
+                    background: '{blue.100}',
+                    focusBackground: '{blue.200}',
+                    color: '{blue.800}',
+                    focusColor: '{blue.900}',
+                }
+            },
+            dark: {
+                primary: {
+                    color: '{blue.300}',
+                    inverseColor: '{blue.950}',
+                    hoverColor: '{blue.200}',
+                    activeColor: '{blue.100}',
+                },
+                highlight: {
+                    background: 'rgba(59,130,246,0.20)',
+                    focusBackground: 'rgba(59,130,246,0.35)',
+                    color: '#ffffff',
+                    focusColor: '#ffffff',
+                }
+            }
+        }
+    }
+});
+
+const app = createApp(App);
+app.component("NavbarGlobal", navbarGlobal);
+
+app.use(PrimeVue, {
+    theme: {
+        preset: BlueModern,
+        options: {
+            darkModeSelector: ".my-app-dark",
+            cssLayer: {
+                theme: {
+                    fonts: false // <<< MATIKAN FONT THEME
+                }
+            }
+        }
+    }
+});
+
+
+
+app.use(ToastService)
+app.component("Toast", Toast)
+app.use(router); 
+app.mount("#app");
