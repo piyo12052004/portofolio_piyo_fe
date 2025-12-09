@@ -4,6 +4,7 @@ import Button from "primevue/button";
 import { useApi } from "@src/utils/useApi";
 import router, { addDynamicRoutes } from "@src/route";
 import { useToaster } from "@src/utils/toats/toaster";
+import * as H from "@src/utils/Helper";
 
 const collectionPath = ref([]);
 
@@ -44,8 +45,9 @@ async function loadRoutes() {
   try {
     const res = await useApi().get("/path");
     collectionPath.value = res.data;
-    addDynamicRoutes(res.data);
-  } catch {
+    H.saveStoregeListMenu(res.data)
+    addDynamicRoutes();
+  } catch (err) {
     toaster.error("Gagal mengambil data dari server");
   }
 }
@@ -54,6 +56,10 @@ async function loadRoutes() {
 function toggleDarkMode() {
   isDark.value = !isDark.value;
   document.documentElement.classList.toggle("my-app-dark");
+}
+
+function goToLogin(){
+  router.push('/auth-login');
 }
 
 onMounted(() => {
@@ -116,7 +122,7 @@ onMounted(() => {
         @click="toggleDarkMode"
       />
 
-      <Button label="Sign In" text class="signin-btn" />
+      <Button label="Sign In" @click="goToLogin" text class="signin-btn" />
 
       <img
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Adobe_logo_and_wordmark.svg/640px-Adobe_logo_and_wordmark.svg.png"

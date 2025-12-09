@@ -3,4 +3,6 @@
   <router-view />
 </template>
 
-<script setup></script>
+<script setup>
+import NavbarGlobal from '@src/components/navbar-global.vue';
+</script>

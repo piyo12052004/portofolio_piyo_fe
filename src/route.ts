@@ -1,31 +1,20 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-// ==== LAYOUTS ====
 const DefaultLayout = () => import("./layout/DefaultLayout.vue");
-// const AuthLayout = () => import("./layout/AuthLayout.vue");
 const EmptyLayout = () => import("./layout/EmptyLayout.vue");
 
 const NotFound = () => import("./page/NotFound.vue");
-const DashboardPage = () => import("./page/dashboard/index.vue");
+const DashboardPage = () => import("./page/dashboard/portofolio.vue");
+const Login = () => import("./page/auth/Login.vue");
 
-const pageModules = import.meta.glob("./page/**/*.vue");
+const pageModules = import.meta.glob("/src/page/**/*.vue");
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        // {
-        //     path: "/login",
-        //     component: AuthLayout,
-        //     children: [
-        //         {
-        //             path: "",
-        //             name: "Login",
-        //             component: () => import("./page/Login.vue"),
-        //         },
-        //     ],
-        // },
         {
             path: "/",
+            name: "DefaultLayout",    // <-- WAJIB AGAR addRoute bekerja
             component: DefaultLayout,
             children: [
                 {
@@ -35,6 +24,18 @@ const router = createRouter({
                 },
             ],
         },
+        {
+            path: "/auth-login",
+            component: EmptyLayout,
+            children: [
+                {
+                    path: "",
+                    name: "Login",
+                    component: Login,
+                },
+            ],
+        },
+
         {
             path: "/:pathMatch(.*)*",
             component: EmptyLayout,
@@ -51,51 +52,54 @@ const router = createRouter({
 
 export default router;
 
-export const addDynamicRoutes = (arrRoutes: any[]) => {
+/* =============================
+   DYNAMIC ROUTE GENERATOR
+   cocokkan otomatis ke file vue
+============================== */
 
+function resolveComponentPath(componentName: string) {
+    componentName = componentName.replace(/^\//, "");
+
+    for (const key of Object.keys(pageModules)) {
+        if (key.endsWith(`${componentName}.vue`)) {
+            return key;
+        }
+    }
+
+    return null;
+}
+
+export const addDynamicRoutes = () => {
+    const saved = localStorage.getItem("list_menu");
+    if (!saved) return;
+
+    const arrRoutes = JSON.parse(saved);
     arrRoutes.forEach((r) => {
-
-        // ===============================
-        // CASE 1: Parent menu punya path → route biasa
-        // ===============================
+        // CASE 1: route langsung
         if (r.path && r.component) {
 
-            const filePath = `./page/${r.component}.vue`;
-            const componentFile = pageModules[filePath];
-            const pageComponent = componentFile ?? NotFound;
+            const key = resolveComponentPath(r.component);
+            const pageComponent = key ? pageModules[key] : NotFound;
 
             router.addRoute(
-                "/",  
-                {
-                    path: r.path,
-                    name: r.name ?? r.sub_title,
-                    component: pageComponent,
-                }
+                "DefaultLayout",
+                {path: "/" + r.path.replace(/^\//, ""),name: r.name ?? r.sub_title,component: pageComponent,}
             );
-
         }
-        // ===============================
-        // CASE 2: Parent path NULL → gunakan children paths
-        // ===============================
+
+        // CASE 2: dropdown → route children
         else if (r.paths && r.paths.length > 0) {
 
             r.paths.forEach((child: any) => {
-                
-                const filePath = `./page/${child.component}.vue`;
-                const componentFile = pageModules[filePath];
-                const pageComponent = componentFile ?? NotFound;
+
+                const key = resolveComponentPath(child.component);
+                const pageComponent = key ? pageModules[key] : NotFound;
 
                 router.addRoute(
-                    "/",
-                    {
-                        path: child.path,
-                        name: child.name,
-                        component: pageComponent,
-                    }
+                    "DefaultLayout",
+                    {path: "/" + child.path.replace(/^\//, ""),name: child.name,component: pageComponent,}
                 );
             });
-
         }
-
     });
 };

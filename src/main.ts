@@ -2,7 +2,6 @@ import { useApi } from './utils/useApi';
 import { createApp } from 'vue'
 import App from './App.vue'
 import './style.css'
-import navbarGlobal from '@src/components/navbar-global.vue';
 import 'primeicons/primeicons.css';
 
 import ToastService from 'primevue/toastservice'
@@ -14,6 +13,7 @@ import PrimeVue from "primevue/config";
 import Aura from "@primevue/themes/aura";
 
 import router from "./route";
+import { addDynamicRoutes } from './route';
 
 const BlueModern = definePreset(Aura, {
     semantic: {
@@ -64,7 +64,6 @@ const BlueModern = definePreset(Aura, {
 });
 
 const app = createApp(App);
-app.component("NavbarGlobal", navbarGlobal);
 
 app.use(PrimeVue, {
     theme: {
@@ -81,6 +80,7 @@ app.use(PrimeVue, {
 });
 
 
+addDynamicRoutes();
 
 app.use(ToastService)
 app.component("Toast", Toast)
