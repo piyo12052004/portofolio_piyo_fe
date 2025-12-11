@@ -1,0 +1,73 @@
+.role-user-section {
+    padding: 20px;
+  }
+  
+  // ==========================
+  // HEADER
+  // ==========================
+  .header-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+  
+    .title {
+      font-size: 22px;
+      font-weight: 600;
+      color: #2b2b2b;
+    }
+  }
+  
+  .my-app-dark .header-box .title {
+    color: #e5e7eb; // gray-200
+  }
+  
+  // ==========================
+  // TABLE WRAPPER (LIGHT MODE)
+  // ==========================
+  .table-wrapper {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 15px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  }
+  
+  // ==========================
+  // TABLE WRAPPER (DARK MODE)
+  // ==========================
+  .my-app-dark .table-wrapper {
+    background: #151b23;             // deep dark elegant
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.6);
+    color: #e5e7eb;
+  }
+  
+  // ==========================
+  // PRIMEVUE TABLE DARK MODE FIX
+  // ==========================
+  .my-app-dark .p-datatable .p-datatable-thead > tr > th {
+    background: #1f242c !important;
+    color: #e5e7eb !important;
+    border-color: #2b313b !important;
+  }
+  
+  .my-app-dark .p-datatable .p-datatable-tbody > tr {
+    background: #181d24 !important;
+    color: #e5e7eb !important;
+  }
+  
+  .my-app-dark .p-datatable .p-datatable-tbody > tr:hover {
+    background: #222831 !important;
+  }
+  
+  .my-app-dark .p-paginator {
+    background: #1f242c !important;
+    color: #e5e7eb !important;
+  }
+  
+  .my-app-dark .p-paginator .p-paginator-page.p-highlight {
+    background: #3b82f6 !important;
+    color: #fff !important;
+  }
+  

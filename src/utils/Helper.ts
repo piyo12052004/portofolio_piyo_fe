@@ -1,17 +1,15 @@
-export async function setTokenUserLogin(id: string): Promise<void> {
-    let baseUrl = import.meta.env.VITE_API_BASE_URL
-    try {
-        const response = await axios.get(`${baseUrl}gizi/temp-user-login/show/${id}`)
+import { useToaster } from "@src/utils/toats/toaster";
 
-        if (response.data) {
-            localStorage.setItem('token', response.data.token)
-            localStorage.setItem('user_session', response.data.user_login)
-        }
-    } catch (error) {
-        console.error('Gagal ambil data temp user login:', error)
-        throw error // optional: untuk menghentikan proses selanjutnya jika gagal
-    }
-}
+type typeNotify =
+    | "success"
+    | "error"
+    | "info"
+    | "purple"
+    | "orange"
+    | "primary"
+    | "blue"
+    | "green"
+    | "warning";
 
 export async function saveStorege(row: any) {
     localStorage.setItem("token", row);
@@ -19,4 +17,25 @@ export async function saveStorege(row: any) {
 
 export function saveStoregeListMenu(row: any) {
     localStorage.setItem("list_menu", JSON.stringify(row));
+}
+
+export function alert(type: typeNotify, message: any, title: any = null): any {
+    const toast = useToaster();
+    title = title ? title : "Info";
+    if (type == "success") {
+        toast.success(message, title);
+    } else if (type == "error") {
+        toast.error(message, title);
+    } else if (type == "info") {
+        toast.info(message, title);
+    } else if (type == "purple") {
+    } else if (type == "orange") {
+    } else if (type == "primary") {
+        toast.success(message, title);
+    } else if (type == "blue") {
+    } else if (type == "green") {
+    } else if (type == "warning") {
+        toast.warn(message, title);
+    } else {
+    }
 }

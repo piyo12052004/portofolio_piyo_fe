@@ -113,6 +113,7 @@ async function toggelForLogin(){
   try {
     const res = await useApi().post("/login",prePare);
     H.saveStorege(res.data.token);
+    window.location.href = "/";
   } catch (err) {
     toaster.error("Gagal mengambil data dari server");
   }

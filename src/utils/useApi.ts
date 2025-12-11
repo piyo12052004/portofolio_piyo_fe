@@ -1,7 +1,23 @@
 import axios from "axios";
-import {useToaster} from './toats/toaster.ts';
+import { useToaster } from './toats/toaster.ts';
 
 const successCodes = ['200', '201', '202', '203', '204'];
+let isRefreshing = false;
+let failedQueue: any[] = [];
+let baseUrl = import.meta.env.VITE_API_URL;
+const handleResponse = (response: any) => {
+  return response;
+};
+const processQueue = (error: any, token: string | null | undefined = null) => {
+  failedQueue.forEach((prom: any) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+  failedQueue = [];
+};
 export const createApi = () => {
   const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -9,12 +25,78 @@ export const createApi = () => {
 
   api.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
-    console.log('token',token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   });
+
+  api.interceptors.response.use(
+    (response) => handleResponse(response),
+
+    async (error) => {
+      const originalRequest = error.config;
+
+      // JIKA TOKEN EXPIRED (401)
+      if (error.response?.status === 401 && !originalRequest._retry) {
+
+        // Jika sudah ada proses refresh → masuk antrian
+        if (isRefreshing && !originalRequest._retry) {
+          return new Promise((resolve, reject) => {
+            failedQueue.push({ resolve, reject });
+          })
+          .then((token) => {
+              originalRequest.headers["Authorization"] = `Bearer ${token}`;
+              return api(originalRequest);
+          })
+          .catch((err) => Promise.reject(err));
+      }
+
+        originalRequest._retry = true;
+        isRefreshing = true;
+
+        try {
+          const expiredToken = localStorage.getItem("token");
+
+          const { data } = await axios.post(
+            `${baseUrl}/refresh`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${expiredToken}`,
+              },
+            }
+          );
+
+          const newToken = data.data.access_token;
+
+          // Simpan token baru
+          localStorage.setItem("token", newToken);
+          // const userSession = useUserSession();
+          // userSession.setToken(newToken);
+
+          // Lepas antrean
+          processQueue(null, newToken);
+
+          // Update header
+          // originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
+          api.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+
+          return api(originalRequest);
+
+        } catch (err) {
+          processQueue(err, null);
+          // await logout();
+          return Promise.reject(err);
+        } finally {
+          isRefreshing = false;
+        }
+      }
+
+      // Error lain tetap jalan
+      return Promise.reject(error);
+    }
+  );
   return api;
 };
 
