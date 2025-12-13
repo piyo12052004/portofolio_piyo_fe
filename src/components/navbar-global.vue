@@ -6,6 +6,7 @@ import router, { addDynamicRoutes } from "@src/route";
 import { useToaster } from "@src/utils/toats/toaster";
 import * as H from "@src/utils/Helper";
 
+const session = JSON.parse(localStorage.getItem("user_session"));
 const collectionPath = ref([]);
 
 const toaster = useToaster();
@@ -43,7 +44,12 @@ function selectChild(path: string) {
 /* === LOAD ROUTES === */
 async function loadRoutes() {
   try {
-    const res = await useApi().get("/path");
+    let res;
+    if(session){
+      res = await useApi().get("/path/get-path");
+    }else{
+      res = await useApi().get("/get-path");
+    }
     collectionPath.value = res.data;
     H.saveStoregeListMenu(res.data)
     addDynamicRoutes();
@@ -122,8 +128,7 @@ onMounted(() => {
         @click="toggleDarkMode"
       />
 
-      <Button label="Sign In" @click="goToLogin" text class="signin-btn" />
-
+      <Button v-if="!session" label="Sign In" @click="goToLogin" text class="signin-btn" />
       <img
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Adobe_logo_and_wordmark.svg/640px-Adobe_logo_and_wordmark.svg.png"
         alt="Adobe"

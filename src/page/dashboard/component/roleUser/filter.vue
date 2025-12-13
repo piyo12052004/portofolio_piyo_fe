@@ -12,11 +12,11 @@
       v-model="form.role"
       display="chip"
       class="pill-dropdown"
-      :options="listPegawai"
-      optionLabel="label"
-      optionValue="value"
+      :options="props.filterData"
+      optionLabel="role_user"
+      optionValue="role_user_id"
       filter
-      placeholder="Pilih Data"
+      placeholder="Select Data"
       :maxSelectedLabels="3"
     />
 
@@ -34,6 +34,16 @@ import InputIcon from "primevue/inputicon";
 import InputText from "primevue/inputtext";
 import MultiSelect from "primevue/multiselect";
 import Button from "primevue/button";
+
+const props = withDefaults(
+  defineProps<{
+    filterData?: any[];
+  }>(),
+  {
+    filterData: () => [],
+  }
+);
+
 
 const emit = defineEmits<{
   (e: "insertData", value: any): void;

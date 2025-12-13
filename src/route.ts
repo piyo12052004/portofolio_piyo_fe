@@ -6,6 +6,7 @@ const EmptyLayout = () => import("./layout/EmptyLayout.vue");
 const NotFound = () => import("./page/NotFound.vue");
 const DashboardPage = () => import("./page/dashboard/portofolio.vue");
 const Login = () => import("./page/auth/Login.vue");
+const SignUp = () => import("./page/dashboard/registrasi/sign-up.vue");
 
 const pageModules = import.meta.glob("/src/page/**/*.vue");
 
@@ -32,6 +33,17 @@ const router = createRouter({
                     path: "",
                     name: "Login",
                     component: Login,
+                },
+            ],
+        },
+        {
+            path: "/auth-registrasi",
+            component: EmptyLayout,
+            children: [
+                {
+                    path: "",
+                    name: "Regist",
+                    component: SignUp,
                 },
             ],
         },

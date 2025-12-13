@@ -7,9 +7,11 @@ import ImgTiga from "@src/assets/img/Laravel.png";
 import ImgEmpat from "@src/assets/img/nextJs.png";
 import ImgLima from "@src/assets/img/pgsql.webp";
 import ImgEnam from "@src/assets/img/mysql.png";
+import router from "@src/route";
 
 const show = ref(false);
 
+const session = JSON.parse(localStorage.getItem("user_session"));
 onMounted(async () => {
   show.value = false; // reset animasi
   await nextTick(); // tunggu elemen render
@@ -23,13 +25,17 @@ onMounted(async () => {
 
 // DAFTAR GAMBAR
 const images = [
-  { src: ImgSatu, x: 80, y: 40 },
-  { src: ImgDua, x: 150, y: 260 },
-  { src: ImgTiga, x: 100, y: 500 },
-  { src: ImgEmpat, x: "calc(100% - 500px)", y: 40 },
-  { src: ImgLima, x: "calc(100% - 300px)", y: 270 },
-  { src: ImgEnam, x: "calc(100% - 450px)", y: 520 },
+  { src: ImgSatu, x: 80, y: 40, dark: true },                
+  { src: ImgDua, x: 150, y: 260, dark: false },              
+  { src: ImgTiga, x: 100, y: 500, dark: false },
+  { src: ImgEmpat, x: "calc(100% - 500px)", y: 40, dark: true }, 
+  { src: ImgLima, x: "calc(100% - 300px)", y: 270, dark: false },
+  { src: ImgEnam, x: "calc(100% - 450px)", y: 520, dark: false },
 ];
+
+function goToLogin() {
+  router.push("/auth-login");
+}
 </script>
 
 <template>
@@ -47,7 +53,7 @@ const images = [
           animationDelay: i * 0.18 + 's',
         }"
       >
-        <img :src="img.src" />
+      <img :src="img.src" :class="{ 'dark-invert': img.dark }"/>
       </div>
     </div>
 
@@ -65,8 +71,20 @@ const images = [
       </p>
 
       <div class="btn-group">
-        <Button label="Explore Projects" rounded size="large" />
-        <Button label="Hire Me" rounded size="large" outlined />
+        <Button
+          v-if="!session"
+          label="Please Login"
+          rounded
+          size="large"
+          @click="goToLogin"
+        />
+
+        <Button
+          v-if="session"
+          :label="`Hello, Welcome ` + session.nama_lengkap"
+          rounded
+          size="large"
+        />
       </div>
     </div>
   </div>

@@ -4,8 +4,8 @@
       <h3 class="title">{{ props.title_insert_or_update }}</h3>
 
       <div class="form-group">
-        <label>Nama Role</label>
-        <InputText v-model="nama" placeholder="Masukkan nama role" class="input-text" />
+        <label>Name Role</label>
+        <InputText v-model="nama" placeholder="User role" class="input-text" />
       </div>
 
       <div class="form-actions">
@@ -52,6 +52,7 @@ const props = withDefaults(
 const emit = defineEmits<{
   (e: "insertOrUpdate", value: string): void;
   (e: "cencelFunctionSave"): void;
+  (e: "refresh"): void;
 }>();
 
 // STATE
@@ -60,6 +61,7 @@ const nama = ref(null);
 // FUNCTION
 function submitForm() {
   emit("insertOrUpdate", nama.value);
+  emit("refresh");
 }
 function cencelFunctionSave() {
   emit("cencelFunctionSave");

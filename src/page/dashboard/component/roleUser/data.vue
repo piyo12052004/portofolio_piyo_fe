@@ -19,13 +19,6 @@
         <Column header="Actions" bodyClass="text-center" style="width: 120px">
           <template #body="slotProps">
             <Button
-              icon="pi pi-pencil"
-              class="p-button-rounded p-button-text p-button-info"
-              @click="editRole(slotProps.data)"
-              v-tooltip="'Edit'"
-            />
-
-            <Button
               icon="pi pi-trash"
               class="p-button-rounded p-button-text p-button-danger"
               @click="deleteRole(slotProps.data)"
@@ -55,14 +48,15 @@ const props = withDefaults(
   }
 );
 
-// ACTION FUNCTIONS
-function editRole(row: any) {
-  console.log("Edit:", row);
+function deleteRole(row: any) {
+  emit('fetchDeletDataById',row)
+  emit('refresh')
 }
 
-function deleteRole(row: any) {
-  console.log("Delete:", row);
-}
+const emit = defineEmits<{
+  (e: "fetchDeletDataById", value: any): void;
+  (e: "refresh"): void;
+}>();
 </script>
 
 <style scoped lang="scss">

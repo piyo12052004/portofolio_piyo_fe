@@ -43,7 +43,7 @@
             <span>Remember Me</span> -->
           </div>
 
-          <a class="forgot-link" href="#">Sign Up?</a>
+          <a class="forgot-link" @click="goToSignUp">Sign Up?</a>
         </div>
 
         <Button
@@ -59,7 +59,7 @@
           <div class="social-buttons">
             <!-- Tombol Google -->
             <!-- <Button severity="secondary" class="google-btn" @click="loginWithGoogle"> -->
-            <Button severity="secondary" class="google-btn" >
+            <Button severity="secondary" class="google-btn">
               <img src="@src/assets/img/google-logo.svg" class="google-icon" />
               <span>Continue with Google</span>
             </Button>
@@ -90,6 +90,7 @@ import { useApi } from "@src/utils/useApi";
 import router from "@src/route";
 import { useToaster } from "@src/utils/toats/toaster";
 import * as H from "@src/utils/Helper";
+import { fecthSession } from "@src/utils/usersSesion"
 
 const toaster = useToaster();
 
@@ -105,18 +106,31 @@ function toggleDarkMode() {
   document.documentElement.classList.toggle("my-app-dark");
 }
 
-async function toggelForLogin(){
+async function toggelForLogin() {
   let prePare = {
-    'email' : form.value.email,
-    'password' : form.value.password,
-  }
+    email: form.value.email,
+    password: form.value.password,
+  };
   try {
-    const res = await useApi().post("/login",prePare);
+    const res = await useApi().post("/login", prePare);
     H.saveStorege(res.data.token);
+    getSession()
+  } catch (err) {
+    toaster.error("Gagal mengambil data dari server");
+  }
+}
+
+async function getSession() {
+  try {
+    await fecthSession();
     window.location.href = "/";
   } catch (err) {
     toaster.error("Gagal mengambil data dari server");
   }
+}
+
+function goToSignUp() {
+  window.location.href = "/auth-registrasi";
 }
 </script>
 

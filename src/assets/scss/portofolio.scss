@@ -1,3 +1,6 @@
+/* ============================================================
+   HERO CONTAINER (BACKGROUND GRID)
+============================================================ */
 .hero-container {
     position: relative;
     min-height: 90vh;
@@ -5,20 +8,23 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
+
+    background-color: #fafafa;
     background-image: linear-gradient(#e5e5e5 1px, transparent 1px),
         linear-gradient(90deg, #e5e5e5 1px, transparent 1px);
-    background-size: 40px 40px; /* ukuran kotak */
-    background-color: #fafafa; /* warna dasar */
-}
-.my-app-dark .hero-container {
-    background-color: #0d1117; /* warna gelap elegan */
-    background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
     background-size: 40px 40px;
 }
-/* =====================
-       FLOATING IMAGES EXACT LIKE BEHANCE
-       ===================== */
+
+/* DARK MODE */
+.my-app-dark .hero-container {
+    background-color: #0d1117;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+}
+
+/* ============================================================
+   FLOATING IMAGES (BEHANCE STYLE)
+============================================================ */
 .floating-wrapper {
     position: absolute;
     width: 100%;
@@ -40,22 +46,33 @@
 .floating-img img {
     width: 180px;
     height: 180px;
-    border-radius: 20px;
     object-fit: cover;
-    transition: 0.3s;
+    border-radius: 20px;
+    transition: transform 0.3s;
 }
 
+/* Hover effect */
 .floating-img img:hover {
     transform: scale(1.05);
 }
 
-/* =====================
-       CENTER CONTENT
-       ===================== */
+/* DARK MODE — hanya gambar tertentu */
+.my-app-dark .dark-invert {
+    filter: brightness(0) invert(1);
+}
+
+/* ============================================================
+   HERO CONTENT
+============================================================ */
 .hero-content {
-    text-align: center;
-    max-width: 650px;
     z-index: 10;
+    max-width: 650px;
+    text-align: center;
+    color: #111;
+}
+
+.my-app-dark .hero-content {
+    color: #e3e3e3;
 }
 
 .hero-content h1 {
@@ -64,24 +81,34 @@
     line-height: 64px;
 }
 
-.blue {
-    color: #0066ff;
-}
-
 .hero-content p {
     margin-top: 20px;
     font-size: 18px;
     opacity: 0.8;
 }
 
+.blue {
+    color: #0066ff;
+}
+
+/* DARK MODE blue */
+.my-app-dark .blue {
+    color: #4da3ff;
+}
+
+/* ============================================================
+   BUTTON AREA
+============================================================ */
 .btn-group {
     margin-top: 25px;
     display: flex;
-    gap: 12px;
     justify-content: center;
+    gap: 12px;
 }
 
-/* MOBILE */
+/* ============================================================
+   RESPONSIVE
+============================================================ */
 @media (max-width: 890px) {
     .floating-img {
         display: none;

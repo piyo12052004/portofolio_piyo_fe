@@ -1,105 +1,163 @@
+/* ============================================================
+   NAVBAR WRAPPER
+============================================================ */
 .behance-navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 30px;
-    border-bottom: 1px solid #e5e5e5;
-    position: sticky;      /* atau pakai fixed */
-    top: 0;
-    z-index: 9999;
-    width: 100%;
-    background: rgba(255, 255, 255, 0); /* semi transparan */
-    transition: background 0.3s ease;
-  
-    .left {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 30px;
+  width: 100%;
+  top: 0;
+  z-index: 9999;
+
+  position: sticky; /* bisa diganti fixed */
+  background: rgba(255, 255, 255, 0.8); 
+  backdrop-filter: blur(10px);
+
+  border-bottom: 1px solid #e5e5e5;
+  transition: background 0.3s ease, border-color 0.3s ease;
+
+  /* DARK MODE */
+  .my-app-dark & {
+      background: rgba(13, 17, 23, 0.75);
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+
+  /* ============================================================
+     LEFT SIDE
+  ============================================================ */
+  .left {
       display: flex;
       align-items: center;
       gap: 30px;
-  
+
       .logo {
-        font-size: 22px;
-        font-weight: 700;
+          font-size: 22px;
+          font-weight: 700;
+
+          .my-app-dark & {
+              color: #fff;
+          }
       }
-  
+
       .menu {
-        display: flex;
-        gap: 22px;
-        font-size: 16px;
-  
-        .menu-item {
-          cursor: pointer;
           display: flex;
-          align-items: center;
-          gap: 4px;
-  
-          &:hover {
-            color: #000;
+          gap: 22px;
+          font-size: 16px;
+
+          .menu-item {
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              gap: 4px;
+              transition: color 0.2s ease;
+
+              &:hover {
+                  color: #000;
+              }
+
+              .my-app-dark &:hover {
+                  color: #fff;
+              }
+
+              &.dropdown i {
+                  font-size: 10px;
+              }
           }
-  
-          &.dropdown i {
-            font-size: 10px;
-          }
-        }
       }
-    }
-  
-    .right {
+  }
+
+  /* ============================================================
+     RIGHT SIDE
+  ============================================================ */
+  .right {
       display: flex;
       align-items: center;
       gap: 18px;
-  
+
       .start-btn {
-        background: linear-gradient(90deg, #007bff, #0050ff);
-        color: white;
-        padding: 8px 18px;
-        border-radius: 20px;
-        border: none;
-        font-weight: 500;
+          background: linear-gradient(90deg, #007bff, #0050ff);
+          color: white;
+          padding: 8px 18px;
+          border-radius: 20px;
+          font-weight: 500;
+          border: none;
+          cursor: pointer;
       }
-  
-      .signin-btn {
-        color: #0066ff;
-        border: 1px solid #d8e4ff !important;
-        border-radius: 20px !important;
-        padding: 6px 16px !important;
+
+      .signin-btn,
+      .signup-btn {
+          border: 1px solid #d8e4ff !important;
+          border-radius: 20px !important;
+          padding: 6px 16px !important;
+          color: #0066ff;
+          transition: 0.2s;
+
+          &:hover {
+              background: #eaf1ff;
+          }
+
+          .my-app-dark & {
+              border-color: rgba(255, 255, 255, 0.25) !important;
+              color: #78a8ff;
+
+              &:hover {
+                  background: rgba(255, 255, 255, 0.05);
+              }
+          }
       }
-  
+
       .adobe-logo {
-        height: 22px;
-        object-fit: contain;
+          height: 22px;
+          object-fit: contain;
       }
-    }
+  }
+}
+
+/* ============================================================
+ DROPDOWN MENU
+============================================================ */
+.menu-item.dropdown {
+  position: relative;
+
+  .dropdown-menu {
+      position: absolute;
+      top: 32px;
+      left: 0;
+
+      min-width: 150px;
+      padding: 10px;
+      border-radius: 6px;
+
+      background: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+      display: none;
+      z-index: 100;
+      transition: opacity 0.2s ease;
+
+      .menu-item {
+          padding: 6px 10px;
+          cursor: pointer;
+          white-space: nowrap;
+
+          &:hover {
+              background: #f0f0f0;
+          }
+      }
+
+      /* DARK MODE */
+      .my-app-dark & {
+          background: #161b22;
+          box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+
+          .menu-item:hover {
+              background: rgba(255, 255, 255, 0.08);
+          }
+      }
   }
 
-  .menu-item.dropdown {
-    position: relative;
-    cursor: pointer;
-  
-    .dropdown-menu {
-      position: absolute;
-      top: 30px;
-      left: 0;
-      background: white;
-      padding: 10px;
-      min-width: 150px;
-      border-radius: 6px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      z-index: 100;
-      display: none;
-  
-      .menu-item {
-        display: block;
-        padding: 6px 10px;
-        cursor: pointer;
-        white-space: nowrap;
-  
-        &:hover {
-          background: #f0f0f0;
-        }
-      }
-    }
-  
-    &.active .dropdown-menu {
+  &.active .dropdown-menu {
       display: block !important;
-    }
   }
+}

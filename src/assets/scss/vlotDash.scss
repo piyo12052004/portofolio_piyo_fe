@@ -1,0 +1,120 @@
+/* =========================
+       STAGE
+       ========================= */
+.volt-stage {
+    position: relative;
+    min-height: 70vh;
+    background: #fff;
+    overflow: hidden;
+}
+
+.volt-bg-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    // background-image: linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+    //     linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+    // background-size: 180px 140px;
+}
+
+/* =========================
+             CARD
+             ========================= */
+.volt-card {
+    position: relative;
+    height: 210px;
+    border-radius: 14px;
+    background: #fff;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: box-shadow 0.25s ease;
+}
+
+.volt-card:hover {
+    box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.12),
+        0 0 0 1px rgba(120, 95, 255, 0.2);
+}
+
+.volt-logo {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}
+
+/* =========================
+             BORDER WALK (HOVER ONLY)
+             ========================= */
+@property --a {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 180deg; /* start dari bawah */
+}
+
+.volt-border-walk::before,
+.volt-border-walk::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    opacity: 0;
+
+    mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+/* GARIS 1 */
+.volt-border-walk:hover::before {
+    opacity: 1;
+    background: conic-gradient(
+        from var(--a),
+        transparent 0 330deg,
+        rgba(120, 95, 255, 0.9) 330deg 345deg,
+        transparent 345deg 360deg
+    );
+    animation: border-run 7s linear infinite;
+}
+
+/* GARIS 2 (offset 180°) */
+.volt-border-walk:hover::after {
+    opacity: 1;
+    background: conic-gradient(
+        from calc(var(--a) + 180deg),
+        transparent 0 330deg,
+        rgba(120, 95, 255, 0.5) 330deg 345deg,
+        transparent 345deg 360deg
+    );
+    animation: border-run 7s linear infinite;
+}
+
+@keyframes border-run {
+    from {
+        --a: 180deg;
+    } /* bawah */
+    to {
+        --a: 540deg;
+    } /* muter penuh */
+}
+
+/* =========================
+             DARK MODE
+             ========================= */
+.my-app-dark .volt-stage {
+    background: #0d1117;
+}
+
+.my-app-dark .volt-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.my-app-dark .invert-on-dark {
+    filter: brightness(0) invert(1);
+}

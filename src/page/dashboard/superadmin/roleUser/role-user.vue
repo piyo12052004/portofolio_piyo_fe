@@ -1,6 +1,6 @@
 <template>
   <section>
-    <FILTER @insertData="openInsertModal" @refresh="fetchData" />
+    <FILTER @insertData="openInsertModal" @refresh="fetchData" :filterData="storegeData"/>
 
     <!-- MODAL INSERT / UPDATE -->
     <InsertOrUpdate
@@ -9,9 +9,10 @@
       :is_loading="is_loading"
       @insertOrUpdate="insertOrUpdate"
       @cencelFunctionSave="cencelFunctionSave"
+      @refresh="fetchData"
     />
 
-    <DATA :sendData="storegeData" />
+    <DATA :sendData="storegeData" @fetchDeletDataById="fetchDeletDataById"  @refresh="fetchData" />
   </section>
 </template>
 
@@ -64,6 +65,16 @@ async function fetchData(row: any) {
      storegeData.value = respones.data
   } catch (err) {
     H.alert("error", "Failed to save data.");
+  } finally {
+  }
+}
+
+async function fetchDeletDataById(row:any){
+  try {
+     let respones = await useApi().delete(`/superadmin/role-user/${row.role_user_id}`);
+     storegeData.value = respones.data
+  } catch (err) {
+    H.alert("error", "Failed to delete data.");
   } finally {
   }
 }
