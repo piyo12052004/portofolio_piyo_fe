@@ -2,3 +2,73 @@
   background: #0d1117 !important;
   color: #e6e6e6 !important;
 }
+
+/* =========================
+   DEFAULT: DESKTOP
+   ========================= */
+
+#mobile-blocker {
+  display: none;
+}
+
+#desktop-app {
+  display: block;
+}
+
+/* =========================
+     MOBILE & TABLET
+     ========================= */
+@media (max-width: 1023px) {
+  #desktop-app {
+    display: none !important;
+  }
+
+  #mobile-blocker {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    background: linear-gradient(135deg, #f8fafc, #eef2ff);
+  }
+
+  .my-app-dark #mobile-blocker {
+    background: linear-gradient(135deg, #0d1117, #020617);
+  }
+
+  .mobile-box {
+    max-width: 420px;
+    padding: 32px;
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  }
+
+  .my-app-dark .mobile-box {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .mobile-box .icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  .mobile-box h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .mobile-box p {
+    font-size: 14px;
+    opacity: 0.8;
+    line-height: 1.6;
+  }
+}

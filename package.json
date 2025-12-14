@@ -12,6 +12,7 @@
     "@primevue/themes": "^4.5.1",
     "@vueuse/core": "^14.1.0",
     "axios": "^1.13.2",
+    "chart.js": "^4.5.1",
     "primeicons": "^7.0.0",
     "primevue": "^4.5.1",
     "sass": "^1.94.2",

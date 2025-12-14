@@ -6,8 +6,12 @@ import './assets/tailwind.css'
 import 'primeicons/primeicons.css';
 
 import ToastService from 'primevue/toastservice'
+import ConfirmationService from 'primevue/confirmationservice';
+
 
 import Toast from 'primevue/toast' 
+import ConfirmDialog from "primevue/confirmdialog";
+import ConfirmPopup from 'primevue/confirmpopup';
 
 import { definePreset } from '@primeuix/themes';
 import PrimeVue from "primevue/config";
@@ -84,6 +88,9 @@ app.use(PrimeVue, {
 addDynamicRoutes();
 
 app.use(ToastService)
+app.use(ConfirmationService)
 app.component("Toast", Toast)
+app.component("ConfirmDialog", ConfirmDialog);
+app.component("ConfirmPopup", ConfirmPopup);
 app.use(router); 
 app.mount("#app");

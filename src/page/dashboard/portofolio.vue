@@ -2,6 +2,7 @@
 import Header from "@src/page/dashboard/component/portofolio/header.vue";
 import BodyPorto from "@src/page/dashboard/component/portofolio/body.vue";
 import VoltDashboard from "@src/page/dashboard/component/portofolio/VoltDashboard.vue";
+import DokumentTasi from "@src/page/dashboard/component/portofolio/DokumentTasi.vue";
 </script>
 
 <template>
@@ -10,6 +11,9 @@ import VoltDashboard from "@src/page/dashboard/component/portofolio/VoltDashboar
   </section>
   <section>
     <BodyPorto/>
+  </section>
+  <section>
+    <DokumentTasi/>
   </section>
   <section>
     <VoltDashboard/>

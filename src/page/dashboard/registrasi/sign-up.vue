@@ -221,7 +221,7 @@ const listCountry: any = ref([]);
 async function fetchGetDataMaster() {
   try {
     const res = await useApi().get(
-      "/get-data-for-sign-up?setData=$2y$12$WbsKoFgCA2X1r1QP0PcdLe9kvtuFFZoQUatbGjf081.TTaQ1txx0S"
+      "/get-data-for-sign-up?setData=$2y$12$WbsKoFgCA2X1r1QP0PcdLe9kvtuFFZoQUatbGjf081"
     );
 
     listHobby.value = res?.data?.hobi || [];
