@@ -13,7 +13,7 @@
     position: sticky; /* bisa diganti fixed */
     //   background: rgba(255, 255, 255, 0.8);
     background: transparent;
-    //   backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 
     border-bottom: 1px solid #e5e5e5;
     transition:

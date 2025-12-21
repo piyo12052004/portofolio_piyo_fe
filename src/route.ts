@@ -7,6 +7,8 @@ const NotFound = () => import("./page/NotFound.vue");
 const DashboardPage = () => import("./page/dashboard/portofolio.vue");
 const Login = () => import("./page/auth/Login.vue");
 const SignUp = () => import("./page/dashboard/registrasi/sign-up.vue");
+const dashKgj = () => import("./page/dashboard/frelance/schoolSmpKaryaGunaJaya/main.vue");
+const generateAccesToken = () => import("./page/dashboard/feature/GenerateAccesToken.vue");
 
 const pageModules = import.meta.glob("/src/page/**/*.vue");
 
@@ -22,6 +24,16 @@ const router = createRouter({
                     path: "",
                     name: "Home",
                     component: DashboardPage,
+                },
+                {
+                    path: "karya-guna-jaya",
+                    name: "DashKaryaGunaJaya",
+                    component: dashKgj,
+                },
+                {
+                    path: "profile",
+                    name: "GenerateToken",
+                    component: generateAccesToken,
                 },
             ],
         },

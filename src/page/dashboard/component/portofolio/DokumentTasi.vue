@@ -6,26 +6,29 @@
         { 'templates-animation': setAnimation },
       ]"
     >
-      <div class="flex md:flex-row flex-col gap-6 lg:gap-0 ">
+      <div class="flex md:flex-row flex-col gap-6 lg:gap-0">
         <div
           class="template-block block-5 mr-2 lg:mb-0 flex justify-center items-center cursor-pointer"
-          :style="{ backgroundImage: img1() }" @click="goToPortofolio"
+          :style="{ backgroundImage: img1() }"
+          @click="goToPortofolio"
         >
           <span class="templates-btn">Portfolio</span>
         </div>
         <div
           class="template-block block-2 ml-2 flex justify-center items-center cursor-pointer"
-          :style="{ backgroundImage: img2() }" @click="GoToPage($event,'data')"
+          :style="{ backgroundImage: img2() }"
+          @click="GoToPage($event, 'data')"
         >
           <a class="templates-btn" target="_blank" href="https://freya.primevue.org"
             >Parking Dashboard</a
           >
         </div>
       </div>
-      <div class="flex my-6 md:flex-row flex-col gap-6 lg:gap-0 ">
+      <div class="flex my-6 md:flex-row flex-col gap-6 lg:gap-0">
         <div
           class="template-block block-3 mr-2 lg:mb-0 flex justify-center items-center cursor-pointer"
-          :style="{ backgroundImage: img3() } " @click="GoToPage($event,'data')"
+          :style="{ backgroundImage: img3() }"
+          @click="GoToPage($event, 'SchoolRegisrationApp')"
         >
           <a class="templates-btn" target="_blank" href="https://atlantis.primevue.org/"
             >School Registration App</a
@@ -38,7 +41,8 @@
         </div>
         <div
           class="template-block block-4 ml-2 flex justify-center items-center cursor-pointer"
-          :style="{ backgroundImage: imageBg('apollo') }" @click="GoToPage($event,'data')"
+          :style="{ backgroundImage: imageBg('apollo') }"
+          @click="GoToPage($event, 'data')"
         >
           <a class="templates-btn" target="_blank" href="https://apollo.primevue.org"
             >Apollo Preview</a
@@ -48,7 +52,8 @@
       <div class="flex md:flex-row flex-col gap-6 lg:gap-0">
         <div
           class="template-block block-1 mr-2 lg:mb-0 flex justify-center items-center cursor-pointer"
-          :style="{ backgroundImage: imageBg('diamond') }" @click="GoToPage($event,'data')"
+          :style="{ backgroundImage: imageBg('diamond') }"
+          @click="GoToPage($event, 'data')"
         >
           <a class="templates-btn" target="_blank" href="https://diamond.primevue.org"
             >Diamond Preview</a
@@ -56,7 +61,8 @@
         </div>
         <div
           class="template-block block-6 ml-2 flex justify-center items-center cursor-pointer"
-          :style="{ backgroundImage: imageBg('ultima') }" @click="GoToPage($event,'data')"
+          :style="{ backgroundImage: imageBg('ultima') }"
+          @click="GoToPage($event, 'data')"
         >
           <a class="templates-btn" target="_blank" href="https://ultima.primevue.org"
             >Ultima Preview</a
@@ -123,6 +129,27 @@
       </div>
     </section>
   </section>
+
+  <Dialog
+    v-model:visible="is_modal_notif"
+    modal
+    header="Copyright & Attribution"
+    :style="{ width: '25rem' }"
+  >
+    <p>
+      This application is an independent project. Any similarities to existing products,
+      designs, or systems are purely coincidental or based on general inspiration. This
+      project is not intended to replicate, reproduce, or replace any original product.
+    </p>
+    <div class="flex justify-end gap-2">
+      <Button
+        type="button"
+        label="Oke"
+        severity="secondary"
+        @click="goToAplikasi(addAplication.aplication)"
+      ></Button>
+    </div>
+  </Dialog>
 </template>
 
 <style scoped lang="scss">
@@ -134,16 +161,17 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 // images
 import ImgSatuLign from "@src/assets/img/img-frelance-layout-lign.svg";
 import ImgSatuDark from "@src/assets/img/img-frelance-layout-dark.svg";
-
 import prjectDark1 from "@src/assets/img/project_dark_1.png";
 import prjectLign1 from "@src/assets/img/project_lign_1.png";
 import prjectLign2 from "@src/assets/img/project_lign_2.png";
 import prjectLign3 from "@src/assets/img/project_lign_3.png";
-import { useConfirm } from "primevue/useconfirm";
 
+import { useConfirm } from "primevue/useconfirm";
 import router from "@src/route";
 import * as H from "@src/utils/Helper";
 
+import Dialog from "primevue/dialog";
+import Button from "primevue/button";
 
 const confirm = useConfirm();
 // session
@@ -151,6 +179,8 @@ const session = JSON.parse(localStorage.getItem("user_session"));
 // state
 const setAnimation = ref(false);
 const isDarkMode = ref(false);
+const is_modal_notif = ref(false);
+const addAplication: any = ref({});
 
 let observer: MutationObserver | null = null;
 
@@ -207,34 +237,39 @@ const goToPortofolio = () => {
   window.location.href = "/";
 };
 
-function GoToPage(event:any,row:any){
-  if(!session){
-    toggelLoginConfirmDialog(event)
-  }else{
-    console.log('go ke project');
+function GoToPage(event: any, row: any) {
+  if (!session) {
+    toggelLoginConfirmDialog(event);
+  }
+  if (row == "SchoolRegisrationApp") {
+    is_modal_notif.value = true;
+    addAplication.value.aplication = "/karya-guna-jaya";
   }
 }
 
+function goToAplikasi(path: any) {
+  console.log('path',path);
+  router.push(path);
+}
 
 const toggelLoginConfirmDialog = (event: Event) => {
   confirm.require({
     target: event.currentTarget as HTMLElement,
-    message: 'You need to log in first to view this project.',
-    header: 'Login Required',
-    icon: 'pi pi-lock',
-    position: 'right', // ⬅ pojok kanan relatif ke target
+    message: "You need to log in first to view this project.",
+    header: "Login Required",
+    icon: "pi pi-lock",
+    position: "right", // ⬅ pojok kanan relatif ke target
     rejectProps: {
-      label: 'Cancel',
-      severity: 'secondary',
+      label: "Cancel",
+      severity: "secondary",
       outlined: true,
     },
     acceptProps: {
-      label: 'Login',
+      label: "Login",
     },
     accept: () => {
-      router.push('/auth-login')
+      router.push("/auth-login");
     },
-  })
-}
-
+  });
+};
 </script>

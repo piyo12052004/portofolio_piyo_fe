@@ -85,15 +85,10 @@ const goProfile = () => {
   router.push("/profile");
 };
 
-const goDaily = () => {
-  profilePanel.value?.hide();
-  router.push("/daily-activity");
-};
-
-const goTeam = () => {
-  profilePanel.value?.hide();
-  router.push("/team-daily-activity");
-};
+// const goGenerateAccesToken = () => {
+//   profilePanel.value?.hide();
+//   router.push("/profile");
+// };
 
 async function logout() {
   try {
@@ -105,7 +100,7 @@ async function logout() {
     localStorage.removeItem('user_session');
 
     // (opsional) bersihkan storage lain
-    sessionStorage.clear();
+    // sessionStorage.clear();
 
     // 🔁 redirect ke home
     window.location.href = '/';
@@ -217,6 +212,7 @@ onMounted(loadRoutes);
 
         <div class="menu">
           <div class="item" @click="goProfile"><i class="pi pi-user" /> Profile</div>
+          <!-- <div class="item" @click="goGenerateAccesToken"><i class="pi pi-lock-open" /> Generate Acces Token </div> -->
           <!-- <div class="item" @click="goDaily">
             <i class="pi pi-calendar" /> Daily Activity
           </div>
