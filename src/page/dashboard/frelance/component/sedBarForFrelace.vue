@@ -6,7 +6,18 @@ import * as H from "@src/utils/Helper";
 import Dashboard from "../schoolSmpKaryaGunaJaya/src/dashboard.vue";
 import LandingPage from "../schoolSmpKaryaGunaJaya/src/module/landing-page.vue";
 import RegistrasiSiswa from "../schoolSmpKaryaGunaJaya/src/module/registrasi-siswa.vue";
+import superadminDashboard from "../schoolSmpKaryaGunaJaya/src/module/dashboard-superadmin.vue";
+import Berita from "../schoolSmpKaryaGunaJaya/src/module/page-berita.vue";
+import Galery from "../schoolSmpKaryaGunaJaya/src/module/page-galery.vue";
+import Unggulan from "../schoolSmpKaryaGunaJaya/src/module/page-ungulan.vue";
+import Pengguna from "../schoolSmpKaryaGunaJaya/src/module/page-pengguna.vue";
+import PageFasilitas from "../schoolSmpKaryaGunaJaya/src/module/page-fasilitas.vue";
 import Taks from "../schoolSmpKaryaGunaJaya/src/taks.vue";
+
+// primevue
+import Button from "primevue/button";
+import PagePesan from "../schoolSmpKaryaGunaJaya/src/module/page-pesan.vue";
+import PagePembayaran from "../schoolSmpKaryaGunaJaya/src/module/page-pembayaran.vue";
 
 /* =============================
      PROPS
@@ -39,7 +50,7 @@ const isSidebarOpen = ref(true);
 const openModule = ref(true);
 const openManagement = ref(false);
 const openSchedule = ref(false);
-const openSuperadmin = ref(false);
+const openSuperadmin = ref(true);
 
 /* =============================
      ACTIVE PAGE
@@ -189,45 +200,86 @@ watch(isSidebarOpen, (val) => {
 
             <!-- Super Admin Child -->
             <ul class="submenu submenu--child" v-show="openSuperadmin">
-              <li
-                class="submenu__item"
-                :class="{ active: activeKey === 'user-management' }"
-              >
+              <!-- Dashboard -->
+              <li class="submenu__item" :class="{ active: activeKey === 'dashboard' }">
                 <button
                   class="submenu__button"
-                  @click.stop="openPage('user-management', Dashboard)"
+                  @click.stop="openPage('dashboard', superadminDashboard)"
+                >
+                  <i class="pi pi-home"></i>
+                  <span>Dashboard</span>
+                </button>
+              </li>
+
+              <!-- Berita -->
+              <li class="submenu__item" :class="{ active: activeKey === 'berita' }">
+                <button class="submenu__button" @click.stop="openPage('berita', Berita)">
+                  <i class="pi pi-file-edit"></i>
+                  <span>Berita</span>
+                </button>
+              </li>
+
+              <!-- Galery -->
+              <li class="submenu__item" :class="{ active: activeKey === 'galery' }">
+                <button class="submenu__button" @click.stop="openPage('galery', Galery)">
+                  <i class="pi pi-images"></i>
+                  <span>Galery</span>
+                </button>
+              </li>
+
+              <!-- Program Unggulan -->
+              <li class="submenu__item" :class="{ active: activeKey === 'unggulan' }">
+                <button
+                  class="submenu__button"
+                  @click.stop="openPage('unggulan', Unggulan)"
+                >
+                  <i class="pi pi-star"></i>
+                  <span>Program Unggulan</span>
+                </button>
+              </li>
+
+              <!-- Pengguna -->
+              <li class="submenu__item" :class="{ active: activeKey === 'pengguna' }">
+                <button
+                  class="submenu__button"
+                  @click.stop="openPage('pengguna', Pengguna)"
                 >
                   <i class="pi pi-users"></i>
-                  <span>User Management</span>
+                  <span>Pengguna</span>
                 </button>
               </li>
 
-              <li
-                class="submenu__item"
-                :class="{ active: activeKey === 'role-permission' }"
-              >
+              <!-- Fasilitas -->
+              <li class="submenu__item" :class="{ active: activeKey === 'fasilitas' }">
                 <button
                   class="submenu__button"
-                  @click.stop="openPage('role-permission', Dashboard)"
+                  @click.stop="openPage('fasilitas', PageFasilitas)"
                 >
-                  <i class="pi pi-key"></i>
-                  <span>Role & Permission</span>
+                  <i class="pi pi-building"></i>
+                  <span>Fasilitas</span>
                 </button>
               </li>
 
-              <li
-                class="submenu__item"
-                :class="{ active: activeKey === 'system-settings' }"
-              >
+              <!-- Pesan -->
+              <li class="submenu__item" :class="{ active: activeKey === 'pesan' }">
                 <button
                   class="submenu__button"
-                  @click.stop="openPage('system-settings', Dashboard)"
+                  @click.stop="openPage('pesan', PagePesan)"
                 >
-                  <i class="pi pi-cog"></i>
-                  <span>System Settings</span>
+                  <i class="pi pi-envelope"></i>
+                  <span>Pesan</span>
                 </button>
               </li>
             </ul>
+            <li class="submenu__item" :class="{ active: activeKey === 'registrasi' }">
+              <button
+                class="submenu__button"
+                @click="openPage('pembayaran-ppdb', PagePembayaran)"
+              >
+                <i class="pi pi-user-plus"></i>
+                <span>Pembayaran PPDB</span>
+              </button>
+            </li>
           </ul>
         </li>
       </ul>
@@ -236,8 +288,27 @@ watch(isSidebarOpen, (val) => {
     <!-- ================= MAIN ================= -->
     <div class="main">
       <header class="topbar">
-        <button class="topbar__btn" @click="toggleSidebar">☰</button>
-        <span class="topbar__title">{{ props.title || "Dashboard" }}</span>
+        <div>
+          <button class="topbar__btn" @click="toggleSidebar">☰</button>
+          <span class="topbar__title" style="margin-left: 10px">{{
+            props.title || "Dashboard"
+          }}</span>
+        </div>
+        <div style="margin-right: 20px">
+          <Button
+            as="a"
+            label="Repository PPDB Sekolah"
+            variant="text"
+            severity="contrast"
+            icon="pi pi-github"
+            href="https://github.com/piyo12052004/frelance_ppdb_sekolah"
+            target="_blank"
+            rel="noopener"
+          />
+          <!-- <a href="https://github.com/piyo12052004/frelance_ppdb_sekolah" target="blank">
+            <i class="pi pi-github" style="font-size: 2rem"></i> Repository PPDB Sekolah
+          </a> -->
+        </div>
       </header>
 
       <main class="content">

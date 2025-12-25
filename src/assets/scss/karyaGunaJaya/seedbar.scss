@@ -212,6 +212,7 @@
     background: #ffffff;
     border-bottom: 1px solid #e5e7eb;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 12px;
     padding: 0 16px;
@@ -366,7 +367,7 @@
         &__item {
             &.active .submenu__button {
                 color: #e5e7eb; // teks aktif
-                font-weight: 200;
+                // font-weight: 200;
             }
         }
 
@@ -386,7 +387,7 @@
 
         &--child {
             .submenu__button {
-                padding-left: 12px;
+                padding-left: 4px;
             }
         }
     }
