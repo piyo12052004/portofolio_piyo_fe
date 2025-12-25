@@ -59,10 +59,11 @@
           <div class="social-buttons">
             <!-- Tombol Google -->
             <!-- <Button severity="secondary" class="google-btn" @click="loginWithGoogle"> -->
-            <Button severity="secondary" class="google-btn">
+            <!-- <Button severity="secondary" class="google-btn" >
               <img src="@src/assets/img/google-logo.svg" class="google-icon" />
               <span>Continue with Google</span>
-            </Button>
+            </Button> -->
+            <div id="googleBtn" ></div>
 
             <!-- Tombol GitHub -->
             <!-- <Button severity="secondary" class="github-btn" @click="loginWithGithub"> -->
@@ -78,7 +79,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import InputText from "primevue/inputtext";
 import Password from "primevue/password";
 import InputSwitch from "primevue/inputswitch";
@@ -90,7 +91,8 @@ import { useApi } from "@src/utils/useApi";
 import router from "@src/route";
 import { useToaster } from "@src/utils/toats/toaster";
 import * as H from "@src/utils/Helper";
-import { fecthSession } from "@src/utils/usersSesion"
+import { fecthSession } from "@src/utils/usersSesion";
+import { initGoogleLogin } from "@src/utils/useGoogleAuth"
 
 const toaster = useToaster();
 
@@ -114,7 +116,7 @@ async function toggelForLogin() {
   try {
     const res = await useApi().post("/login", prePare);
     H.saveStorege(res.data.token);
-    getSession()
+    getSession();
   } catch (err) {
     toaster.error("Gagal mengambil data dari server");
   }
@@ -132,6 +134,10 @@ async function getSession() {
 function goToSignUp() {
   window.location.href = "/auth-registrasi";
 }
+
+onMounted(() => {
+  initGoogleLogin();
+});
 </script>
 
 <style lang="scss">

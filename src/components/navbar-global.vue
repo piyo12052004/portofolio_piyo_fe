@@ -91,27 +91,32 @@ const goProfile = () => {
 // };
 
 async function logout() {
+  const user = JSON.parse(localStorage.getItem("user_session") || "{}");
   try {
-    await useApi().post('/logout','');
+    await useApi().post("/logout", "");
 
-    // 🔥 HAPUS SEMUA DATA SESSION
-    localStorage.removeItem('token');
-    localStorage.removeItem('list_menu');
-    localStorage.removeItem('user_session');
+    localStorage.removeItem("token");
+    localStorage.removeItem("list_menu");
+    localStorage.removeItem("user_session");
 
-    // (opsional) bersihkan storage lain
-    // sessionStorage.clear();
-
-    // 🔁 redirect ke home
-    window.location.href = '/';
+    if (user?.email && window.google?.accounts?.id) {
+      window.google.accounts.id.revoke(user.email, () => {
+        console.log("Google account revoked:", user.email);
+      });
+    }
+    window.location.href = "/";
   } catch (error) {
-    // walaupun API gagal, tetap logout lokal
-    localStorage.removeItem('token');
-    localStorage.removeItem('list_menu');
-    localStorage.removeItem('user_session');
+    localStorage.removeItem("token");
+    localStorage.removeItem("list_menu");
+    localStorage.removeItem("user_session");
 
-    toaster.error('Logout failed, local session cleared');
-    window.location.href = '/';
+    if (user?.email && window.google?.accounts?.id) {
+      window.google.accounts.id.revoke(user.email, () => {
+        console.log("Google account revoked:", user.email);
+      });
+    }
+    toaster.error("Logout failed, local session cleared");
+    window.location.href = "/";
   }
 }
 

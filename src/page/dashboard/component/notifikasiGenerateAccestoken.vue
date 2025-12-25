@@ -39,7 +39,7 @@ function is_aktif_false(){
       top: 80px;
       right: 20px;
       width: 320px;
-      background: var(--surface-card);
+      background: white;
       border-radius: 10px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       padding: 14px;

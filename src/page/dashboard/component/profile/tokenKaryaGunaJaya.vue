@@ -180,13 +180,14 @@ const generate = async () => {
 
   try {
     const session = await getUserSession();
+    console.log('session',session)
     if (!session) {
       notify("error", "Session not found", "User session not available");
       return;
     }
 
     const noteJson = parseNoteJson(session.note_json);
-
+    console.log('noteJson',noteJson);
     // ensure path exists
     noteJson.aksesTokenKaryaGunaJaya ??= { access_tokens: [] };
 

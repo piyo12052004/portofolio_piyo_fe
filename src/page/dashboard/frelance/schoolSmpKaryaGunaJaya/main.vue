@@ -24,6 +24,9 @@ const showAccessDeniedDialog = ref(false);
 const showInactiveTokenDialog = ref(false);
 const showGenerateTokenDialog = ref(false);
 const showVerifyTokenDialog = ref(false);
+const is_notifikasi_expayert_token = ref(false);
+const is_verifikasi_token:any = ref(false);
+const is_nulable_token:any = ref(false);
 
 const dialogMessage = ref("");
 const verifyTokenForm = ref<{ token?: string }>({});
@@ -132,6 +135,7 @@ onMounted(() => {
      DIALOG HANDLERS
   ============================= */
 function onAccessDeniedClose() {
+  is_nulable_token.value= true
   showGenerateTokenDialog.value = true;
 }
 
@@ -163,9 +167,19 @@ async function verifyToken() {
     localStorage.setItem("user_session", JSON.stringify(updatedSession));
 
     showVerifyTokenDialog.value = false;
+
+    is_notifikasi_expayert_token.value = true;
+    setTimeout(() => {
+      is_notifikasi_expayert_token.value = false;
+    }, 5000);
   } catch {
-    return {};
+    H.alert("error", "Token verification failed. Please check your token and try again.");
   }
+}
+
+function closeModalVerfikasiToken(){
+  is_verifikasi_token.value = true
+  showVerifyTokenDialog.value = false
 }
 </script>
 <template>
@@ -187,6 +201,15 @@ async function verifyToken() {
     </p>
   </Dialog>
 
+  <Dialog
+    v-model:visible="is_notifikasi_expayert_token"
+    modal
+    header="Information"
+    :style="{ width: '25rem' }"
+  >
+    <p class="text-sm leading-relaxed">This access token is only valid for today.</p>
+  </Dialog>
+
   <!-- Inactive Token -->
   <Dialog
     v-model:visible="showInactiveTokenDialog"
@@ -206,6 +229,7 @@ async function verifyToken() {
     modal
     header="Verify Access Token"
     :style="{ width: '25rem' }"
+    @hide="closeModalVerfikasiToken"
   >
     <InputText
       v-model="verifyTokenForm.token"
@@ -217,11 +241,11 @@ async function verifyToken() {
       <Button
         label="Cancel"
         severity="secondary"
-        @click="showVerifyTokenDialog = false"
+        @click="closeModalVerfikasiToken"
       />
       <Button label="Verify" @click="verifyToken" />
     </div>
   </Dialog>
 
-  <SedBar :subTitle="'Karya Guna Jaya'" :title="'Piyo Aswandi'" />
+  <SedBar :is_token="is_nulable_token" :is_verifikasi_token="is_verifikasi_token"  :subTitle="'Karya Guna Jaya'" :title="'Piyo Aswandi'" />
 </template>

@@ -1,0 +1,49 @@
+/* ============================================================
+   GLOBAL DARK MODE IMAGE HANDLING
+   Depends on .my-app-dark wrapper (external app framework)
+============================================================ */
+
+.my-app-dark {
+    /* ============================================================
+       DOCUMENTATION & GALLERY IMAGES
+       (Gallery cards use .group class)
+    ============================================================ */
+    .group img {
+        filter: brightness(0.82) contrast(0.95) saturate(0.9);
+        transition: filter 0.3s ease;
+    }
+
+    /* Hover effect: restore clarity */
+    .group:hover img {
+        filter: brightness(1) contrast(1) saturate(1);
+    }
+
+    /* ============================================================
+       CONTRIBUTOR AVATAR IMAGES
+       (LinkedIn profile avatars)
+    ============================================================ */
+    img[alt*="Adriansyah"],
+    img[alt*="Aswandi"] {
+        filter: brightness(0.9) contrast(0.95);
+    }
+
+    /* ============================================================
+       IMAGE PREVIEW (PrimeVue Dialog)
+       Keep preview image fully visible
+    ============================================================ */
+    .p-dialog img {
+        filter: none !important;
+    }
+
+    /* ============================================================
+       OPTIONAL: SMOOTHER DARK UI FEEL
+       (Subtle shadow softening)
+    ============================================================ */
+    .shadow-sm {
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    }
+
+    .hover\:shadow-md:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+}

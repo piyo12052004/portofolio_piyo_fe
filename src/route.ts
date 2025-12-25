@@ -9,6 +9,7 @@ const Login = () => import("./page/auth/Login.vue");
 const SignUp = () => import("./page/dashboard/registrasi/sign-up.vue");
 const dashKgj = () => import("./page/dashboard/frelance/schoolSmpKaryaGunaJaya/main.vue");
 const generateAccesToken = () => import("./page/dashboard/feature/GenerateAccesToken.vue");
+const colbackGoogle = () => import("./components/google/OAuthCallback.vue");
 
 const pageModules = import.meta.glob("/src/page/**/*.vue");
 
@@ -34,6 +35,11 @@ const router = createRouter({
                     path: "profile",
                     name: "GenerateToken",
                     component: generateAccesToken,
+                },
+                {
+                    path: "oauth/callback",
+                    name: "ColbackGoogle",
+                    component: colbackGoogle,
                 },
             ],
         },

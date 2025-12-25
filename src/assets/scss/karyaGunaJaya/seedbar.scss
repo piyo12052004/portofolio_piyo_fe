@@ -133,21 +133,48 @@
     padding: 8px 0 0 34px;
     margin: 0;
 
+    &--child {
+        padding-left: 16px;
+    }
+
     &__item {
+        padding: 4px 0;
+
+        &.active .submenu__button {
+            font-weight: 600;
+            color: #111827;
+        }
+    }
+
+    &__button {
+        width: 100%;
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
         padding: 8px 0;
+        background: transparent;
+        border: none;
         cursor: pointer;
-        color: #111827;
+        text-align: left;
+        color: inherit;
 
         &:hover {
-            opacity: 0.8;
+            opacity: 0.85;
         }
 
-        i {
-            font-size: 16px;
+        &--accordion {
+            justify-content: space-between;
         }
+    }
+
+    &__item--accordion {
+        cursor: default;
+    }
+
+    &__item-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 }
 
@@ -334,5 +361,33 @@
     }
     .is-indigo {
         color: #818cf8 !important;
+    }
+    .submenu {
+        &__item {
+            &.active .submenu__button {
+                color: #e5e7eb; // teks aktif
+                font-weight: 200;
+            }
+        }
+
+        &__button {
+            color: #e5e7eb;
+
+            i {
+                color: #9ca3af;
+            }
+
+            &:hover {
+                opacity: 1;
+                background-color: rgba(255, 255, 255, 0.05);
+                border-radius: 6px;
+            }
+        }
+
+        &--child {
+            .submenu__button {
+                padding-left: 12px;
+            }
+        }
     }
 }

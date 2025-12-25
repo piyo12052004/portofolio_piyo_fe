@@ -241,14 +241,15 @@ function GoToPage(event: any, row: any) {
   if (!session) {
     toggelLoginConfirmDialog(event);
   }
-  if (row == "SchoolRegisrationApp") {
-    is_modal_notif.value = true;
-    addAplication.value.aplication = "/karya-guna-jaya";
+  if(session){
+    if (row == "SchoolRegisrationApp") {
+      is_modal_notif.value = true;
+      addAplication.value.aplication = "/karya-guna-jaya";
+    }
   }
 }
 
 function goToAplikasi(path: any) {
-  console.log('path',path);
   router.push(path);
 }
 
