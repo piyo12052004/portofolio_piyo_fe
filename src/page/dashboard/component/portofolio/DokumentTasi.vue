@@ -17,9 +17,9 @@
         <div
           class="template-block block-2 ml-2 flex justify-center items-center cursor-pointer"
           :style="{ backgroundImage: img2() }"
-          @click="GoToPage($event, 'data')"
+          @click="GoToPage($event, 'development')"
         >
-          <a class="templates-btn" target="_blank" href="https://freya.primevue.org"
+          <a class="templates-btn" 
             >Parking Dashboard</a
           >
         </div>
@@ -30,7 +30,7 @@
           :style="{ backgroundImage: img3() }"
           @click="GoToPage($event, 'SchoolRegisrationApp')"
         >
-          <a class="templates-btn" target="_blank" href="https://atlantis.primevue.org/"
+          <a class="templates-btn" 
             >School Registration App</a
           >
         </div>
@@ -42,9 +42,9 @@
         <div
           class="template-block block-4 ml-2 flex justify-center items-center cursor-pointer"
           :style="{ backgroundImage: imageBg('apollo') }"
-          @click="GoToPage($event, 'data')"
+          @click="GoToPage($event, 'sempel')"
         >
-          <a class="templates-btn" target="_blank" href="https://apollo.primevue.org"
+          <a class="templates-btn"
             >Apollo Preview</a
           >
         </div>
@@ -53,18 +53,18 @@
         <div
           class="template-block block-1 mr-2 lg:mb-0 flex justify-center items-center cursor-pointer"
           :style="{ backgroundImage: imageBg('diamond') }"
-          @click="GoToPage($event, 'data')"
+          @click="GoToPage($event, 'sempel')"
         >
-          <a class="templates-btn" target="_blank" href="https://diamond.primevue.org"
+          <a class="templates-btn"
             >Diamond Preview</a
           >
         </div>
         <div
           class="template-block block-6 ml-2 flex justify-center items-center cursor-pointer"
           :style="{ backgroundImage: imageBg('ultima') }"
-          @click="GoToPage($event, 'data')"
+          @click="GoToPage($event, 'sempel')"
         >
-          <a class="templates-btn" target="_blank" href="https://ultima.primevue.org"
+          <a class="templates-btn"
             >Ultima Preview</a
           >
         </div>
@@ -238,10 +238,18 @@ const goToPortofolio = () => {
 };
 
 function GoToPage(event: any, row: any) {
+  if (row == "development") {
+    H.alert("info", "This feature is currently under development.", "info");
+    return;
+  }
+  if (row == "sempel") {
+    H.alert("info",  "This is only a sample taken from PrimeVue references.", "info");
+    return;
+  }
   if (!session) {
     toggelLoginConfirmDialog(event);
   }
-  if(session){
+  if (session) {
     if (row == "SchoolRegisrationApp") {
       is_modal_notif.value = true;
       addAplication.value.aplication = "/karya-guna-jaya";

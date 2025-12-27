@@ -1,7 +1,15 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import Button from "primevue/button";
 import OverlayPanel from "primevue/overlaypanel";
+import Popover from "primevue/popover";
+import Tabs from "primevue/tabs";
+import TabList from "primevue/tablist";
+import Tab from "primevue/tab";
+import TabPanels from "primevue/tabpanels";
+import TabPanel from "primevue/tabpanel";
+import Avatar from "primevue/avatar";
+import Tag from "primevue/tag";
 
 import { useApi } from "@src/utils/useApi";
 import { useToaster } from "@src/utils/toats/toaster";
@@ -10,13 +18,24 @@ import * as H from "@src/utils/Helper";
 
 import imgProfilePria from "@src/assets/img/img-profile-boys.svg";
 import imgProfilePerempuan from "@src/assets/img/img-profile-girs.svg";
+import { useSessionStore } from "@src/utils/usersSesion";
 
 /* =========================
      STATE
   ========================= */
+//
+//
+// function sesion ada dua yang satu get saja yang satu pinia
+//
+//
+const sessionStore = useSessionStore();
+const sessionPinia = computed(() => sessionStore.session);
+const tokens = computed(() => sessionStore.accessTokens);
 const session = JSON.parse(localStorage.getItem("user_session") || "null");
+
 const collectionPath = ref<any[]>([]);
 const isDark = ref(false);
+const popUpNotifikasi = ref();
 const activeDropdown = ref<number | null>(null);
 
 const toaster = useToaster();
@@ -98,10 +117,11 @@ async function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("list_menu");
     localStorage.removeItem("user_session");
+    localStorage.removeItem("type_login");
 
     if (user?.email && window.google?.accounts?.id) {
       window.google.accounts.id.revoke(user.email, () => {
-        console.log("Google account revoked:", user.email);
+        // console.log("Google account revoked:", user.email);
       });
     }
     window.location.href = "/";
@@ -109,16 +129,53 @@ async function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("list_menu");
     localStorage.removeItem("user_session");
+    localStorage.removeItem("type_login");
 
     if (user?.email && window.google?.accounts?.id) {
       window.google.accounts.id.revoke(user.email, () => {
-        console.log("Google account revoked:", user.email);
+        // console.log("Google account revoked:", user.email);
       });
     }
-    toaster.error("Logout failed, local session cleared");
+    // toaster.error("Logout failed, local session cleared");
     window.location.href = "/";
   }
 }
+
+const openLink = (url: string) => {
+  window.open(url, "_blank", "noopener,noreferrer");
+};
+
+const toggleNotifikasi = (event) => {
+  popUpNotifikasi.value.toggle(event);
+};
+
+function isToday(dateString: string) {
+  const today = new Date();
+  const date = new Date(dateString);
+
+  return (
+    date.getDate() === today.getDate() &&
+    date.getMonth() === today.getMonth() &&
+    date.getFullYear() === today.getFullYear()
+  );
+}
+
+const initialName = computed(() => {
+  return sessionStore.accessTokens.map((item: any) => {
+    const createdDate = new Date(item.tanggal_buat_token);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return {
+      token: item.token,
+      is_active: item.is_aktif,
+      tanggal_buat_token: item.tanggal_buat_token,
+      is_today: createdDate >= today,
+      is_expired: createdDate < today,
+    };
+  });
+});
+
 
 onMounted(loadRoutes);
 </script>
@@ -170,6 +227,29 @@ onMounted(loadRoutes);
     <!-- RIGHT -->
     <div class="right">
       <!-- DARK MODE -->
+      <Button
+        icon="pi pi-linkedin"
+        class="p-button-sm"
+        variant="outlined"
+        @click="openLink('https://www.linkedin.com/in/piyo-aswandi-3477812a0/')"
+      />
+
+      <Button
+        icon="pi pi-github"
+        class="p-button-sm"
+        variant="outlined"
+        @click="openLink('https://github.com/piyo12052004/portofolio_piyo_fe')"
+      />
+      <div class="relative">
+        <Button
+          v-on:click="toggleNotifikasi"
+          icon="pi pi-bell"
+          class="p-button-sm"
+          variant="outlined"
+        />
+        <span v-on:click="toggleNotifikasi" class="notification-dot"></span>
+      </div>
+
       <Button
         :icon="isDark ? 'pi pi-moon' : 'pi pi-sun'"
         class="p-button-sm"
@@ -230,10 +310,89 @@ onMounted(loadRoutes);
 
         <div class="item logout" @click="logout"><i class="pi pi-sign-out" /> Logout</div>
       </OverlayPanel>
+
+      <Popover ref="popUpNotifikasi">
+        <div class="w-[320px] max-h-[420px] overflow-y-auto">
+          <Tabs value="0">
+            <TabList>
+              <Tab value="0" class="text-sm">Access Token</Tab>
+            </TabList>
+
+            <TabPanels>
+              <TabPanel value="0" class="p-0">
+                <ul
+                  class="flex flex-col divide-y divide-surface-200 dark:divide-surface-700"
+                >
+                  <li
+                    v-for="(data, index) in initialName"
+                    :key="index"
+                    class="flex items-start gap-3 px-4 py-3 hover:bg-surface-100 dark:hover:bg-surface-800 transition cursor-pointer"
+                  >
+                    <!-- Avatar -->
+                    <Avatar
+                      label="KGJ"
+                      shape="circle"
+                      size="small"
+                      :style="{
+                        backgroundColor: data.is_today
+                          ? '#dcfce7'
+                          : data.is_expired
+                          ? '#fee2e2'
+                          : '#e0e7ff',
+                        color: data.is_today
+                          ? '#166534'
+                          : data.is_expired
+                          ? '#991b1b'
+                          : '#1e3a8a',
+                      }"
+                    />
+
+                    <!-- Content -->
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-center justify-between gap-2">
+                        <span class="text-sm font-medium truncate">
+                          Karya Guna Jaya Token
+                        </span>
+
+                        <Tag
+                          v-if="data.is_today && data.is_active"
+                          value="Today"
+                          severity="success"
+                          rounded
+                          class="!text-xs"
+                        />
+                        <Tag
+                          v-else-if="data.is_expired"
+                          value="Expired"
+                          severity="danger"
+                          rounded
+                          class="!text-xs"
+                        />
+                      </div>
+
+                      <div class="text-xs text-surface-500 dark:text-surface-400">
+                        {{ data.tanggal_buat_token }}
+                      </div>
+                    </div>
+                  </li>
+
+                  <!-- Empty State -->
+                  <li
+                    v-if="!initialName.length"
+                    class="py-6 text-center text-sm text-surface-500 dark:text-surface-400"
+                  >
+                    No access token available
+                  </li>
+                </ul>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </div>
+      </Popover>
     </div>
   </nav>
 </template>
 
-<style lang="scss">
+<style lang="scss" >
 @use "@src/assets/scss/navbarGlobal.scss";
 </style>

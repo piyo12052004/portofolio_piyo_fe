@@ -77,8 +77,11 @@
         display: flex;
         align-items: end;
         gap: 18px;
-        .user-info{
+        .user-info {
             text-align: end;
+            .name {
+                color: rgb(0, 0, 0);
+            }
         }
     }
     .right {
@@ -124,6 +127,15 @@
         }
     }
 }
+.notification-dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    background-color: #ef4444; /* red */
+    border-radius: 50%;
+  }
 
 /* ============================================================
  DROPDOWN MENU
@@ -260,4 +272,107 @@
 
 .item.logout:hover {
     background: rgba(239, 68, 68, 0.1);
+}
+
+/* ============================================================
+   DARK MODE GLOBAL (PROFILE + NAVBAR)
+============================================================ */
+.my-app-dark {
+    /* NAVBAR */
+    .behance-navbar {
+        background: rgba(13, 17, 23, 0.85);
+        border-bottom-color: rgba(255, 255, 255, 0.08);
+
+        .left {
+            .logo {
+                color: #f9fafb;
+            }
+
+            .menu {
+                .menu-item {
+                    color: #c9d1d9;
+
+                    &:hover {
+                        color: #ffffff;
+                    }
+                }
+            }
+        }
+
+        .right {
+            .start-btn {
+                background: linear-gradient(90deg, #3b82f6, #2563eb);
+            }
+        }
+
+        .profile-trigger {
+            .user-info {
+                .name {
+                    color: #f9fafb;
+                }
+            }
+        }
+    }
+
+    /* DROPDOWN MENU */
+    .menu-item.dropdown {
+        .dropdown-menu {
+            background: #161b22;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            .menu-item {
+                color: #c9d1d9;
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.08);
+                }
+            }
+        }
+    }
+
+    /* PROFILE MENU */
+    .profile-menu {
+        background: #0d1117;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .profile-header {
+        .avatar {
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+        }
+
+        .name {
+            color: #f9fafb;
+        }
+
+        .email {
+            color: #9ca3af;
+        }
+    }
+
+    .divider {
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* PROFILE ITEMS */
+    .item {
+        color: #c9d1d9;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        &.active {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        &.logout {
+            color: #f87171;
+
+            &:hover {
+                background: rgba(248, 113, 113, 0.15);
+            }
+        }
+    }
 }

@@ -1,5 +1,6 @@
 import { useApi } from "@src/utils/useApi";
 import { fecthSession } from "@src/utils/usersSesion";
+import * as H from "@src/utils/Helper";
 
 declare global {
     interface Window {
@@ -35,6 +36,7 @@ export async function initGoogleLogin() {
 
             localStorage.setItem("token", res.data.token);
             await fecthSession();
+            H.typeLogin('google');
             window.location.href = "/";
         },
     });

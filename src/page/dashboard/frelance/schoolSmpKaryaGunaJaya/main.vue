@@ -25,11 +25,12 @@ const showInactiveTokenDialog = ref(false);
 const showGenerateTokenDialog = ref(false);
 const showVerifyTokenDialog = ref(false);
 const is_notifikasi_expayert_token = ref(false);
-const is_verifikasi_token:any = ref(false);
-const is_nulable_token:any = ref(false);
+const is_verifikasi_token: any = ref(false);
+const is_nulable_token: any = ref(false);
 
 const dialogMessage = ref("");
 const verifyTokenForm = ref<{ token?: string }>({});
+const dialogClosedBy = ref<"verify" | "cancel" | null>(null);
 
 /* =============================
      CHECK ACCESS TOKEN
@@ -135,7 +136,7 @@ onMounted(() => {
      DIALOG HANDLERS
   ============================= */
 function onAccessDeniedClose() {
-  is_nulable_token.value= true
+  is_nulable_token.value = true;
   showGenerateTokenDialog.value = true;
 }
 
@@ -156,6 +157,7 @@ async function verifyToken() {
     return;
   }
   try {
+    dialogClosedBy.value = "verify";
     const result = await useApi().put(
       "/profile/token/verfikasi-acces-token-karya-guna-jaya",
       {
@@ -167,7 +169,9 @@ async function verifyToken() {
     localStorage.setItem("user_session", JSON.stringify(updatedSession));
 
     showVerifyTokenDialog.value = false;
-
+    is_verifikasi_token.value = false;
+    is_nulable_token.value= false
+    
     is_notifikasi_expayert_token.value = true;
     setTimeout(() => {
       is_notifikasi_expayert_token.value = false;
@@ -177,9 +181,13 @@ async function verifyToken() {
   }
 }
 
-function closeModalVerfikasiToken(){
-  is_verifikasi_token.value = true
-  showVerifyTokenDialog.value = false
+function closeModalVerfikasiToken() {
+  if (dialogClosedBy.value === "verify") {
+    dialogClosedBy.value = null;
+    return; // jangan jalankan logic cancel
+  }
+  is_verifikasi_token.value = true;
+  showVerifyTokenDialog.value = false;
 }
 </script>
 <template>
@@ -238,14 +246,15 @@ function closeModalVerfikasiToken(){
     />
 
     <div class="flex justify-end gap-2">
-      <Button
-        label="Cancel"
-        severity="secondary"
-        @click="closeModalVerfikasiToken"
-      />
+      <Button label="Cancel" severity="secondary" @click="closeModalVerfikasiToken" />
       <Button label="Verify" @click="verifyToken" />
     </div>
   </Dialog>
 
-  <SedBar :is_token="is_nulable_token" :is_verifikasi_token="is_verifikasi_token"  :subTitle="'Karya Guna Jaya'" :title="'Piyo Aswandi'" />
+  <SedBar
+    :is_token="is_nulable_token"
+    :is_verifikasi_token="is_verifikasi_token"
+    :subTitle="'Karya Guna Jaya'"
+    :title="'Piyo Aswandi'"
+  />
 </template>

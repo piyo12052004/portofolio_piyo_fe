@@ -1,5 +1,6 @@
 import { useApi } from './utils/useApi';
 import { createApp } from 'vue'
+import { createPinia } from "pinia";
 import App from './App.vue'
 import './style.css'
 import './assets/tailwind.css'
@@ -69,7 +70,7 @@ const BlueModern = definePreset(Aura, {
 });
 
 const app = createApp(App);
-
+const pinia = createPinia();
 app.use(PrimeVue, {
     theme: {
         preset: BlueModern,
@@ -93,4 +94,5 @@ app.component("Toast", Toast)
 app.component("ConfirmDialog", ConfirmDialog);
 app.component("ConfirmPopup", ConfirmPopup);
 app.use(router); 
+app.use(pinia);
 app.mount("#app");

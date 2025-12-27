@@ -222,7 +222,7 @@
 // };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 /* =========================
    WORK EXPERIENCE – DARK MODE
    ========================= */

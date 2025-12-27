@@ -63,7 +63,7 @@
               <img src="@src/assets/img/google-logo.svg" class="google-icon" />
               <span>Continue with Google</span>
             </Button> -->
-            <div id="googleBtn" ></div>
+            <div id="googleBtn"></div>
 
             <!-- Tombol GitHub -->
             <!-- <Button severity="secondary" class="github-btn" @click="loginWithGithub"> -->
@@ -92,7 +92,7 @@ import router from "@src/route";
 import { useToaster } from "@src/utils/toats/toaster";
 import * as H from "@src/utils/Helper";
 import { fecthSession } from "@src/utils/usersSesion";
-import { initGoogleLogin } from "@src/utils/useGoogleAuth"
+import { initGoogleLogin } from "@src/utils/useGoogleAuth";
 
 const toaster = useToaster();
 
@@ -109,6 +109,10 @@ function toggleDarkMode() {
 }
 
 async function toggelForLogin() {
+  if (form.value.email == "" || form.value.password == "") {
+    toaster.warning("Email and password cannot be empty",'warning');
+    return;
+  }
   let prePare = {
     email: form.value.email,
     password: form.value.password,
@@ -116,9 +120,27 @@ async function toggelForLogin() {
   try {
     const res = await useApi().post("/login", prePare);
     H.saveStorege(res.data.token);
+    H.typeLogin('login');
     getSession();
   } catch (err) {
-    toaster.error("Gagal mengambil data dari server");
+    // Jika backend mengirim response
+    if (err.response) {
+      const status = err.response.status;
+      const message =
+        err.response.data?.message || err.response.data?.error || "Login failed";
+
+      if (status === 401) {
+        toaster.error("Invalid email or password");
+      } else if (status === 422) {
+        toaster.warning(message);
+      } else {
+        toaster.error(message);
+      }
+    }
+    // Jika tidak ada response (server down / network error)
+    else {
+      toaster.error("Unable to connect to server");
+    }
   }
 }
 

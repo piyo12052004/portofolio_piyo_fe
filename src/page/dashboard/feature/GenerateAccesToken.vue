@@ -2,17 +2,27 @@
 import { ref, computed, onMounted } from "vue";
 import Card from "primevue/card";
 import Avatar from "primevue/avatar";
+import Button from "primevue/button";
 
 import Profile from "../component/profile/profile.vue";
 import TokenDashParking from "../component/profile/tokenDashParking.vue";
 import TokenKaryaGunaJaya from "../component/profile/tokenKaryaGunaJaya.vue";
 
-import { fecthSession } from "@src/utils/usersSesion";
+import { fecthSession, useSessionStore } from "@src/utils/usersSesion";
+import * as H from "@src/utils/Helper";
+import { useApi } from "@src/utils/useApi";
 
 /* =============================
      SESSION (REAKTIF)
   ============================= */
+//
+//
+// function sesion ada dua yang satu get saja yang satu pinia
+//
+//
 const session = ref<any>(JSON.parse(localStorage.getItem("user_session") || "null"));
+const sessionStore = useSessionStore();
+const typeLogin = ref<any>(localStorage.getItem("type_login") || "null");
 
 /* =============================
      NOTE JSON
@@ -41,12 +51,12 @@ const menus = [
     desc: "Access token for Karya Guna Jaya integration",
     component: TokenKaryaGunaJaya,
   },
-  {
-    key: "dashparking",
-    title: "Dash Parking",
-    desc: "Access token for Dash Parking integration",
-    component: TokenDashParking,
-  },
+  // {
+  //   key: "dashparking",
+  //   title: "Dash Parking",
+  //   desc: "Access token for Dash Parking integration",
+  //   component: TokenDashParking,
+  // },
 ];
 
 /* =============================
@@ -60,6 +70,8 @@ const activeComponent = ref(menus[0].component);
 const refresToken = async () => {
   // 1. fetch dari server
   const updatedSession = await fecthSession();
+
+  await sessionStore.fetchSession();
 
   // 2. update state (ini yang bikin UI update)
   session.value = updatedSession;
@@ -75,6 +87,62 @@ const goFile = (menu: any) => {
   activeComponent.value = menu.component;
 };
 
+const hasAvatar = computed(() => {
+  return (
+    !!session.value?.avatar_google ||
+    !!session.value?.avatar_github ||
+    !!session.value?.avatar
+  );
+});
+
+const userAvatar = computed(() => {
+  return (
+    session.value?.avatar ||
+    session.value?.avatar_google ||
+    session.value?.avatar_github ||
+    null
+  );
+});
+
+const avatarInput = ref<HTMLInputElement | null>(null);
+const openCreateAvatar = () => {
+  avatarInput.value?.click();
+};
+
+const openEditAvatar = () => {
+  avatarInput.value?.click();
+};
+
+const onAvatarSelected = async (event: Event) => {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+  if (!file) return;
+  if (!file.type.startsWith("image/")) {
+    H.alert("warning", "Please select an image file", "warning");
+    return;
+  }
+  if (file.size > 2 * 1024 * 1024) {
+    H.alert("warning", "Image size must be under 2MB", "warning");
+    return;
+  }
+  await uploadAvatar(file);
+  input.value = "";
+};
+
+const uploadAvatar = async (file: File) => {
+  const formData = new FormData();
+  formData.append("avatar", file);
+  formData.append("type_login", String(typeLogin.value));
+
+  try {
+    const res = await useApi().post("/profile/referensi/update-profile", formData);
+    // refresh session
+    await refresToken();
+  } catch (err) {
+    // H.alert("error", "Failed to upload avatar", "error");
+  }
+};
+
 /* =============================
      INIT
   ============================= */
@@ -84,6 +152,13 @@ onMounted(() => {
 </script>
 
 <template>
+  <input
+    ref="avatarInput"
+    type="file"
+    accept="image/*"
+    class="hidden"
+    @change="onAvatarSelected"
+  />
   <!-- HEADER -->
   <div class="m-9">
     <Card class="p-5">
@@ -114,33 +189,67 @@ onMounted(() => {
       <!-- LEFT CARD 1 -->
       <Card class="p-5">
         <template #title>Profile Overview</template>
+
         <template #content>
-          <div class="flex items-center gap-4 mb-4">
-            <Avatar image="https://i.pravatar.cc/100" size="large" shape="circle" />
-            <div>
-              <p class="font-medium">{{ session.nama_lengkap }}</p>
-              <p class="text-sm text-gray-500">{{ session.role_user.role_user }}</p>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-4">
+              <!-- AVATAR -->
+              <Avatar v-if="userAvatar" :image="userAvatar" size="large" shape="circle" />
+
+              <Avatar
+                v-else
+                :label="session?.nama_lengkap?.charAt(0)"
+                size="large"
+                shape="circle"
+              />
+
+              <!-- USER INFO -->
+              <div>
+                <p class="font-medium">{{ session?.nama_lengkap }}</p>
+                <p class="text-sm text-gray-500">
+                  {{ session?.role_user?.role_user }}
+                </p>
+              </div>
             </div>
+
+            <!-- ACTION BUTTON -->
+            <Button
+              v-if="!hasAvatar"
+              label="Create Avatar"
+              icon="pi pi-plus"
+              severity="success"
+              size="small"
+              @click="openCreateAvatar"
+            />
+
+            <Button
+              v-else
+              label="Edit Avatar"
+              icon="pi pi-pencil"
+              severity="secondary"
+              size="small"
+              @click="openEditAvatar"
+            />
           </div>
+
+          <!-- TOKEN STATUS -->
           <ul
             v-if="!noteJson?.aksesTokenKaryaGunaJaya?.access_tokens?.length"
             class="space-y-2 text-sm text-red-600"
           >
             <li>• You do not have a Karya Guna Jaya access token yet.</li>
           </ul>
-
           <ul v-else class="space-y-2 text-sm text-green-600">
             <li>• A Karya Guna Jaya access token already exists.</li>
           </ul>
 
           <ul
             v-if="!noteJson?.aksesTokenDashparking?.access_tokens?.length"
-            class="space-y-2 text-sm text-red-600"
+            class="space-y-2 text-sm text-red-600 mt-2"
           >
             <li>• You do not have a Dash Parking access token yet.</li>
           </ul>
-
-          <ul v-else class="space-y-2 text-sm text-green-600">
+          <ul v-else class="space-y-2 text-sm text-green-600 mt-2">
             <li>• A Dash Parking access token already exists.</li>
           </ul>
         </template>

@@ -15,6 +15,10 @@ export async function saveStorege(row: any) {
     localStorage.setItem("token", row);
 }
 
+export async function typeLogin(row: any) {
+    localStorage.setItem("type_login", row);
+}
+
 export function saveStoregeListMenu(row: any) {
     localStorage.setItem("list_menu", JSON.stringify(row));
 }
