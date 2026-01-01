@@ -9,20 +9,20 @@
             </svg>
             <ScrollPanel style="width: 100%; height: 200px">
               <Card>
-                <template #title> Informasi Login & Registrasi Siswa </template>
+                <template #title> Student Login & Registration Information </template>
 
                 <template #content>
                   <p class="m-0 leading-relaxed text-slate-600">
-                    Fitur Login dan Registrasi Siswa dikembangkan menggunakan
-                    <b>Laravel Blade</b> sebagai templating engine dengan integrasi
-                    <b>database</b> untuk penyimpanan dan pengelolaan data pengguna.
-                    Seluruh alur proses autentikasi dan registrasi dirancang sesuai dengan
-                    kebutuhan serta permintaan klien, didukung dengan antarmuka pengguna
-                    (UI) yang modern, responsif, dan mudah digunakan.
+                    The student login and registration feature was developed using
+                    <b>Laravel Blade</b> as the templating engine, with
+                    <b>database</b> integration for user data storage and management. The
+                    entire authentication and registration flow was designed based on
+                    client requirements, supported by a modern, intuitive, and
+                    user-friendly interface (UI).
                   </p>
 
                   <p class="mt-3 text-sm text-slate-500">
-                    Development by <b>Piyo Aswandi</b>
+                    Developed by <b>Piyo Aswandi</b>
                   </p>
                 </template>
               </Card>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <g transform="translate(128 128) scale(1.25) translate(-128 -128)">
+    <path
+      d="
+        M104 192V64h48
+        c40 0 64 20 64 52
+        s-24 52-64 52h-24v24z
+        M128 96h24
+        c22 0 36 8 36 20
+        s-14 20-36 20h-24z
+      "
+      fill="none"
+      stroke="#6366f1"
+      stroke-width="14"
+      stroke-linejoin="round"
+      stroke-linecap="round"
+    />
+  </g>
+</svg>

@@ -67,10 +67,10 @@
 
             <!-- Tombol GitHub -->
             <!-- <Button severity="secondary" class="github-btn" @click="loginWithGithub"> -->
-            <Button severity="secondary" class="github-btn">
+            <!-- <Button severity="secondary" class="github-btn">
               <i class="pi pi-github github-icon"></i>
               <span>Continue with GitHub</span>
-            </Button>
+            </Button> -->
           </div>
         </div>
       </div>

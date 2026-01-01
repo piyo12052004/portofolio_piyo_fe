@@ -45,6 +45,7 @@
                 <i class="pi pi-user"></i>
               </span>
               <input
+                v-model="form.username"
                 type="text"
                 placeholder="Username"
                 class="w-full h-11 pl-10 pr-4 border border-slate-300 rounded-md focus:ring-2 focus:ring-emerald-400 focus:outline-none"
@@ -60,6 +61,7 @@
                 <i class="pi pi-lock"></i>
               </span>
               <input
+                v-model="form.password"
                 type="password"
                 placeholder="Password"
                 class="w-full h-11 pl-10 pr-4 border border-slate-300 rounded-md focus:ring-2 focus:ring-emerald-400 focus:outline-none"
@@ -69,6 +71,7 @@
 
           <!-- Login Button -->
           <button
+            @click="login"
             class="w-full h-11 rounded-md bg-gradient-to-r from-emerald-500 to-green-500 text-white font-semibold hover:opacity-90 transition"
           >
             Login
@@ -85,6 +88,17 @@
 </template>
 
 <script setup lang="ts">
+import * as H from "@src/utils/Helper";
+import { ref } from "vue";
+const form: any = ref({});
+
+function login() {
+  if (!form.value.username || !form.value.password) {
+    H.alert("warning", "Username or Password is still empty", "warning");
+    return;
+  }
+  H.alert("success", "Berhasil Login", "succes");
+}
 // Tidak perlu logic dulu, fokus UI
 </script>
 <style lang="scss" scoped>

@@ -1,373 +1,388 @@
 <template>
-  <section class="bg-grid">
-    <div>
-      <Card class="my-4">
-        <template #title> Berita </template>
+  <section class="bg-grid min-h-screen p-6">
+    <!-- INFO CARD -->
+    <Card class="my-4">
+      <template #title> News </template>
+      <template #content>
+        <p class="m-0 leading-relaxed text-slate-600">
+          The <b>News</b> feature is used to manage information and announcements related
+          to school activities. Administrators can perform
+          <b>Create, Read, Update, and Delete (CRUD)</b> operations on news data.
+        </p>
+        <p class="mt-3 text-sm text-slate-500">Developed by <b>Ikhsan Adriansyah</b></p>
+      </template>
+    </Card>
 
-        <template #content>
-          <p class="m-0 leading-relaxed text-slate-600">
-            Fitur <b>Berita</b> digunakan untuk mengelola informasi dan pengumuman seputar
-            kegiatan sekolah. Melalui fitur ini, admin dapat melakukan proses
-            <b>Create, Read, Update, dan Delete (CRUD)</b> data berita yang akan
-            ditampilkan pada website sekolah.
-          </p>
-
-          <p class="mt-3 text-sm text-slate-500">
-            Development by <b>Ikhsan Adriansyah</b>
-          </p>
-        </template>
-      </Card>
+    <!-- HEADER -->
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-bold text-slate-800">Kelola Berita</h1>
+      <button
+        @click="openCreate"
+        class="px-4 py-2 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+      >
+        Tambah Berita
+      </button>
     </div>
-    <div class="p-6 space-y-6">
-      <!-- HEADER -->
-      <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-bold text-slate-800">Kelola Berita</h1>
+
+    <!-- TABLE -->
+    <div class="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
+      <table class="min-w-full text-sm table-core">
+        <thead class="bg-slate-50 text-slate-600 uppercase text-xs">
+          <tr>
+            <th class="px-6 py-4 text-left">Judul</th>
+            <th class="px-6 py-4 text-left">Gambar</th>
+            <th class="px-6 py-4 text-left">Status</th>
+            <th class="px-6 py-4 text-left">Tanggal</th>
+            <th class="px-6 py-4 text-left">Aksi</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            v-for="(item, index) in berita"
+            :key="index"
+            class="border-t hover:bg-slate-50 transition"
+          >
+            <td class="px-6 py-4 font-medium text-slate-800">
+              {{ item.judul }}
+            </td>
+
+            <td class="px-6 py-4">
+              <img :src="item.gambar" class="w-12 h-12 rounded-md object-cover border" />
+            </td>
+
+            <td class="px-6 py-4">
+              <span
+                class="inline-flex px-3 py-1 rounded-full text-xs font-semibold"
+                :class="
+                  item.status
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-gray-100 text-gray-600'
+                "
+              >
+                {{ item.status ? "Published" : "Draft" }}
+              </span>
+            </td>
+
+            <td class="px-6 py-4 text-slate-600">
+              {{ item.tanggal }}
+            </td>
+
+            <td class="px-6 py-4 space-x-3">
+              <button @click="openEdit(index)" class="text-blue-600 hover:underline">
+                Edit
+              </button>
+              <button @click="remove(index)" class="text-red-600 hover:underline">
+                Hapus
+              </button>
+            </td>
+          </tr>
+
+          <tr v-if="berita.length === 0">
+            <td colspan="5" class="text-center py-6 text-slate-500">No data available</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== DIALOG PRIMEVUE ===== -->
+    <Dialog
+      v-model:visible="openModal"
+      modal
+      :header="mode === 'create' ? 'Tambah Berita' : 'Edit Berita'"
+      :style="{ width: '45rem' }"
+    >
+      <div class="space-y-5">
+        <!-- Judul -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Judul *</label>
+          <input
+            v-model="form.judul"
+            type="text"
+            class="w-full rounded-md border px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+          />
+        </div>
+
+        <!-- Konten -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Konten</label>
+          <textarea
+            v-model="form.konten"
+            rows="5"
+            class="w-full rounded-md border px-4 py-2 resize-none focus:ring-2 focus:ring-blue-400 focus:outline-none"
+          ></textarea>
+        </div>
+
+        <!-- Image (DISABLED) -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Image</label>
+          <input
+            type="text"
+            :value="DEFAULT_IMAGE"
+            disabled
+            class="w-full rounded-md border px-4 py-2 bg-slate-100 text-slate-500 cursor-not-allowed"
+          />
+          <p class="mt-1 text-xs text-slate-500">
+            Image is automatically set by the system
+          </p>
+        </div>
+
+        <!-- Tanggal -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Tanggal *</label>
+          <input
+            v-model="form.tanggal"
+            type="date"
+            class="w-full rounded-md border px-4 py-2"
+          />
+        </div>
+
+        <!-- Publish -->
+        <div class="flex items-center gap-2">
+          <input type="checkbox" v-model="form.status" />
+          <span class="text-sm">Publish sekarang</span>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <template #footer>
+        <button
+          @click="openModal = false"
+          class="px-4 py-2 rounded-md border border-slate-300 text-slate-700 hover:bg-slate-100"
+        >
+          Batal
+        </button>
 
         <button
-          @click="openModal = true"
-          class="px-4 py-2 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+          @click="submit"
+          class="px-6 py-2 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
         >
-          Tambah Berita
+          {{ mode === "create" ? "Simpan" : "Update" }}
         </button>
+      </template>
+    </Dialog>
+    <Dialog
+      v-model:visible="is_verifikasi_remove"
+      modal
+      header="Confirm Delete"
+      :style="{ width: '25rem' }"
+    >
+      <div class="flex items-center gap-3">
+        <i class="pi pi-exclamation-triangle text-red-500 text-xl"></i>
+        <p class="text-slate-700">
+          Are you sure you want to delete this news?
+          <br />
+          <span class="text-sm text-slate-500"> This action cannot be undone. </span>
+        </p>
       </div>
 
-      <div class="p-6 space-y-6">
-        <!-- ALERT -->
-        <div
-          class="rounded-md border border-green-300 bg-green-100 text-green-800 px-4 py-3"
+      <template #footer>
+        <button
+          @click="is_verifikasi_remove = false"
+          class="px-4 py-2 rounded-md border border-slate-300 text-slate-700 hover:bg-slate-100"
         >
-          Berita berhasil ditambahkan
-        </div>
+          Cancel
+        </button>
 
-        <!-- TABLE -->
-        <div class="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
-          <table class="min-w-full text-sm">
-            <thead class="bg-slate-50 text-slate-600 uppercase text-xs">
-              <tr>
-                <th class="px-6 py-4 text-left">Judul</th>
-                <th class="px-6 py-4 text-left">Gambar</th>
-                <th class="px-6 py-4 text-left">Status</th>
-                <th class="px-6 py-4 text-left">Tanggal Publikasi</th>
-                <th class="px-6 py-4 text-left">Aksi</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr
-                v-for="(item, index) in berita"
-                :key="index"
-                class="border-t hover:bg-slate-50 transition"
-              >
-                <!-- JUDUL -->
-                <td class="px-6 py-4 font-medium text-slate-800">
-                  {{ item.judul }}
-                </td>
-
-                <!-- GAMBAR -->
-                <td class="px-6 py-4">
-                  <img
-                    :src="item.gambar"
-                    class="w-12 h-12 rounded-md object-cover border"
-                  />
-                </td>
-
-                <!-- STATUS -->
-                <td class="px-6 py-4">
-                  <span
-                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold"
-                    :class="
-                      item.status === 'Dipublikasikan'
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-gray-100 text-gray-600'
-                    "
-                  >
-                    {{ item.status }}
-                  </span>
-                </td>
-
-                <!-- TANGGAL -->
-                <td class="px-6 py-4 text-slate-600">
-                  {{ item.tanggal }}
-                </td>
-
-                <!-- AKSI -->
-                <td class="px-6 py-4 space-x-3">
-                  <button class="text-blue-600 hover:underline">Edit</button>
-                  <button class="text-red-600 hover:underline">Hapus</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- ===== MODAL ===== -->
-      <div v-if="openModal" class="fixed inset-0 z-50 flex items-center justify-center">
-        <!-- Overlay -->
-        <div class="absolute inset-0 bg-black/40" @click="openModal = false"></div>
-
-        <!-- Modal Card -->
-        <div class="relative z-10 w-full max-w-3xl bg-white rounded-xl shadow-lg p-6">
-          <!-- TITLE -->
-          <h2 class="text-lg font-bold text-slate-800 mb-6">Tambah Berita</h2>
-
-          <!-- FORM -->
-          <div class="space-y-5">
-            <!-- Judul -->
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">
-                Judul Berita
-              </label>
-              <input
-                type="text"
-                class="w-full rounded-md border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-              />
-            </div>
-
-            <!-- Konten -->
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">
-                Konten Berita
-              </label>
-              <textarea
-                rows="6"
-                class="w-full rounded-md border border-slate-300 px-4 py-2 resize-none focus:ring-2 focus:ring-blue-400 focus:outline-none"
-              ></textarea>
-            </div>
-
-            <!-- Gambar -->
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">
-                Gambar Berita
-              </label>
-
-              <input
-                type="file"
-                class="block w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-slate-800 file:text-white hover:file:bg-slate-700"
-              />
-
-              <p class="mt-1 text-xs text-slate-500">
-                Format yang didukung: JPG, JPEG, PNG, GIF. Maksimal 2MB
-              </p>
-            </div>
-
-            <!-- Tanggal -->
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">
-                Tanggal Publikasi
-              </label>
-              <input
-                type="date"
-                class="w-full rounded-md border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-              />
-            </div>
-
-            <!-- Publish -->
-            <div class="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked
-                class="w-4 h-4 text-blue-600 rounded border-slate-300"
-              />
-              <span class="text-sm text-slate-700"> Publish sekarang </span>
-            </div>
-          </div>
-
-          <!-- ACTION -->
-          <div class="mt-6 flex justify-end gap-3">
-            <button
-              @click="openModal = false"
-              class="px-4 py-2 rounded-md border border-slate-300 text-slate-700 hover:bg-slate-100"
-            >
-              Batal
-            </button>
-
-            <button
-              class="px-6 py-2 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
-            >
-              Simpan Berita
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+        <button
+          @click="confirmRemove"
+          class="px-4 py-2 rounded-md bg-red-600 text-white font-semibold hover:bg-red-700"
+        >
+          Delete
+        </button>
+      </template>
+    </Dialog>
   </section>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import Card from "primevue/card";
+import Dialog from "primevue/dialog";
+import * as H from "@src/utils/Helper";
 
-const berita = [
+const is_verifikasi_remove: any = ref(false);
+const data_remove = ref({
+  index: null as number | null,
+});
+/* =====================
+   DEFAULT IMAGE
+===================== */
+const DEFAULT_IMAGE =
+  "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=200&q=80";
+
+/* =====================
+   DATA
+===================== */
+const berita = ref([
   {
     judul: "Kegiatan Upacara Bendera",
-    gambar: "https://i.pravatar.cc/100?img=1",
-    status: "Dipublikasikan",
-    tanggal: "25 Dec 2025",
+    konten: "Upacara rutin hari Senin",
+    gambar: DEFAULT_IMAGE,
+    tanggal: "2025-12-25",
+    status: true,
   },
-  {
-    judul: "Lomba Kebersihan Kelas",
-    gambar: "https://i.pravatar.cc/100?img=2",
-    status: "Dipublikasikan",
-    tanggal: "24 Dec 2025",
-  },
-  {
-    judul: "Peringatan Hari Guru",
-    gambar: "https://i.pravatar.cc/100?img=3",
-    status: "Dipublikasikan",
-    tanggal: "23 Dec 2025",
-  },
-  {
-    judul: "Kegiatan Pramuka",
-    gambar: "https://i.pravatar.cc/100?img=4",
-    status: "Dipublikasikan",
-    tanggal: "22 Dec 2025",
-  },
-  {
-    judul: "Class Meeting Semester Ganjil",
-    gambar: "https://i.pravatar.cc/100?img=5",
-    status: "Dipublikasikan",
-    tanggal: "21 Dec 2025",
-  },
-  {
-    judul: "Ujian Akhir Semester",
-    gambar: "https://i.pravatar.cc/100?img=6",
-    status: "Dipublikasikan",
-    tanggal: "20 Dec 2025",
-  },
-  {
-    judul: "Kerja Bakti Sekolah",
-    gambar: "https://i.pravatar.cc/100?img=7",
-    status: "Dipublikasikan",
-    tanggal: "19 Dec 2025",
-  },
-  {
-    judul: "Kunjungan Dinas Pendidikan",
-    gambar: "https://i.pravatar.cc/100?img=8",
-    status: "Dipublikasikan",
-    tanggal: "18 Dec 2025",
-  },
-  {
-    judul: "Pelatihan Guru",
-    gambar: "https://i.pravatar.cc/100?img=9",
-    status: "Dipublikasikan",
-    tanggal: "17 Dec 2025",
-  },
-  {
-    judul: "Penerimaan Siswa Baru",
-    gambar: "https://i.pravatar.cc/100?img=10",
-    status: "Dipublikasikan",
-    tanggal: "16 Dec 2025",
-  },
-];
+]);
 
 const openModal = ref(false);
+const mode = ref<"create" | "edit">("create");
+const editIndex = ref<number | null>(null);
+
+/* =====================
+   FORM
+===================== */
+const form = ref({
+  judul: "",
+  konten: "",
+  gambar: DEFAULT_IMAGE,
+  tanggal: "",
+  status: true,
+});
+
+/* =====================
+   METHODS
+===================== */
+function openCreate() {
+  mode.value = "create";
+  resetForm();
+  openModal.value = true;
+}
+
+function openEdit(index: number) {
+  mode.value = "edit";
+  editIndex.value = index;
+  form.value = { ...berita.value[index] };
+  openModal.value = true;
+}
+
+function submit() {
+  if (!form.value.judul || !form.value.tanggal) {
+    H.alert("warning", "Judul dan tanggal wajib diisi", "warning");
+    return;
+  }
+
+  const payload = {
+    ...form.value,
+    gambar: DEFAULT_IMAGE, // FORCE DEFAULT IMAGE
+  };
+
+  if (mode.value === "create") {
+    berita.value.unshift(payload);
+    H.alert("success", "Berita berhasil ditambahkan", "success");
+  } else if (editIndex.value !== null) {
+    berita.value[editIndex.value] = payload;
+    H.alert("success", "Berita berhasil diperbarui", "success");
+  }
+
+  openModal.value = false;
+  resetForm();
+}
+
+function remove(index: number) {
+  data_remove.value.index = index;
+  is_verifikasi_remove.value = true;
+}
+
+function confirmRemove() {
+  if (data_remove.value.index === null) return;
+
+  berita.value.splice(data_remove.value.index, 1);
+
+  H.alert("success", "News has been successfully deleted", "success");
+
+  // reset state
+  is_verifikasi_remove.value = false;
+  data_remove.value.index = null;
+}
+
+function resetForm() {
+  form.value = {
+    judul: "",
+    konten: "",
+    gambar: DEFAULT_IMAGE,
+    tanggal: "",
+    status: true,
+  };
+}
 </script>
+
 <style lang="scss" scoped>
+.bg-grid {
+  background-image: linear-gradient(rgba(137, 26, 162, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(137, 26, 162, 0.12) 1px, transparent 1px);
+  background-size: 40px 80px;
+}
+/* =============================
+   PRIMEVUE CARD FIX
+============================= */
+.p-card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+.p-card-body {
+  background-color: inherit;
+}
+
+.p-card-title {
+  color: #0f172a;
+}
+
+.p-card-content {
+  color: #475569;
+}
+.table-core {
+  background-color: white;
+}
+/* DARK MODE */
 .my-app-dark {
-  background-color: #0f172a; // slate-900
-
-  .bg-grid {
-    background-image: linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-color: #020617;
+  .table-core {
+    background-color:  #1e293b;
   }
-
-  /* TEXT */
-  h1,
-  h2,
-  h3,
-  h4 {
-    color: #f1f5f9;
-  }
-
-  p,
-  span,
-  label {
-    color: #cbd5f5;
-  }
-
   /* CARD */
   .p-card {
-    background: #020617;
+    background-color: #020617 !important;
     border: 1px solid #1e293b;
-
-    .p-card-title {
-      color: #f8fafc;
-    }
   }
 
-  /* ALERT */
-  .bg-green-100 {
-    background-color: rgba(34, 197, 94, 0.15);
-    border-color: rgba(34, 197, 94, 0.4);
-    color: #bbf7d0;
+  .p-card-body {
+    background-color: #020617 !important;
+  }
+
+  .p-card-title {
+    color: #f8fafc !important;
+  }
+
+  .p-card-content {
+    color: #cbd5f5 !important;
   }
 
   /* TABLE */
   table {
-    background: #020617;
+    background-color: #020617;
     color: #e5e7eb;
   }
 
   thead {
-    background: #020617;
+    background-color: #020617;
     color: #94a3b8;
   }
-
-  tbody tr {
-    border-color: #1e293b;
-
-    &:hover {
-      background: rgba(148, 163, 184, 0.06);
-    }
+  tbody td{
+    background-color: #020617;
+    color: #ffffff;
   }
 
-  td,
-  th {
-    border-color: #1e293b;
+  tbody tr:hover {
+    background-color: rgba(148, 163, 184, 0.06);
   }
 
   /* INPUT */
   input,
   textarea {
-    background: #020617;
+    background-color: #020617;
     border-color: #334155;
     color: #f8fafc;
-
-    &:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 1px #3b82f6;
-    }
   }
-
-  /* MODAL */
-  .fixed {
-    .bg-white {
-      background: #020617;
-      border: 1px solid #1e293b;
-    }
-  }
-
-  /* BUTTON */
-  .bg-blue-600 {
-    background-color: #2563eb;
-
-    &:hover {
-      background-color: #1d4ed8;
-    }
-  }
-
-  .border-slate-300 {
-    border-color: #334155;
-  }
-
-  .hover\:bg-slate-100:hover {
-    background-color: rgba(148, 163, 184, 0.1);
-  }
-}
-.bg-grid {
-  background-image: linear-gradient(rgba(137, 26, 162, 0.15) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(137, 26, 162, 0.15) 1px, transparent 1px);
-  background-size: 40px 80px;
 }
 </style>

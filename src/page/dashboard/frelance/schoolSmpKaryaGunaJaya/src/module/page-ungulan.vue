@@ -1,288 +1,267 @@
 <template>
-  <div>
-    <Card class="my-4">
-      <template #title> Program Unggulan </template>
+  <!-- INFO CARD -->
+  <Card class="my-4">
+    <template #title> Featured Programs </template>
+    <template #content>
+      <p class="m-0 leading-relaxed text-slate-600">
+        The <b>Featured Programs</b> feature is used to manage the list of the school’s
+        featured programs displayed on the website. Administrators can perform
+        <b>Create, Read, Update, and Delete (CRUD)</b> operations on program data.
+      </p>
+      <p class="mt-3 text-sm text-slate-500">Developed by <b>Ikhsan Adriansyah</b></p>
+    </template>
+  </Card>
 
-      <template #content>
-        <p class="m-0 leading-relaxed text-slate-600">
-          Fitur <b>Program Unggulan</b> digunakan untuk mengelola daftar program unggulan
-          sekolah yang ditampilkan pada website. Melalui fitur ini, admin dapat melakukan
-          proses <b>Create, Read, Update, dan Delete (CRUD)</b> terhadap data program,
-          termasuk pengelolaan gambar, deskripsi, status aktif/nonaktif, serta pengaturan
-          urutan tampilan program.
-        </p>
-
-        <p class="mt-3 text-sm text-slate-500">Development by <b>Ikhsan Adriansyah</b></p>
-      </template>
-    </Card>
-  </div>
   <div class="p-6 space-y-6">
-    <!-- Header -->
+    <!-- HEADER -->
     <div class="flex items-center justify-between">
       <div>
         <h1 class="text-2xl font-bold text-slate-800">Program Unggulan</h1>
         <p class="text-sm text-slate-500">Daftar program unggulan sekolah</p>
       </div>
 
-      <button
-        @click="showDialog = true"
-        class="px-4 py-2 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
-      >
-        Tambah Program
-      </button>
+      <Button
+        label="Tambah Program"
+        icon="pi pi-plus"
+        class="bg-blue-600 border-none"
+        @click="openCreate"
+      />
     </div>
 
-    <!-- Table -->
-    <div class="bg-white rounded-xl shadow overflow-hidden">
-      <table class="w-full text-sm">
-        <thead class="bg-slate-50 text-slate-600">
-          <tr>
-            <th class="px-4 py-3 text-left">No</th>
-            <th class="px-4 py-3 text-left">Judul</th>
-            <th class="px-4 py-3 text-left">Gambar</th>
-            <th class="px-4 py-3 text-left">Status</th>
-            <th class="px-4 py-3 text-left">Urutan</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(item, i) in programs"
-            :key="item.id"
-            class="border-t hover:bg-slate-50"
-          >
-            <td class="px-4 py-3">{{ i + 1 }}</td>
-            <td class="px-4 py-3 font-medium">{{ item.title }}</td>
-            <td class="px-4 py-3">
-              <img :src="item.image" class="w-12 h-12 rounded-md object-cover" />
-            </td>
-            <td class="px-4 py-3">
+    <!-- TABLE -->
+    <Card>
+      <template #content>
+        <DataTable :value="programs" stripedRows responsiveLayout="scroll">
+          <Column header="No">
+            <template #body="{ index }">{{ index + 1 }}</template>
+          </Column>
+
+          <Column field="title" header="Judul" />
+
+          <Column header="Gambar">
+            <template #body="{ data }">
+              <img :src="data.image" class="w-12 h-12 rounded-md object-cover" />
+            </template>
+          </Column>
+
+          <Column header="Status">
+            <template #body="{ data }">
               <span
-                :class="[
-                  'px-3 py-1 rounded-full text-xs font-semibold',
-                  item.status === 'Aktif'
+                class="px-3 py-1 rounded-full text-xs font-semibold"
+                :class="
+                  data.status === 'Aktif'
                     ? 'bg-green-100 text-green-700'
-                    : 'bg-red-100 text-red-700',
-                ]"
+                    : 'bg-red-100 text-red-700'
+                "
               >
-                {{ item.status }}
+                {{ data.status }}
               </span>
-            </td>
-            <td class="px-4 py-3">{{ item.order }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+            </template>
+          </Column>
 
-    <!-- Dialog -->
-    <div v-if="showDialog" class="fixed inset-0 z-50 flex items-center justify-center">
-      <!-- Overlay -->
-      <div class="absolute inset-0 bg-black/40" @click="showDialog = false"></div>
+          <Column field="order" header="Urutan" />
 
-      <!-- Card -->
-      <div class="relative w-full max-w-2xl bg-white rounded-xl shadow-lg p-6">
-        <h2 class="text-xl font-bold mb-6">Tambah Program Unggulan</h2>
+          <Column header="Aksi">
+            <template #body="{ index }">
+              <Button label="Edit" text class="text-blue-600" @click="openEdit(index)" />
+              <Button label="Hapus" text class="text-red-600" @click="askRemove(index)" />
+            </template>
+          </Column>
+        </DataTable>
+      </template>
+    </Card>
+  </div>
 
-        <div class="space-y-4">
-          <!-- Image -->
-          <div>
-            <label class="font-medium text-sm">Gambar Program</label>
-            <input type="file" class="mt-2 block w-full text-sm" />
-            <p class="text-xs text-slate-500 mt-1">PNG, JPG, JPEG (Max. 2MB)</p>
-          </div>
+  <!-- ===== DIALOG ADD / EDIT ===== -->
+  <Dialog
+    v-model:visible="showDialog"
+    modal
+    :header="mode === 'create' ? 'Tambah Program Unggulan' : 'Edit Program Unggulan'"
+    :style="{ width: '40rem' }"
+  >
+    <div class="space-y-4">
+      <!-- IMAGE (DISABLED) -->
+      <div>
+        <label class="text-sm font-medium">Image</label>
+        <input
+          type="text"
+          :value="DEFAULT_IMAGE"
+          disabled
+          class="w-full mt-1 rounded-md border px-3 py-2 bg-slate-100 text-slate-500 cursor-not-allowed"
+        />
+        <p class="text-xs text-slate-500 mt-1">
+          Image is automatically set by the system
+        </p>
+      </div>
 
-          <!-- Title -->
-          <div>
-            <label class="font-medium text-sm">Judul Program</label>
-            <input
-              type="text"
-              class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
-            />
-          </div>
+      <InputText v-model="form.title" placeholder="Judul Program *" class="w-full" />
 
-          <!-- Description -->
-          <div>
-            <label class="font-medium text-sm">Deskripsi Program</label>
-            <textarea
-              rows="4"
-              class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
-            ></textarea>
-          </div>
+      <Textarea
+        v-model="form.description"
+        rows="4"
+        placeholder="Deskripsi Program"
+        class="w-full"
+      />
 
-          <!-- Order -->
-          <div>
-            <label class="font-medium text-sm">Urutan Tampilan</label>
-            <input
-              type="number"
-              class="mt-1 w-full border rounded-md px-3 py-2"
-              value="0"
-            />
-          </div>
+      <InputNumber v-model="form.order" placeholder="Urutan Tampilan" class="w-full" />
 
-          <!-- Status -->
-          <div class="flex items-center gap-6">
-            <label class="flex items-center gap-2">
-              <input type="radio" checked />
-              <span>Aktif</span>
-            </label>
-            <label class="flex items-center gap-2">
-              <input type="radio" />
-              <span>Nonaktif</span>
-            </label>
-          </div>
-        </div>
+      <div class="flex gap-4 items-center">
+        <RadioButton v-model="form.status" value="Aktif" />
+        <label>Aktif</label>
 
-        <!-- Footer -->
-        <div class="flex justify-between items-center mt-6">
-          <button
-            class="px-4 py-2 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700"
-          >
-            Simpan Program
-          </button>
-
-          <button
-            @click="showDialog = false"
-            class="text-slate-500 hover:underline text-sm"
-          >
-            Kembali ke Daftar Program
-          </button>
-        </div>
+        <RadioButton v-model="form.status" value="Nonaktif" />
+        <label>Nonaktif</label>
       </div>
     </div>
-  </div>
+
+    <template #footer>
+      <Button label="Batal" text @click="showDialog = false" />
+      <Button
+        :label="mode === 'create' ? 'Simpan' : 'Update'"
+        class="bg-blue-600 border-none"
+        @click="saveProgram"
+      />
+    </template>
+  </Dialog>
+
+  <!-- ===== DIALOG CONFIRM DELETE ===== -->
+  <Dialog
+    v-model:visible="confirmRemoveDialog"
+    modal
+    header="Confirm Delete"
+    :style="{ width: '25rem' }"
+  >
+    <p>Are you sure you want to delete this program?</p>
+
+    <template #footer>
+      <Button label="Cancel" text @click="confirmRemoveDialog = false" />
+      <Button label="Delete" severity="danger" @click="confirmRemove" />
+    </template>
+  </Dialog>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
+import * as H from "@src/utils/Helper";
+
 import Card from "primevue/card";
+import Button from "primevue/button";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import Dialog from "primevue/dialog";
+import InputText from "primevue/inputtext";
+import Textarea from "primevue/textarea";
+import InputNumber from "primevue/inputnumber";
+import RadioButton from "primevue/radiobutton";
 
-const showDialog = ref(false);
+/* ================= DEFAULT IMAGE ================= */
+const DEFAULT_IMAGE =
+  "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=200&q=80";
 
-// 🔥 10 DATA DUMMY
+/* ================= DATA ================= */
 const programs = ref([
-  {
-    id: 1,
-    title: "Program Tahfidz",
-    image: "https://picsum.photos/100?1",
-    status: "Aktif",
-    order: 1,
-  },
-  {
-    id: 2,
-    title: "Program IT",
-    image: "https://picsum.photos/100?2",
-    status: "Aktif",
-    order: 2,
-  },
-  {
-    id: 3,
-    title: "Bahasa Inggris",
-    image: "https://picsum.photos/100?3",
-    status: "Aktif",
-    order: 3,
-  },
-  {
-    id: 4,
-    title: "Olahraga Prestasi",
-    image: "https://picsum.photos/100?4",
-    status: "Aktif",
-    order: 4,
-  },
-  {
-    id: 5,
-    title: "Karya Ilmiah",
-    image: "https://picsum.photos/100?5",
-    status: "Nonaktif",
-    order: 5,
-  },
-  {
-    id: 6,
-    title: "Robotik",
-    image: "https://picsum.photos/100?6",
-    status: "Aktif",
-    order: 6,
-  },
-  {
-    id: 7,
-    title: "Pramuka",
-    image: "https://picsum.photos/100?7",
-    status: "Aktif",
-    order: 7,
-  },
-  {
-    id: 8,
-    title: "Desain Grafis",
-    image: "https://picsum.photos/100?8",
-    status: "Aktif",
-    order: 8,
-  },
-  {
-    id: 9,
-    title: "Public Speaking",
-    image: "https://picsum.photos/100?9",
-    status: "Nonaktif",
-    order: 9,
-  },
-  {
-    id: 10,
-    title: "Entrepreneur",
-    image: "https://picsum.photos/100?10",
-    status: "Aktif",
-    order: 10,
-  },
+  { id: 1, title: "Program Tahfidz", image: DEFAULT_IMAGE, status: "Aktif", order: 1 },
+  { id: 2, title: "Program IT", image: DEFAULT_IMAGE, status: "Aktif", order: 2 },
+  { id: 3, title: "Bahasa Inggris", image: DEFAULT_IMAGE, status: "Aktif", order: 3 },
 ]);
-</script>
-<style lang="scss" scoped>
-/* =========================
-   DARK MODE – PROGRAM UNGGULAN
-========================= */
-.my-app-dark {
-  background-color: #0f172a; // slate-900
 
-  /* TEXT */
+/* ================= STATE ================= */
+const showDialog = ref(false);
+const confirmRemoveDialog = ref(false);
+const mode = ref<"create" | "edit">("create");
+const editIndex = ref<number | null>(null);
+const removeIndex = ref<number | null>(null);
+
+/* ================= FORM ================= */
+const form = ref({
+  title: "",
+  description: "",
+  image: DEFAULT_IMAGE,
+  status: "Aktif",
+  order: 0,
+});
+
+/* ================= METHODS ================= */
+function openCreate() {
+  mode.value = "create";
+  resetForm();
+  showDialog.value = true;
+}
+
+function openEdit(index: number) {
+  mode.value = "edit";
+  editIndex.value = index;
+  form.value = { ...programs.value[index] };
+  showDialog.value = true;
+}
+
+function saveProgram() {
+  if (!form.value.title) {
+    H.alert("warning", "Judul program wajib diisi", "warning");
+    return;
+  }
+
+  const payload = { ...form.value, image: DEFAULT_IMAGE };
+
+  if (mode.value === "create") {
+    programs.value.push({ ...payload, id: Date.now() });
+    H.alert("success", "Program berhasil ditambahkan", "success");
+  } else if (editIndex.value !== null) {
+    programs.value[editIndex.value] = payload;
+    H.alert("success", "Program berhasil diperbarui", "success");
+  }
+
+  showDialog.value = false;
+  resetForm();
+}
+
+function askRemove(index: number) {
+  removeIndex.value = index;
+  confirmRemoveDialog.value = true;
+}
+
+function confirmRemove() {
+  if (removeIndex.value !== null) {
+    programs.value.splice(removeIndex.value, 1);
+    H.alert("success", "Program berhasil dihapus", "success");
+  }
+  confirmRemoveDialog.value = false;
+  removeIndex.value = null;
+}
+
+function resetForm() {
+  form.value = {
+    title: "",
+    description: "",
+    image: DEFAULT_IMAGE,
+    status: "Aktif",
+    order: 0,
+  };
+}
+</script>
+
+<style scoped lang="scss">
+.my-app-dark {
+  background-color: #0f172a;
+
   h1,
-  h2,
-  h3 {
+  h2 {
     color: #f8fafc;
   }
 
-  p,
-  span,
-  label {
-    color: #cbd5e1;
-  }
-
-  /* CARD */
-  .p-card,
-  .bg-white {
-    background-color: #020617;
-    border: 1px solid #1e293b;
-  }
-
-  /* TABLE */
-  table {
-    background-color: #020617;
+  table,
+  .p-card {
+    background: #020617;
     color: #e5e7eb;
   }
 
-  thead {
-    background-color: #020617;
-    color: #94a3b8;
+  input,
+  textarea {
+    background: #020617;
+    border-color: #334155;
+    color: #f8fafc;
   }
 
-  tbody tr {
-    border-color: #1e293b;
-
-    &:hover {
-      background-color: rgba(148, 163, 184, 0.08);
-    }
-  }
-
-  th,
-  td {
-    border-color: #1e293b;
-  }
-
-  /* STATUS BADGE */
   .bg-green-100 {
     background-color: rgba(34, 197, 94, 0.15);
     color: #86efac;
@@ -291,41 +270,6 @@ const programs = ref([
   .bg-red-100 {
     background-color: rgba(239, 68, 68, 0.15);
     color: #fca5a5;
-  }
-
-  /* INPUT & TEXTAREA */
-  input,
-  textarea {
-    background-color: #020617;
-    border-color: #334155;
-    color: #f8fafc;
-
-    &:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 1px #3b82f6;
-    }
-  }
-
-  /* MODAL */
-  .fixed {
-    .bg-white {
-      background-color: #020617;
-      border: 1px solid #1e293b;
-    }
-  }
-
-  /* BUTTON */
-  .bg-blue-600 {
-    background-color: #2563eb;
-
-    &:hover {
-      background-color: #1d4ed8;
-    }
-  }
-
-  /* OVERLAY */
-  .bg-black\/40 {
-    background-color: rgba(0, 0, 0, 0.7);
   }
 }
 </style>

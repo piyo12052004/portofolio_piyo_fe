@@ -28,71 +28,63 @@
       </div>
 
       <!-- ================= RIGHT : DETAIL ================= -->
-      <div
-        class="rounded-xl shadow p-6 space-y-4 bg-white  ring-1 ring-black/5 "
-      >
+      <div class="rounded-xl shadow p-6 space-y-4 bg-white ring-1 ring-black/5">
         <div class="flex items-center justify-between">
-          <h2 class="text-2xl font-bold text-slate-900 ">
-            Landing Page
-          </h2>
+          <h2 class="text-2xl font-bold text-slate-900">Landing Page</h2>
 
-          <span class="text-xs text-slate-500 ">
+          <span class="text-xs text-slate-500">
             Developed by
-            <span class="font-medium text-slate-700 ">
-              Ikhsan Adriansyah
-            </span>
+            <span class="font-medium text-slate-700"> Ikhsan Adriansyah </span>
           </span>
         </div>
 
-        <p class="leading-relaxed text-slate-600 ">
-          Landing Page ini dikembangkan menggunakan
-          <span class="font-semibold text-slate-500 ">
-            Tailwind CSS
-          </span>
-          dengan pendekatan modern, responsif, dan berorientasi pada performa. Seluruh
-          konten yang ditampilkan bersifat
-          <span class="font-semibold text-slate-500 "> dinamis </span>
-          serta terintegrasi langsung dengan
-          <span class="font-semibold text-slate-500 "> database </span
-          >.
+        <p class="leading-relaxed text-slate-600">
+          This landing page was developed using
+          <span class="font-semibold text-slate-500">Tailwind CSS</span>
+          with a modern, performance-oriented approach. All displayed content is
+          <span class="font-semibold text-slate-500">dynamic</span>
+          and fully integrated with the
+          <span class="font-semibold text-slate-500">database</span>.
         </p>
 
         <ul class="space-y-3 text-sm">
-          <li class="flex gap-2 text-slate-700 ">
-            <span class="text-blue-600 ">•</span>
+          <li class="flex gap-2 text-slate-700">
+            <span class="text-blue-600">•</span>
             <span>
-              <b>Program Beasiswa</b> ditampilkan secara dinamis dan dikelola langsung
-              melalui database.
+              <b>Scholarship Programs</b> are dynamically displayed and managed directly
+              through the database.
             </span>
           </li>
 
-          <li class="flex gap-2 text-slate-700 ">
-            <span class="text-blue-600 ">•</span>
+          <li class="flex gap-2 text-slate-700">
+            <span class="text-blue-600">•</span>
             <span>
-              <b>Fasilitas Sekolah</b> diklasifikasikan ke dalam kategori Akademik,
-              Olahraga, Teknologi, dan Penunjang.
+              <b>School Facilities</b> are categorized into Academic, Sports, Technology,
+              and Supporting facilities.
             </span>
           </li>
 
-          <li class="flex gap-2 text-slate-700 ">
-            <span class="text-blue-600 ">•</span>
+          <li class="flex gap-2 text-slate-700">
+            <span class="text-blue-600">•</span>
             <span>
-              <b>Berita & Kegiatan</b> disajikan dalam format artikel dan dapat diakses
-              pada halaman detail.
+              <b>News & Activities</b> are presented in an article format and can be
+              accessed via detailed pages.
             </span>
           </li>
 
-          <li class="flex gap-2 text-slate-700 ">
-            <span class="text-blue-600 ">•</span>
+          <li class="flex gap-2 text-slate-700">
+            <span class="text-blue-600">•</span>
             <span>
-              <b>Galeri Sekolah</b> menampilkan dokumentasi kegiatan dari database.
+              <b>School Gallery</b> showcases activity documentation retrieved from the
+              database.
             </span>
           </li>
 
-          <li class="flex gap-2 text-slate-700 ">
-            <span class="text-blue-600 ">•</span>
+          <li class="flex gap-2 text-slate-700">
+            <span class="text-blue-600">•</span>
             <span>
-              <b>Lokasi Sekolah</b> terintegrasi dengan peta untuk memudahkan akses.
+              <b>School Location</b> is integrated with an interactive map for easy
+              access.
             </span>
           </li>
         </ul>

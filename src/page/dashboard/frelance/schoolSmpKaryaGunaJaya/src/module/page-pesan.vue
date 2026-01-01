@@ -1,22 +1,22 @@
 <template>
   <Card class="my-4">
-    <template #title> Pesan </template>
+    <template #title> Messages </template>
 
     <template #content>
       <p class="m-0 leading-relaxed text-slate-600">
-        Fitur <b>Pesan</b> digunakan untuk mengelola pesan, kritik, dan saran yang
-        dikirimkan oleh pengguna melalui website sekolah. Melalui fitur ini, admin dapat
-        melihat detail pesan, membaca isi pesan, serta memberikan
-        <b>balasan langsung</b> sebagai bentuk respon resmi dari pihak sekolah.
+        The <b>Messages</b> feature is used to manage messages, feedback, and suggestions
+        submitted by users through the school website. Through this feature,
+        administrators can view message details, read message content, and provide
+        <b>direct replies</b> as an official response from the school.
       </p>
 
       <p class="mt-2 leading-relaxed text-slate-600">
-        Setiap pesan akan tersimpan di dalam <b>database</b> dan dilengkapi dengan
-        informasi pengirim seperti nama, email, subjek, serta status apakah pesan sudah
-        dibalas atau belum, sehingga memudahkan proses monitoring dan tindak lanjut.
+        Each message is stored in the <b>database</b> and includes sender information such
+        as name, email, subject, and reply status, making it easier to monitor and follow
+        up on communications.
       </p>
 
-      <p class="mt-3 text-sm text-slate-500">Development by <b>Piyo Aswandi</b></p>
+      <p class="mt-3 text-sm text-slate-500">Developed by <b>Piyo Aswandi</b></p>
     </template>
   </Card>
 

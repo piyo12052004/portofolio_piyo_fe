@@ -1,17 +1,14 @@
 <template>
+  <!-- INFO CARD -->
   <Card class="my-4">
-    <template #title> Pengguna </template>
-
+    <template #title> Users </template>
     <template #content>
       <p class="m-0 leading-relaxed text-slate-600">
-        Fitur <b>Pengguna</b> digunakan untuk mengelola data akun pengguna yang memiliki
-        akses ke sistem. Melalui fitur ini, admin dapat melakukan proses
-        <b>Create, Read, Update, dan Delete (CRUD)</b> terhadap data pengguna, termasuk
-        pengaturan foto profil, username, email, role pengguna, status aktif/nonaktif,
-        serta verifikasi akun.
+        The <b>Users</b> feature is used to manage user account data with access to the
+        system. Administrators can perform
+        <b>Create, Read, Update, and Delete (CRUD)</b> operations on user data.
       </p>
-
-      <p class="mt-3 text-sm text-slate-500">Development by <b>Ikhsan Adriansyah</b></p>
+      <p class="mt-3 text-sm text-slate-500">Developed by <b>Ikhsan Adriansyah</b></p>
     </template>
   </Card>
 
@@ -24,7 +21,7 @@
         label="Tambah Pengguna"
         icon="pi pi-plus"
         class="bg-blue-600 border-none"
-        @click="showDialog = true"
+        @click="openCreate"
       />
     </div>
 
@@ -60,77 +57,87 @@
           </Column>
 
           <Column header="Aksi">
-            <template #body>
-              <Button label="Edit" text class="text-blue-600" />
-              <Button label="Hapus" text class="text-red-600" />
+            <template #body="{ index }">
+              <Button label="Edit" text class="text-blue-600" @click="openEdit(index)" />
+              <Button label="Hapus" text class="text-red-600" @click="askRemove(index)" />
             </template>
           </Column>
         </DataTable>
       </template>
     </Card>
-
-    <!-- DIALOG TAMBAH PENGGUNA -->
-    <Dialog
-      v-model:visible="showDialog"
-      modal
-      header="Tambah Pengguna Baru"
-      :style="{ width: '600px' }"
-    >
-      <div class="space-y-4">
-        <!-- FOTO -->
-        <div class="flex gap-4 items-center">
-          <div class="avatar">?</div>
-          <div>
-            <input type="file" />
-            <p class="text-xs text-slate-500">PNG, JPG, JPEG (Max 2MB)</p>
-          </div>
-        </div>
-
-        <!-- INPUT -->
-        <InputText v-model="form.name" placeholder="Nama Lengkap" class="w-full" />
-        <InputText v-model="form.username" placeholder="Username" class="w-full" />
-        <InputText v-model="form.email" placeholder="Email" class="w-full" />
-
-        <Password v-model="form.password" toggleMask placeholder="Password" />
-        <Password
-          v-model="form.password_confirmation"
-          toggleMask
-          placeholder="Konfirmasi Password"
-        />
-
-        <Dropdown
-          v-model="form.role"
-          :options="roles"
-          placeholder="Pilih Role"
-          class="w-full"
-        />
-
-        <!-- STATUS -->
-        <div class="flex gap-4">
-          <RadioButton v-model="form.status" value="Aktif" />
-          <label>Aktif</label>
-
-          <RadioButton v-model="form.status" value="Nonaktif" />
-          <label>Nonaktif</label>
-        </div>
-
-        <!-- ACTION -->
-        <div class="flex justify-between items-center mt-4">
-          <Button
-            label="Simpan Pengguna"
-            class="bg-blue-600 border-none"
-            @click="saveUser"
-          />
-
-          <Button label="Kembali" text @click="showDialog = false" />
-        </div>
-      </div>
-    </Dialog>
   </div>
+
+  <!-- ===== DIALOG ADD / EDIT ===== -->
+  <Dialog
+    v-model:visible="showDialog"
+    modal
+    :header="mode === 'create' ? 'Tambah Pengguna' : 'Edit Pengguna'"
+    :style="{ width: '600px' }"
+  >
+    <div class="space-y-4">
+      <!-- FOTO (dummy) -->
+      <div class="flex gap-4 items-center">
+        <div class="avatar">?</div>
+        <p class="text-xs text-slate-500">Profile photo handled by system</p>
+      </div>
+
+      <InputText v-model="form.name" placeholder="Nama Lengkap *" class="w-full" />
+      <InputText v-model="form.username" placeholder="Username *" class="w-full" />
+      <InputText v-model="form.email" placeholder="Email *" class="w-full" />
+
+      <Password
+        v-if="mode === 'create'"
+        v-model="form.password"
+        toggleMask
+        placeholder="Password *"
+      />
+
+      <Dropdown
+        v-model="form.role"
+        :options="roles"
+        placeholder="Pilih Role *"
+        class="w-full"
+      />
+
+      <div class="flex gap-4 items-center">
+        <RadioButton v-model="form.status" value="Aktif" />
+        <label>Aktif</label>
+
+        <RadioButton v-model="form.status" value="Nonaktif" />
+        <label>Nonaktif</label>
+      </div>
+    </div>
+
+    <template #footer>
+      <Button label="Batal" text @click="showDialog = false" />
+      <Button
+        :label="mode === 'create' ? 'Simpan' : 'Update'"
+        class="bg-blue-600 border-none"
+        @click="saveUser"
+      />
+    </template>
+  </Dialog>
+
+  <!-- ===== DIALOG CONFIRM DELETE ===== -->
+  <Dialog
+    v-model:visible="confirmRemoveDialog"
+    modal
+    header="Confirm Delete"
+    :style="{ width: '25rem' }"
+  >
+    <p>Are you sure you want to delete this user?</p>
+
+    <template #footer>
+      <Button label="Cancel" text @click="confirmRemoveDialog = false" />
+      <Button label="Delete" severity="danger" @click="confirmRemove" />
+    </template>
+  </Dialog>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
+import * as H from "@src/utils/Helper";
+
 import Button from "primevue/button";
 import Card from "primevue/card";
 import DataTable from "primevue/datatable";
@@ -141,7 +148,7 @@ import Password from "primevue/password";
 import Dropdown from "primevue/dropdown";
 import RadioButton from "primevue/radiobutton";
 
-/* ================= SAMPLE DATA ================= */
+/* ================= DATA ================= */
 const users = ref([
   {
     name: "Super Admin",
@@ -159,99 +166,94 @@ const users = ref([
     status: "Aktif",
     verify: "Aktif",
   },
-  {
-    name: "Admin 2",
-    username: "admin2",
-    email: "admin2@gmail.com",
-    role: "Admin",
-    status: "Aktif",
-    verify: "Aktif",
-  },
-  {
-    name: "User 1",
-    username: "user1",
-    email: "user1@gmail.com",
-    role: "User",
-    status: "Aktif",
-    verify: "Aktif",
-  },
-  {
-    name: "User 2",
-    username: "user2",
-    email: "user2@gmail.com",
-    role: "User",
-    status: "Aktif",
-    verify: "Aktif",
-  },
-  {
-    name: "User 3",
-    username: "user3",
-    email: "user3@gmail.com",
-    role: "User",
-    status: "Nonaktif",
-    verify: "Aktif",
-  },
-  {
-    name: "User 4",
-    username: "user4",
-    email: "user4@gmail.com",
-    role: "User",
-    status: "Aktif",
-    verify: "Aktif",
-  },
-  {
-    name: "User 5",
-    username: "user5",
-    email: "user5@gmail.com",
-    role: "User",
-    status: "Aktif",
-    verify: "Aktif",
-  },
-  {
-    name: "User 6",
-    username: "user6",
-    email: "user6@gmail.com",
-    role: "User",
-    status: "Nonaktif",
-    verify: "Aktif",
-  },
-  {
-    name: "User 7",
-    username: "user7",
-    email: "user7@gmail.com",
-    role: "User",
-    status: "Aktif",
-    verify: "Aktif",
-  },
 ]);
-
-/* ================= DIALOG ================= */
-const showDialog = ref(false);
 
 const roles = ["Superadmin", "Admin", "User"];
 
+/* ================= DIALOG STATE ================= */
+const showDialog = ref(false);
+const confirmRemoveDialog = ref(false);
+const mode = ref<"create" | "edit">("create");
+const editIndex = ref<number | null>(null);
+const removeIndex = ref<number | null>(null);
+
+/* ================= FORM ================= */
 const form = ref({
   name: "",
   username: "",
   email: "",
   password: "",
-  password_confirmation: "",
   role: "",
   status: "Aktif",
 });
 
-const saveUser = () => {
-  users.value.push({
-    name: form.value.name,
-    username: form.value.username,
-    email: form.value.email,
-    role: form.value.role,
-    status: form.value.status,
-    verify: "Aktif",
-  });
+/* ================= METHODS ================= */
+function openCreate() {
+  mode.value = "create";
+  resetForm();
+  showDialog.value = true;
+}
+
+function openEdit(index: number) {
+  mode.value = "edit";
+  editIndex.value = index;
+  form.value = { ...users.value[index], password: "" };
+  showDialog.value = true;
+}
+
+function saveUser() {
+  if (!form.value.name || !form.value.username || !form.value.email || !form.value.role) {
+    H.alert("warning", "Please complete all required fields", "warning");
+    return;
+  }
+
+  if (mode.value === "create") {
+    users.value.push({
+      name: form.value.name,
+      username: form.value.username,
+      email: form.value.email,
+      role: form.value.role,
+      status: form.value.status,
+      verify: "Aktif",
+    });
+    H.alert("success", "User successfully added", "success");
+  } else if (editIndex.value !== null) {
+    users.value[editIndex.value] = {
+      ...users.value[editIndex.value],
+      ...form.value,
+      verify: "Aktif",
+    };
+    H.alert("success", "User successfully updated", "success");
+  }
 
   showDialog.value = false;
-};
+  resetForm();
+}
+
+function askRemove(index: number) {
+  removeIndex.value = index;
+  confirmRemoveDialog.value = true;
+}
+
+function confirmRemove() {
+  if (removeIndex.value !== null) {
+    users.value.splice(removeIndex.value, 1);
+    H.alert("success", "User successfully deleted", "success");
+  }
+  confirmRemoveDialog.value = false;
+  removeIndex.value = null;
+}
+
+function resetForm() {
+  form.value = {
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+    role: "",
+    status: "Aktif",
+  };
+}
 </script>
 
 <style scoped lang="scss">

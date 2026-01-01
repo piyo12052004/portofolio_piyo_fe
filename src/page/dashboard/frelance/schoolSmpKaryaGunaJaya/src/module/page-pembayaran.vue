@@ -1,24 +1,24 @@
 <template>
   <Card class="my-4">
-    <template #title> Pembayaran PPDB </template>
+    <template #title> PPDB Payment </template>
 
     <template #content>
       <p class="m-0 leading-relaxed text-slate-600">
-        Fitur <b>Pembayaran PPDB</b> digunakan untuk mengelola proses pembayaran
-        pendaftaran peserta didik baru secara
-        <b>online dan terintegrasi dengan Midtrans</b>. Melalui fitur ini, calon siswa
-        dapat melakukan pembayaran formulir PPDB dengan aman menggunakan berbagai metode
-        pembayaran seperti <b>Transfer Bank, E-Wallet, QRIS, dan Virtual Account</b>.
+        The <b>PPDB Payment</b> feature is designed to manage the online payment process
+        for new student admissions and is <b>integrated with Midtrans</b>. Through this
+        feature, prospective students can securely pay the PPDB registration form fee
+        using various payment methods such as
+        <b>Bank Transfer, E-Wallets, QRIS, and Virtual Accounts</b>.
       </p>
 
       <p class="mt-2 leading-relaxed text-slate-600">
-        Sistem ini mendukung pencatatan status pembayaran secara real-time (<b
-          >Pending, Berhasil, atau Gagal</b
-        >), serta terhubung langsung dengan database untuk memastikan validasi pembayaran
-        sebelum proses pendaftaran dilanjutkan.
+        This system supports real-time payment status tracking (<b
+          >Pending, Successful, or Failed</b
+        >) and is directly connected to the database to ensure payment validation before
+        the registration process continues.
       </p>
 
-      <p class="mt-3 text-sm text-slate-500">Development by <b>Piyo Aswandi</b></p>
+      <p class="mt-3 text-sm text-slate-500">Developed by <b>Piyo Aswandi</b></p>
     </template>
   </Card>
 

@@ -6,17 +6,15 @@
 
         <template #content>
           <p class="m-0 leading-relaxed text-slate-600">
-            Dashboard ini berfungsi untuk menampilkan ringkasan data utama sistem,
-            meliputi
-            <b>Total Berita</b>, <b>Total Galeri</b>, <b>Total Pengguna</b>, dan
-            <b>Total Siswa</b>. Seluruh data ditampilkan secara <b>dinamis</b> dan diambil
-            langsung dari <b>database</b> untuk memastikan informasi selalu akurat dan
-            terkini.
+            This dashboard is designed to display a summary of the system’s core data,
+            including
+            <b>Total News</b>, <b>Total Galleries</b>, <b>Total Users</b>, and
+            <b>Total Students</b>. All data is displayed <b>dynamically</b> and retrieved
+            directly from the <b>database</b> to ensure the information remains accurate
+            and up to date.
           </p>
 
-          <p class="mt-3 text-sm text-slate-500">
-            Development by <b>Ikhsan Adriansyah</b>
-          </p>
+          <p class="mt-3 text-sm text-slate-500">Developed by <b>Ikhsan Adriansyah</b></p>
         </template>
       </Card>
     </div>
@@ -101,7 +99,6 @@ import Card from "primevue/card";
       linear-gradient(90deg, rgba(137, 26, 162, 0.15) 1px, transparent 1px);
     background-size: 40px 80px;
   }
-
 }
 .bg-grid {
   background-image: linear-gradient(rgba(137, 26, 162, 0.15) 1px, transparent 1px),
