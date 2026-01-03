@@ -6,12 +6,8 @@
 
     <div class="right-side">
       <div class="top-action">
-        <Button
-          :icon="isDark ? 'pi pi-moon' : 'pi pi-sun'"
-          class="p-button-sm"
-          variant="outlined"
-          @click="toggleDarkMode"
-        />
+        <Button :icon="isDark ? 'pi pi-moon' : 'pi pi-sun'" class="p-button-sm" variant="outlined"
+          @click="toggleDarkMode" />
       </div>
 
       <div class="logo-box">
@@ -28,13 +24,7 @@
 
         <IconField class="p-input-icon-left input-box">
           <InputIcon class="pi pi-lock" />
-          <Password
-            v-model="form.password"
-            toggleMask
-            :feedback="false"
-            placeholder="Password"
-            style="width: 100%"
-          />
+          <Password v-model="form.password" toggleMask :feedback="false" placeholder="Password" style="width: 100%" />
         </IconField>
 
         <div class="bottom-options">
@@ -46,13 +36,7 @@
           <a class="forgot-link" @click="goToSignUp">Sign Up?</a>
         </div>
 
-        <Button
-          label="Login"
-          @click="toggelForLogin"
-          icon="pi pi-arrow-right"
-          iconPos="right"
-          class="confirm-btn"
-        />
+        <Button label="Login" @click="toggelForLogin" icon="pi pi-arrow-right" iconPos="right" class="confirm-btn" />
         <div class="bottom-options">
           <div class="remember-wrap"></div>
 
@@ -63,7 +47,9 @@
               <img src="@src/assets/img/google-logo.svg" class="google-icon" />
               <span>Continue with Google</span>
             </Button> -->
-            <div id="googleBtn"></div>
+            <div class="google-btn-wrapper">
+              <div id="googleBtn"></div>
+            </div>
 
             <!-- Tombol GitHub -->
             <!-- <Button severity="secondary" class="github-btn" @click="loginWithGithub"> -->
@@ -110,7 +96,7 @@ function toggleDarkMode() {
 
 async function toggelForLogin() {
   if (form.value.email == "" || form.value.password == "") {
-    toaster.warning("Email and password cannot be empty",'warning');
+    toaster.warning("Email and password cannot be empty", 'warning');
     return;
   }
   let prePare = {
@@ -164,4 +150,21 @@ onMounted(() => {
 
 <style lang="scss">
 @use "@src/assets/scss/login.scss";
+
+.google-btn-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  /* 🔥 PERBESAR TOMBOL SECARA VISUAL */
+  transform: scale(1.15);
+  transform-origin: center;
+}
+
+/* optional: responsive */
+@media (max-width: 768px) {
+  .google-btn-wrapper {
+    transform: scale(1.05);
+  }
+}
 </style>

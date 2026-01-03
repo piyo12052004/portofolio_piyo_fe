@@ -46,7 +46,7 @@ export async function initGoogleLogin() {
         window.google.accounts.id.renderButton(el, {
             type: "standard",
             theme: "outline",
-            size: "large",
+            size: "large", // MAX
             width: 420,
             shape: "pill",
         });
