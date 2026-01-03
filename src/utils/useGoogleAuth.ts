@@ -42,16 +42,13 @@ export async function initGoogleLogin() {
     });
 
     const el = document.getElementById("googleBtn");
-    const loginBtn:any = document.getElementById("loginBtn");
     if (el) {
-        const width = loginBtn.offsetWidth;
         window.google.accounts.id.renderButton(el, {
             type: "standard",
             theme: "outline",
-            // size: "large",
-            width, 
+            size: "large",
+            width:90000,
             shape: "pill",
-            
         });
     }
 
