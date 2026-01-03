@@ -63,7 +63,9 @@
               <img src="@src/assets/img/google-logo.svg" class="google-icon" />
               <span>Continue with Google</span>
             </Button> -->
-            <div id="googleBtn"></div>
+            <div class="w-full mx-auto">
+              <div id="googleBtn"></div>
+            </div>
 
             <!-- Tombol GitHub -->
             <!-- <Button severity="secondary" class="github-btn" @click="loginWithGithub"> -->

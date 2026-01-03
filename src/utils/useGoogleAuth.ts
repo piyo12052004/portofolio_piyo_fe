@@ -46,9 +46,9 @@ export async function initGoogleLogin() {
         window.google.accounts.id.renderButton(el, {
             type: "standard",
             theme: "outline",
-            size: "large",
+            // size: "large",
             shape: "pill",
-            width: "100%",
+            
         });
     }
 
