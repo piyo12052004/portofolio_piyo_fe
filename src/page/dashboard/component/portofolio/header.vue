@@ -11,7 +11,7 @@ import router from "@src/route";
 
 const show = ref(false);
 
-const session = JSON.parse(localStorage.getItem("user_session"));
+const session = JSON.parse(localStorage.getItem("user_session") || "null");
 onMounted(async () => {
   show.value = false; // reset animasi
   await nextTick(); // tunggu elemen render

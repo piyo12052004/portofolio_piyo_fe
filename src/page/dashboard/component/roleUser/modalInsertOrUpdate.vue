@@ -52,16 +52,16 @@ const props = withDefaults(
 const emit = defineEmits<{
   (e: "insertOrUpdate", value: string): void;
   (e: "cencelFunctionSave"): void;
-  (e: "refresh"): void;
+  (e: "refresh",value:any): void;
 }>();
 
 // STATE
-const nama = ref(null);
+const nama:any = ref(null);
 
 // FUNCTION
 function submitForm() {
   emit("insertOrUpdate", nama.value);
-  emit("refresh");
+  emit("refresh",'');
 }
 function cencelFunctionSave() {
   emit("cencelFunctionSave");

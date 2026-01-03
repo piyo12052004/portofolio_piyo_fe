@@ -213,7 +213,7 @@ const is_verifikasi_remove = ref(false);
 const removeIndex = ref<number | null>(null);
 
 /* FORM */
-const form = ref({
+const form:any = ref({
   judul: "",
   deskripsi: "",
   gambar: DEFAULT_IMAGE,

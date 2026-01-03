@@ -159,7 +159,7 @@ const DEFAULT_IMAGE =
   "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=200&q=80";
 
 /* ================= DATA ================= */
-const programs = ref([
+const programs:any = ref([
   { id: 1, title: "Program Tahfidz", image: DEFAULT_IMAGE, status: "Aktif", order: 1 },
   { id: 2, title: "Program IT", image: DEFAULT_IMAGE, status: "Aktif", order: 2 },
   { id: 3, title: "Bahasa Inggris", image: DEFAULT_IMAGE, status: "Aktif", order: 3 },
@@ -173,7 +173,7 @@ const editIndex = ref<number | null>(null);
 const removeIndex = ref<number | null>(null);
 
 /* ================= FORM ================= */
-const form = ref({
+const form:any = ref({
   title: "",
   description: "",
   image: DEFAULT_IMAGE,

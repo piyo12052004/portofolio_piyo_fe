@@ -240,7 +240,7 @@ function toggleHobby(isSelected: boolean, value: number) {
       form.value.hobby.push(value);
     }
   } else {
-    form.value.hobby = form.value.hobby.filter((h) => h !== value);
+    form.value.hobby = form.value.hobby.filter((h:any) => h !== value);
   }
 }
 
@@ -282,7 +282,7 @@ async function submitForm() {
     return;
   }
   try {
-    const res = await useApi().post("/save-data-registrasi", form.value);
+    await useApi().post("/save-data-registrasi", form.value);
     window.location.href = "/auth-login";
   } catch (err: any) {
     const status = err?.response?.status;

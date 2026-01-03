@@ -182,7 +182,7 @@ const editIndex = ref<number | null>(null);
 const removeIndex = ref<number | null>(null);
 
 /* FORM */
-const form = ref({
+const form:any = ref({
   nama: "",
   kategori: "Akademik",
   deskripsi: "",

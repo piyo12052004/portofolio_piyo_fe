@@ -66,7 +66,7 @@
   </section>
 </template>
 <script lang="ts" setup>
-import Vue from "vue";
+// import Vue from "vue";
 import Card from "primevue/card";
 </script>
 <style scoped lang="scss">

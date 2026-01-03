@@ -28,7 +28,7 @@ const is_notifikasi_expayert_token = ref(false);
 const is_verifikasi_token: any = ref(false);
 const is_nulable_token: any = ref(false);
 
-const dialogMessage = ref("");
+const dialogMessage:any = ref("");
 const verifyTokenForm = ref<{ token?: string }>({});
 const dialogClosedBy = ref<"verify" | "cancel" | null>(null);
 
@@ -102,13 +102,13 @@ function checkKgjAccessToken() {
 /* =============================
      LOAD ROUTES
   ============================= */
-const loadRoutes = async () => {
-  try {
-    await useApi().get("admin/karya-guna-jaya/get-path");
-  } catch {
-    H.alert("error", "Failed to fetch data from the server.");
-  }
-};
+// const loadRoutes = async () => {
+//   try {
+//     await useApi().get("admin/karya-guna-jaya/get-path");
+//   } catch {
+//     H.alert("error", "Failed to fetch data from the server.");
+//   }
+// };
 
 /* =============================
      ON MOUNT
@@ -158,7 +158,7 @@ async function verifyToken() {
   }
   try {
     dialogClosedBy.value = "verify";
-    const result = await useApi().put(
+    await useApi().put(
       "/profile/token/verfikasi-acces-token-karya-guna-jaya",
       {
         token: verifyTokenForm.value.token,

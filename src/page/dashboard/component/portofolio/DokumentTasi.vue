@@ -175,7 +175,7 @@ import Button from "primevue/button";
 
 const confirm = useConfirm();
 // session
-const session = JSON.parse(localStorage.getItem("user_session"));
+const session = JSON.parse(localStorage.getItem("user_session") || "null");
 // state
 const setAnimation = ref(false);
 const isDarkMode = ref(false);

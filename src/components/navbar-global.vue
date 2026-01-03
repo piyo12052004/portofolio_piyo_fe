@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 import Button from "primevue/button";
-import OverlayPanel from "primevue/overlaypanel";
+// import OverlayPanel from "primevue/overlaypanel";
 import Popover from "primevue/popover";
 import Tabs from "primevue/tabs";
 import TabList from "primevue/tablist";
@@ -29,8 +29,8 @@ import { useSessionStore } from "@src/utils/usersSesion";
 //
 //
 const sessionStore = useSessionStore();
-const sessionPinia = computed(() => sessionStore.session);
-const tokens = computed(() => sessionStore.accessTokens);
+// const sessionPinia = computed(() => sessionStore.session);
+// const tokens = computed(() => sessionStore.accessTokens);
 const session = JSON.parse(localStorage.getItem("user_session") || "null");
 
 const collectionPath = ref<any[]>([]);
@@ -39,7 +39,7 @@ const popUpNotifikasi = ref();
 const activeDropdown = ref<number | null>(null);
 
 const toaster = useToaster();
-const profilePanel = ref<OverlayPanel | null>(null);
+const profilePanel = ref<any>(null);
 
 let hideTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -95,8 +95,8 @@ const toggleDarkMode = () => {
   ========================= */
 const goToLogin = () => router.push("/auth-login");
 
-const toggleProfile = (e: Event) => {
-  profilePanel.value?.toggle(e);
+const toggleProfile = (event: Event) => {
+  profilePanel.value?.toggle(event);
 };
 
 const goProfile = () => {
@@ -145,20 +145,20 @@ const openLink = (url: string) => {
   window.open(url, "_blank", "noopener,noreferrer");
 };
 
-const toggleNotifikasi = (event) => {
+const toggleNotifikasi = (event:any) => {
   popUpNotifikasi.value.toggle(event);
 };
 
-function isToday(dateString: string) {
-  const today = new Date();
-  const date = new Date(dateString);
+// function isToday(dateString: string) {
+//   const today = new Date();
+//   const date = new Date(dateString);
 
-  return (
-    date.getDate() === today.getDate() &&
-    date.getMonth() === today.getMonth() &&
-    date.getFullYear() === today.getFullYear()
-  );
-}
+//   return (
+//     date.getDate() === today.getDate() &&
+//     date.getMonth() === today.getMonth() &&
+//     date.getFullYear() === today.getFullYear()
+//   );
+// }
 
 const initialName = computed(() => {
   return sessionStore.accessTokens.map((item: any) => {
@@ -282,7 +282,7 @@ onMounted(loadRoutes);
       </div>
 
       <!-- PROFILE MENU -->
-      <OverlayPanel ref="profilePanel" class="profile-menu">
+      <Popover ref="profilePanel" class="profile-menu">
         <div class="profile-header">
           <div class="avatar">
             {{ session?.nama_lengkap?.charAt(0) }}
@@ -309,7 +309,7 @@ onMounted(loadRoutes);
         <div class="divider" />
 
         <div class="item logout" @click="logout"><i class="pi pi-sign-out" /> Logout</div>
-      </OverlayPanel>
+      </Popover>
 
       <Popover ref="popUpNotifikasi">
         <div class="w-[320px] max-h-[420px] overflow-y-auto">

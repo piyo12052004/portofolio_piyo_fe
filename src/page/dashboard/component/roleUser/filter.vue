@@ -52,10 +52,10 @@ const emit = defineEmits<{
 
 const form:any = ref({});
 
-const listPegawai = ref([
-  { label: "Pegawai A", value: 1 },
-  { label: "Pegawai B", value: 2 },
-]);
+// const listPegawai = ref([
+//   { label: "Pegawai A", value: 1 },
+//   { label: "Pegawai B", value: 2 },
+// ]);
 
 function toggelForInsertData(){
     emit('insertData','Created')

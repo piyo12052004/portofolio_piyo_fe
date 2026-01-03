@@ -5,7 +5,7 @@ import Avatar from "primevue/avatar";
 import Button from "primevue/button";
 
 import Profile from "../component/profile/profile.vue";
-import TokenDashParking from "../component/profile/tokenDashParking.vue";
+// import TokenDashParking from "../component/profile/tokenDashParking.vue";
 import TokenKaryaGunaJaya from "../component/profile/tokenKaryaGunaJaya.vue";
 
 import { fecthSession, useSessionStore } from "@src/utils/usersSesion";
@@ -38,7 +38,7 @@ const noteJson = computed(() => {
 /* =============================
      MENU CONFIG
   ============================= */
-const menus = [
+const menus:any = [
   {
     key: "profile",
     title: "Profile",
@@ -135,7 +135,7 @@ const uploadAvatar = async (file: File) => {
   formData.append("type_login", String(typeLogin.value));
 
   try {
-    const res = await useApi().post("/profile/referensi/update-profile", formData);
+    await useApi().post("/profile/referensi/update-profile", formData);
     // refresh session
     await refresToken();
   } catch (err) {

@@ -1,5 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
+import type { Component } from "vue";
+import type { RouteRecordRaw } from "vue-router";
 
+/* =============================
+   STATIC COMPONENTS
+============================== */
 const DefaultLayout = () => import("./layout/DefaultLayout.vue");
 const EmptyLayout = () => import("./layout/EmptyLayout.vue");
 
@@ -7,129 +12,145 @@ const NotFound = () => import("./page/NotFound.vue");
 const DashboardPage = () => import("./page/dashboard/portofolio.vue");
 const Login = () => import("./page/auth/Login.vue");
 const SignUp = () => import("./page/dashboard/registrasi/sign-up.vue");
-const dashKgj = () => import("./page/dashboard/frelance/schoolSmpKaryaGunaJaya/main.vue");
-const generateAccesToken = () => import("./page/dashboard/feature/GenerateAccesToken.vue");
-const colbackGoogle = () => import("./components/google/OAuthCallback.vue");
+const DashKgj = () =>
+  import("./page/dashboard/frelance/schoolSmpKaryaGunaJaya/main.vue");
+const GenerateAccessToken = () =>
+  import("./page/dashboard/feature/GenerateAccesToken.vue");
+const CallbackGoogle = () =>
+  import("./components/google/OAuthCallback.vue");
 
-const pageModules = import.meta.glob("/src/page/**/*.vue");
+/* =============================
+   DYNAMIC PAGE MODULES
+============================== */
+const pageModules:any = import.meta.glob(
+  "/src/page/**/*.vue"
+) as Record<string, () => Promise<{ default: Component }>>;
 
+/* =============================
+   ROUTER
+============================== */
 const router = createRouter({
-    history: createWebHistory(),
-    routes: [
+  history: createWebHistory(),
+  routes: [
+    {
+      path: "/",
+      name: "DefaultLayout",
+      component: DefaultLayout,
+      children: [
         {
-            path: "/",
-            name: "DefaultLayout",    // <-- WAJIB AGAR addRoute bekerja
-            component: DefaultLayout,
-            children: [
-                {
-                    path: "",
-                    name: "Home",
-                    component: DashboardPage,
-                },
-                {
-                    path: "karya-guna-jaya",
-                    name: "DashKaryaGunaJaya",
-                    component: dashKgj,
-                },
-                {
-                    path: "profile",
-                    name: "GenerateToken",
-                    component: generateAccesToken,
-                },
-                {
-                    path: "oauth/callback",
-                    name: "ColbackGoogle",
-                    component: colbackGoogle,
-                },
-            ],
+          path: "",
+          name: "Home",
+          component: DashboardPage,
         },
         {
-            path: "/auth-login",
-            component: EmptyLayout,
-            children: [
-                {
-                    path: "",
-                    name: "Login",
-                    component: Login,
-                },
-            ],
+          path: "karya-guna-jaya",
+          name: "DashKaryaGunaJaya",
+          component: DashKgj,
         },
         {
-            path: "/auth-registrasi",
-            component: EmptyLayout,
-            children: [
-                {
-                    path: "",
-                    name: "Regist",
-                    component: SignUp,
-                },
-            ],
+          path: "profile",
+          name: "GenerateToken",
+          component: GenerateAccessToken,
         },
+        {
+          path: "oauth/callback",
+          name: "CallbackGoogle",
+          component: CallbackGoogle,
+        },
+      ],
+    },
 
+    {
+      path: "/auth-login",
+      component: EmptyLayout,
+      children: [
         {
-            path: "/:pathMatch(.*)*",
-            component: EmptyLayout,
-            children: [
-                {
-                    path: "",
-                    name: "NotFound",
-                    component: NotFound,
-                },
-            ],
+          path: "",
+          name: "Login",
+          component: Login,
         },
-    ],
+      ],
+    },
+
+    {
+      path: "/auth-registrasi",
+      component: EmptyLayout,
+      children: [
+        {
+          path: "",
+          name: "Register",
+          component: SignUp,
+        },
+      ],
+    },
+
+    {
+      path: "/:pathMatch(.*)*",
+      component: EmptyLayout,
+      children: [
+        {
+          path: "",
+          name: "NotFound",
+          component: NotFound,
+        },
+      ],
+    },
+  ],
 });
 
 export default router;
 
 /* =============================
    DYNAMIC ROUTE GENERATOR
-   cocokkan otomatis ke file vue
 ============================== */
 
-function resolveComponentPath(componentName: string) {
-    componentName = componentName.replace(/^\//, "");
+function resolveComponentPath(componentName: string): string | null {
+  const normalized = componentName.replace(/^\//, "");
 
-    for (const key of Object.keys(pageModules)) {
-        if (key.endsWith(`${componentName}.vue`)) {
-            return key;
-        }
+  for (const key in pageModules.value) {
+    if (key.endsWith(`${normalized}.vue`)) {
+      return key;
     }
+  }
 
-    return null;
+  return null;
 }
 
 export const addDynamicRoutes = () => {
-    const saved = localStorage.getItem("list_menu");
-    if (!saved) return;
+  const saved = localStorage.getItem("list_menu");
+  if (!saved) return;
 
-    const arrRoutes = JSON.parse(saved);
-    arrRoutes.forEach((r) => {
-        // CASE 1: route langsung
-        if (r.path && r.component) {
+  const routes = JSON.parse(saved);
 
-            const key = resolveComponentPath(r.component);
-            const pageComponent = key ? pageModules[key] : NotFound;
+  routes.forEach((r: any) => {
+    // CASE 1: SINGLE ROUTE
+    if (r.path && r.component) {
+      const key = resolveComponentPath(r.component);
+      if (!key) return;
 
-            router.addRoute(
-                "DefaultLayout",
-                {path: "/" + r.path.replace(/^\//, ""),name: r.name ?? r.sub_title,component: pageComponent,}
-            );
-        }
+      const route: RouteRecordRaw = {
+        path: "/" + r.path.replace(/^\//, ""),
+        name: r.name ?? r.sub_title,
+        component: () => pageModules.value[key]().then((m:any) => m.default),
+      };
 
-        // CASE 2: dropdown → route children
-        else if (r.paths && r.paths.length > 0) {
+      router.addRoute("DefaultLayout", route);
+    }
 
-            r.paths.forEach((child: any) => {
+    // CASE 2: DROPDOWN ROUTES
+    if (r.paths?.length) {
+      r.paths.forEach((child: any) => {
+        const key = resolveComponentPath(child.component);
+        if (!key) return;
 
-                const key = resolveComponentPath(child.component);
-                const pageComponent = key ? pageModules[key] : NotFound;
+        const route: RouteRecordRaw = {
+          path: "/" + child.path.replace(/^\//, ""),
+          name: child.name,
+          component: () => pageModules.value[key]().then((m:any) => m.default),
+        };
 
-                router.addRoute(
-                    "DefaultLayout",
-                    {path: "/" + child.path.replace(/^\//, ""),name: child.name,component: pageComponent,}
-                );
-            });
-        }
-    });
+        router.addRoute("DefaultLayout", route);
+      });
+    }
+  });
 };

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import * as H from "@src/utils/Helper";
 import { useApi } from "@src/utils/useApi";
 
@@ -87,7 +87,7 @@ const saveProfileDetail = async () => {
   };
 
   try {
-    const res = await useApi().post("/profile/referensi/update-profile-user", params);
+    await useApi().post("/profile/referensi/update-profile-user", params);
     is_loading.value = false;
   } catch (err) {
     is_loading.value = false;

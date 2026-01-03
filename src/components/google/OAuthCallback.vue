@@ -1,8 +1,6 @@
-<script lang="ts" setup>
+<script  setup>
 import { onMounted } from 'vue'
 import { handleGoogleCallback } from '@src/utils/callbackGoogle.js'
-
-console.log('hello')
 onMounted(() => {
   handleGoogleCallback()
 })

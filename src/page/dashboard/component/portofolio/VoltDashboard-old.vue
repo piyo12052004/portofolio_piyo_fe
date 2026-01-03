@@ -22,7 +22,7 @@
   </section>
 </template>
 <script setup lang="ts">
-import Button from "primevue/button";
+// import Button from "primevue/button";
 import { onMounted, ref } from "vue";
 import { useConfirm } from "primevue/useconfirm";
 import router from "@src/route";
@@ -30,12 +30,12 @@ import router from "@src/route";
 import ImgSatu from "@src/assets/img/img-frelance.svg";
 import ImgDua from "@src/assets/img/img-jasa-medika.svg";
 import ImgTiga from "@src/assets/img/img-bbpvp-bekasi.svg";
-import ImgEmpat from "@src/assets/img/img-frelance.svg";
-import ImgLima from "@src/assets/img/img-frelance.svg";
-import ImgEnam from "@src/assets/img/img-frelance.svg";
+// import ImgEmpat from "@src/assets/img/img-frelance.svg";
+// import ImgLima from "@src/assets/img/img-frelance.svg";
+// import ImgEnam from "@src/assets/img/img-frelance.svg";
 
 const confirm = useConfirm();
-const session = JSON.parse(localStorage.getItem("user_session"));
+const session = JSON.parse(localStorage.getItem("user_session") || "null");
 const images = [
   { src: ImgSatu, invertOnDark: true },
   { src: ImgDua, invertOnDark: true },
@@ -46,7 +46,7 @@ const images = [
 ];
 
 const cards = ref<HTMLElement[]>([]);
-const isModalLogin: any = ref(false);
+// const isModalLogin: any = ref(false);
 onMounted(() => {
   const observer = new IntersectionObserver(
     (entries) => {

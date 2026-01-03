@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import Splitter from "primevue/splitter";
-import SplitterPanel from "primevue/splitterpanel";
+// import Splitter from "primevue/splitter";
+// import SplitterPanel from "primevue/splitterpanel";
 
 const fadeIn = ref(false);
 

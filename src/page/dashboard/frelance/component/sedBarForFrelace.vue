@@ -12,7 +12,7 @@ import Galery from "../schoolSmpKaryaGunaJaya/src/module/page-galery.vue";
 import Unggulan from "../schoolSmpKaryaGunaJaya/src/module/page-ungulan.vue";
 import Pengguna from "../schoolSmpKaryaGunaJaya/src/module/page-pengguna.vue";
 import PageFasilitas from "../schoolSmpKaryaGunaJaya/src/module/page-fasilitas.vue";
-import Taks from "../schoolSmpKaryaGunaJaya/src/taks.vue";
+// import Taks from "../schoolSmpKaryaGunaJaya/src/taks.vue";
 
 // primevue
 import Button from "primevue/button";
@@ -57,6 +57,13 @@ const openSuperadmin = ref(true);
   ============================= */
 type ActiveKey =
   | "dashboard"
+  | "berita"
+  | "galery"
+  | "unggulan"
+  | "pengguna"
+  | "fasilitas"
+  | "pesan"
+  | "pembayaran-ppdb"
   | "tasks"
   | "landing"
   | "registrasi"

@@ -231,7 +231,7 @@ const editIndex = ref<number | null>(null);
 /* =====================
    FORM
 ===================== */
-const form = ref({
+const form:any = ref({
   judul: "",
   konten: "",
   gambar: DEFAULT_IMAGE,
