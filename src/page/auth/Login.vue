@@ -63,7 +63,7 @@
               <img src="@src/assets/img/google-logo.svg" class="google-icon" />
               <span>Continue with Google</span>
             </Button> -->
-            <div class="w-full mx-auto">
+            <div id="googleBtnWrapper" class="w-full mt-4">
               <div id="googleBtn"></div>
             </div>
 
