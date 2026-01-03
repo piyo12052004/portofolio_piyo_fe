@@ -48,7 +48,7 @@ export async function initGoogleLogin() {
             theme: "outline",
             size: "large",
             shape: "pill",
-            width: 9999,
+            width: "100%",
         });
     }
 
