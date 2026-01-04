@@ -134,7 +134,25 @@ const history = ref<any[]>([]);
   ============================= */
 const getToday = (): string => new Date().toISOString().slice(0, 10);
 
-const getNow = (): string => new Date().toISOString().replace("T", " ").slice(0, 19);
+const getNow = (): string => {
+  const d = new Date();
+
+  const pad = (n: number) => n.toString().padStart(2, "0");
+
+  return (
+    d.getFullYear() +
+    "-" +
+    pad(d.getMonth() + 1) +
+    "-" +
+    pad(d.getDate()) +
+    " " +
+    pad(d.getHours()) +
+    ":" +
+    pad(d.getMinutes()) +
+    ":" +
+    pad(d.getSeconds())
+  );
+};
 
 /* =============================
      TOKEN GENERATOR
@@ -180,7 +198,6 @@ const generate = async () => {
 
   try {
     const session = await getUserSession();
-    console.log('session',session)
     if (!session) {
       notify("error", "Session not found", "User session not available");
       return;
@@ -216,12 +233,12 @@ const generate = async () => {
       is_aktif: false,
       tanggal_buat_token: now,
     };
-
+  
     accessTokens.unshift(tokenPayload);
 
     /* 🔄 SAVE TO SERVER */
-    const fetchToken = await insertDataToken(noteJson)
-    emit('refresToken',fetchToken);
+    const fetchToken = await insertDataToken(noteJson);
+    emit("refresToken", fetchToken);
 
     /* 🧾 UPDATE UI */
     token.value = newToken;
@@ -232,7 +249,6 @@ const generate = async () => {
       preview: `${newToken.slice(0, 8)}...${newToken.slice(-8)}`,
       createdAt: now,
     });
-
   } catch (err) {
     notify("error", "Error", "Failed to generate token");
   } finally {
@@ -285,7 +301,7 @@ const notify = (
 };
 
 const emit = defineEmits<{
-  (e: "refresToken",value:boolean): void;
+  (e: "refresToken", value: boolean): void;
 }>();
 /* =============================
      INIT
