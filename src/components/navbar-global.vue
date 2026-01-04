@@ -145,7 +145,7 @@ const openLink = (url: string) => {
   window.open(url, "_blank", "noopener,noreferrer");
 };
 
-const toggleNotifikasi = (event:any) => {
+const toggleNotifikasi = (event: any) => {
   popUpNotifikasi.value.toggle(event);
 };
 
@@ -175,7 +175,6 @@ const initialName = computed(() => {
     };
   });
 });
-
 
 onMounted(loadRoutes);
 </script>
@@ -393,6 +392,6 @@ onMounted(loadRoutes);
   </nav>
 </template>
 
-<style lang="scss" >
+<style lang="scss">
 @use "@src/assets/scss/navbarGlobal.scss";
 </style>
