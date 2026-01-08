@@ -8,6 +8,7 @@ import 'primeicons/primeicons.css';
 
 import ToastService from 'primevue/toastservice'
 import ConfirmationService from 'primevue/confirmationservice';
+import Tooltip from "primevue/tooltip";
 
 
 import Toast from 'primevue/toast' 
@@ -95,4 +96,5 @@ app.component("ConfirmDialog", ConfirmDialog);
 app.component("ConfirmPopup", ConfirmPopup);
 app.use(router); 
 app.use(pinia);
+app.directive("tooltip", Tooltip);
 app.mount("#app");

@@ -22,7 +22,7 @@ const CallbackGoogle = () =>
 /* =============================
    DYNAMIC PAGE MODULES
 ============================== */
-const pageModules:any = import.meta.glob(
+const pageModules: any = import.meta.glob(
   "/src/page/**/*.vue"
 ) as Record<string, () => Promise<{ default: Component }>>;
 
@@ -105,16 +105,27 @@ export default router;
 ============================== */
 
 function resolveComponentPath(componentName: string): string | null {
-  const normalized = componentName.replace(/^\//, "");
+  if (!componentName) return null;
 
-  for (const key in pageModules.value) {
-    if (key.endsWith(`${normalized}.vue`)) {
+  const normalized = componentName
+    .replace(/^\/+/, "")     // hapus slash depan
+    .replace(/\.vue$/, "")   // hapus .vue jika ada
+    .toLowerCase();
+
+  for (const key in pageModules) {   // ✅ TANPA .value
+    const normalizedKey = key
+      .replace("/src/page/", "")
+      .replace(".vue", "")
+      .toLowerCase();
+
+    if (normalizedKey === normalized) {
       return key;
     }
   }
 
   return null;
 }
+
 
 export const addDynamicRoutes = () => {
   const saved = localStorage.getItem("list_menu");
@@ -126,12 +137,16 @@ export const addDynamicRoutes = () => {
     // CASE 1: SINGLE ROUTE
     if (r.path && r.component) {
       const key = resolveComponentPath(r.component);
-      if (!key) return;
+
+      if (!key || !pageModules[key]) {
+        return;
+      }
 
       const route: RouteRecordRaw = {
         path: "/" + r.path.replace(/^\//, ""),
         name: r.name ?? r.sub_title,
-        component: () => pageModules.value[key]().then((m:any) => m.default),
+        component: () =>
+          pageModules[key]().then((m: any) => m.default),
       };
 
       router.addRoute("DefaultLayout", route);
@@ -141,12 +156,16 @@ export const addDynamicRoutes = () => {
     if (r.paths?.length) {
       r.paths.forEach((child: any) => {
         const key = resolveComponentPath(child.component);
-        if (!key) return;
+
+        if (!key || !pageModules[key]) {
+          return;
+        }
 
         const route: RouteRecordRaw = {
           path: "/" + child.path.replace(/^\//, ""),
           name: child.name,
-          component: () => pageModules.value[key]().then((m:any) => m.default),
+          component: () =>
+            pageModules[key]().then((m: any) => m.default),
         };
 
         router.addRoute("DefaultLayout", route);
@@ -154,3 +173,4 @@ export const addDynamicRoutes = () => {
     }
   });
 };
+

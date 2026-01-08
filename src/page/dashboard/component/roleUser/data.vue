@@ -22,7 +22,7 @@
               icon="pi pi-trash"
               class="p-button-rounded p-button-text p-button-danger"
               @click="deleteRole(slotProps.data)"
-              v-tooltip="'Delete'"
+              v-tooltip.top="'delete'"
             />
           </template>
         </Column>
