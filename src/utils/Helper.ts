@@ -26,29 +26,30 @@ export function saveStoregeListMenu(row: any) {
 export function alert(type: typeNotify, message: any, title: any = null): any {
     const toast = useToaster()
     title = title ?? 'Info'
-
+  
     switch (type) {
-        case 'success':
-        case 'primary':
-        case 'green':
-            toast.success(message, title)
-            break
-
-        case 'error':
-            toast.error(message, title)
-            break
-
-        case 'info':
-        case 'blue':
-            toast.info(message, title)
-            break
-
-        case 'warning':
-        case 'orange':
-            toast.warning(message, title)
-            break
-
-        default:
-            toast.info(message, title)
+      case 'success':
+      case 'primary':
+      case 'green':
+        toast.success(message, title)
+        break
+  
+      case 'error':
+        toast.error(message, title)
+        break
+  
+      case 'info':
+      case 'blue':
+        toast.info(message, title)
+        break
+  
+      case 'warning':
+      case 'orange':
+        toast.warning(message, title)
+        break
+  
+      default:
+        toast.info(message, title)
     }
-}
+  }
+  

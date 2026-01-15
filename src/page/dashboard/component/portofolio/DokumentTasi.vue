@@ -1,134 +1,175 @@
 <template>
-  <section class="landing-templates theme-dark py-20">
-    <section
-      :class="[
-        'templates flex justify-center items-center flex-col mt-7',
-        { 'templates-animation': setAnimation },
-      ]"
-    >
-      <div class="flex md:flex-row flex-col gap-6 lg:gap-0">
-        <div
-          class="template-block block-5 mr-2 lg:mb-0 flex justify-center items-center cursor-pointer"
-          :style="{ backgroundImage: img1() }"
-          @click="goToPortofolio"
-        >
-          <span class="templates-btn">Portfolio</span>
-        </div>
-        <div
-          class="template-block block-2 ml-2 flex justify-center items-center cursor-pointer"
-          :style="{ backgroundImage: img2() }"
-          @click="GoToPage($event, 'development')"
-        >
-          <a class="templates-btn" 
-            >Parking Dashboard</a
+  <div class="hidden md:block">
+    <section class="landing-templates theme-dark py-20">
+      <section
+        :class="[
+          'templates flex justify-center items-center flex-col mt-7',
+          { 'templates-animation': setAnimation },
+        ]"
+      >
+        <div class="flex md:flex-row flex-col gap-6 lg:gap-0">
+          <div
+            class="template-block block-5 mr-2 lg:mb-0 flex justify-center items-center cursor-pointer"
+            :style="{ backgroundImage: img1() }"
+            @click="goToPortofolio"
           >
-        </div>
-      </div>
-      <div class="flex my-6 md:flex-row flex-col gap-6 lg:gap-0">
-        <div
-          class="template-block block-3 mr-2 lg:mb-0 flex justify-center items-center cursor-pointer"
-          :style="{ backgroundImage: img3() }"
-          @click="GoToPage($event, 'SchoolRegisrationApp')"
-        >
-          <a class="templates-btn" 
-            >School Registration App</a
+            <span class="templates-btn">Portfolio</span>
+          </div>
+          <div
+            class="template-block block-2 ml-2 flex justify-center items-center cursor-pointer"
+            :style="{ backgroundImage: img2() }"
+            @click="GoToPage($event, 'development')"
           >
+            <a class="templates-btn">Parking Dashboard</a>
+          </div>
         </div>
-        <div
-          class="template-block block-middle mr-2 hidden lg:flex justify-center items-center flex-col"
-        >
-          <img class="img-1" :src="templateImg()" height="110" />
-        </div>
-        <div
-          class="template-block block-4 ml-2 flex justify-center items-center cursor-pointer"
-          :style="{ backgroundImage: imageBg('apollo') }"
-          @click="GoToPage($event, 'sempel')"
-        >
-          <a class="templates-btn"
-            >Apollo Preview</a
+        <div class="flex my-6 md:flex-row flex-col gap-6 lg:gap-0">
+          <div
+            class="template-block block-3 mr-2 lg:mb-0 flex justify-center items-center cursor-pointer"
+            :style="{ backgroundImage: img3() }"
+            @click="GoToPage($event, 'SchoolRegisrationApp')"
           >
-        </div>
-      </div>
-      <div class="flex md:flex-row flex-col gap-6 lg:gap-0">
-        <div
-          class="template-block block-1 mr-2 lg:mb-0 flex justify-center items-center cursor-pointer"
-          :style="{ backgroundImage: imageBg('diamond') }"
-          @click="GoToPage($event, 'sempel')"
-        >
-          <a class="templates-btn"
-            >Diamond Preview</a
+            <a class="templates-btn">School Registration App</a>
+          </div>
+          <div
+            class="template-block block-middle mr-2 hidden lg:flex justify-center items-center flex-col"
           >
-        </div>
-        <div
-          class="template-block block-6 ml-2 flex justify-center items-center cursor-pointer"
-          :style="{ backgroundImage: imageBg('ultima') }"
-          @click="GoToPage($event, 'sempel')"
-        >
-          <a class="templates-btn"
-            >Ultima Preview</a
+            <img class="img-1" :src="templateImg()" height="110" />
+          </div>
+          <div
+            class="template-block block-4 ml-2 flex justify-center items-center cursor-pointer"
+            :style="{ backgroundImage: imageBg('apollo') }"
+            @click="GoToPage($event, 'sempel')"
           >
+            <a class="templates-btn">Apollo Preview</a>
+          </div>
         </div>
-      </div>
-      <div class="lines">
-        <div class="top">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+        <div class="flex md:flex-row flex-col gap-6 lg:gap-0">
+          <div
+            class="template-block block-1 mr-2 lg:mb-0 flex justify-center items-center cursor-pointer"
+            :style="{ backgroundImage: imageBg('diamond') }"
+            @click="GoToPage($event, 'sempel')"
+          >
+            <a class="templates-btn">Diamond Preview</a>
+          </div>
+          <div
+            class="template-block block-6 ml-2 flex justify-center items-center cursor-pointer"
+            :style="{ backgroundImage: imageBg('ultima') }"
+            @click="GoToPage($event, 'sempel')"
+          >
+            <a class="templates-btn">Ultima Preview</a>
+          </div>
         </div>
-        <div class="left">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+        <div class="lines">
+          <div class="top">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="left">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </div>
-      </div>
+      </section>
     </section>
-  </section>
+  </div>
+  <div class="block md:hidden pt-20 px-4 space-y-6">
+    <!-- HEADER -->
+    <div class="text-center space-y-2">
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
+        Freelance Projects
+      </h2>
+    </div>
+
+    <!-- HERO IMAGE -->
+    <div
+      class="w-full rounded-xl overflow-hidden border border-slate-200  bg-slate-100 "
+    >
+      <img
+        :src="isDarkMode ? ImgSatuDark : ImgSatuLign"
+        alt="Freelance Layout"
+        class="w-full h-auto object-cover"
+      />
+    </div>
+
+    <!-- PROJECT LIST -->
+    <div class="grid grid-cols-1 gap-4">
+      <!-- PROJECT 1 -->
+      <div
+        class="relative rounded-xl overflow-hidden border border-slate-200 cursor-pointer"
+        @click="goToPortofolio"
+      >
+        <img
+          :src="isDarkMode ? prjectDark1 : prjectLign1"
+          class="w-full h-44 object-cover"
+        />
+      </div>
+
+      <!-- PROJECT 2 -->
+      <div
+        class="relative rounded-xl overflow-hidden border border-slate-200  cursor-pointer"
+        @click="GoToPage($event, 'development')"
+      >
+        <img :src="prjectLign2" class="w-full h-44 object-cover" />
+      </div>
+
+      <!-- PROJECT 3 -->
+      <div
+        class="relative rounded-xl overflow-hidden border border-slate-200  cursor-pointer"
+        @click="GoToPage($event, 'SchoolRegisrationApp')"
+      >
+        <img :src="prjectLign3" class="w-full h-44 object-cover" />
+      </div>
+    </div>
+  </div>
 
   <Dialog
     v-model:visible="is_modal_notif"
@@ -243,7 +284,7 @@ function GoToPage(event: any, row: any) {
     return;
   }
   if (row == "sempel") {
-    H.alert("info",  "This is only a sample taken from PrimeVue references.", "info");
+    H.alert("info", "This is only a sample taken from PrimeVue references.", "info");
     return;
   }
   if (!session) {

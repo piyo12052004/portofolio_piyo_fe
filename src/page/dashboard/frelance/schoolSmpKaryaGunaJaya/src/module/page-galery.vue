@@ -71,7 +71,7 @@
               <button @click="openEdit(index)" class="text-blue-600 hover:underline">
                 Edit
               </button>
-              <button @click="askRemove(index)" class="text-red-600 hover:underline">
+              <button @click="askRemove(index)"  class="text-red-600 hover:underline">
                 Hapus
               </button>
             </td>
@@ -213,7 +213,7 @@ const is_verifikasi_remove = ref(false);
 const removeIndex = ref<number | null>(null);
 
 /* FORM */
-const form:any = ref({
+const form: any = ref({
   judul: "",
   deskripsi: "",
   gambar: DEFAULT_IMAGE,
@@ -412,6 +412,89 @@ tbody tr:hover {
   .p-dialog-footer {
     background-color: #020617;
     border-top: 1px solid #1e293b;
+  }
+}
+
+/* ===============================
+   📱 MOBILE RESPONSIVE – GALLERY
+================================ */
+@media (max-width: 768px) {
+  /* Section padding diperkecil */
+  section {
+    padding: 1rem !important;
+  }
+
+  /* Header stack */
+  .flex.items-center.justify-between.mb-6 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  /* Button full width */
+
+  /* ===============================
+     TABLE HORIZONTAL SCROLL
+  ================================ */
+  .overflow-hidden {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    min-width: 700px; /* paksa overflow */
+    white-space: nowrap;
+  }
+
+  th,
+  td {
+    padding: 0.75rem !important;
+  }
+
+  /* Image lebih kecil */
+  img {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Dialog full width */
+  .p-dialog {
+    width: 95vw !important;
+    margin: 0 auto;
+  }
+
+  .p-dialog-content {
+    padding: 1rem !important;
+  }
+
+  .p-dialog-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .p-dialog-footer button {
+    width: 100%;
+  }
+}
+
+/* ===============================
+   🌙 DARK MODE – MOBILE
+================================ */
+.my-app-dark {
+  @media (max-width: 768px) {
+    table {
+      background-color: #020617;
+    }
+
+    th,
+    td {
+      color: #e5e7eb;
+    }
   }
 }
 </style>

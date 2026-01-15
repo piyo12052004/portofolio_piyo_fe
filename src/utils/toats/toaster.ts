@@ -1,44 +1,32 @@
 import { useToast } from 'primevue/usetoast'
 import { createSharedComposable } from '@vueuse/core'
 
+const isMobile = () => window.innerWidth < 768
+
 export const useToaster = createSharedComposable(() => {
   const toast = useToast()
 
-  const success = (message: string, summary = 'Berhasil') => {
+  const base = (severity: string, message: string, summary: string, life: number) => {
     toast.add({
-      severity: 'success',
+      severity,
       summary,
       detail: message,
-      life: 3000,
+      life,
+      group: isMobile() ? 'mobile' : 'desktop',
     })
   }
 
-  const error = (message: string, summary = 'Error') => {
-    toast.add({
-      severity: 'error',
-      summary,
-      detail: message,
-      life: 4000,
-    })
-  }
+  const success = (message: string, summary = 'Berhasil') =>
+    base('success', message, summary, 3000)
 
-  const warning = (message: string, summary = 'Peringatan') => {
-    toast.add({
-      severity: 'warn',
-      summary,
-      detail: message,
-      life: 4000,
-    })
-  }
+  const error = (message: string, summary = 'Error') =>
+    base('error', message, summary, 4000)
 
-  const info = (message: string, summary = 'Info') => {
-    toast.add({
-      severity: 'info',
-      summary,
-      detail: message,
-      life: 3000,
-    })
-  }
+  const warning = (message: string, summary = 'Peringatan') =>
+    base('warn', message, summary, 4000)
+
+  const info = (message: string, summary = 'Info') =>
+    base('info', message, summary, 3000)
 
   return { success, error, warning, info }
 })

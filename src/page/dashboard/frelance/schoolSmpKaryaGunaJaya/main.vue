@@ -250,7 +250,7 @@ function closeModalVerfikasiToken() {
       <Button label="Verify" @click="verifyToken" />
     </div>
   </Dialog>
-
+  
   <SedBar
     :is_token="is_nulable_token"
     :is_verifikasi_token="is_verifikasi_token"

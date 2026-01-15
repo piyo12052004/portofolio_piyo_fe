@@ -230,4 +230,52 @@ const togelFeature = (type: "login" | "registrasi") => {
     filter: brightness(0.85) contrast(1.05);
   }
 }
+
+@media (max-width: 640px) {
+  table {
+    display: block;
+    width: 100%;
+  }
+
+  tbody {
+    display: block;
+  }
+
+  tr {
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  td {
+    display: block;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  /* td tinggi kecil jadi auto */
+  td[style*="height"] {
+    height: auto !important;
+  }
+
+  /* padding lebih ramah mobile */
+  .td-border-run {
+    padding: 1rem !important;
+    border-radius: 0.75rem;
+  }
+
+  /* SVG border jangan overflow */
+  .border-svg {
+    inset: 0;
+  }
+
+  /* ScrollPanel lebih pendek di mobile */
+  .p-scrollpanel {
+    height: 160px !important;
+  }
+
+  /* tombol center & wrap */
+  .card.flex {
+    justify-content: center;
+  }
+}
 </style>

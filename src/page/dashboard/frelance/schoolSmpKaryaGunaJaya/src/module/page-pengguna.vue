@@ -59,7 +59,7 @@
           <Column header="Aksi">
             <template #body="{ index }">
               <Button label="Edit" text class="text-blue-600" @click="openEdit(index)" />
-              <Button label="Hapus" text class="text-red-600" @click="askRemove(index)" />
+              <Button label="Hapus" text severity="danger" class="text-red-600" @click="askRemove(index)" />
             </template>
           </Column>
         </DataTable>
