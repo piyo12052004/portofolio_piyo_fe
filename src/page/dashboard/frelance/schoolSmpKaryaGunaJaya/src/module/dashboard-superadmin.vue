@@ -105,4 +105,41 @@ import Card from "primevue/card";
     linear-gradient(90deg, rgba(137, 26, 162, 0.15) 1px, transparent 1px);
   background-size: 40px 80px;
 }
+
+/* ===============================
+   📱 MOBILE RESPONSIVE
+================================ */
+@media (max-width: 640px) {
+  /* Section padding diperkecil */
+  section {
+    padding: 1rem !important;
+  }
+
+  /* Wrapper p-6 jangan terlalu besar */
+  .p-6 {
+    padding: 1rem !important;
+  }
+
+  /* Card PrimeVue */
+  .p-card {
+    border-radius: 0.75rem;
+  }
+
+  /* Stat & Manage grid spacing */
+  .grid {
+    gap: 1rem !important;
+  }
+
+  /* Text lebih readable di mobile */
+  p {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  /* Title Card */
+  .p-card-title {
+    font-size: 1rem;
+  }
+}
+
 </style>

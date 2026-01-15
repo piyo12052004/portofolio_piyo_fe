@@ -77,7 +77,7 @@
                   class="input w-full"
                   placeholder="Tulis balasan..."
                 ></textarea>
-
+                <br>
                 <button class="btn-primary w-full" @click="balasPesan(item)">
                   Balas
                 </button>
@@ -235,6 +235,80 @@ function balasPesan(item: any) {
   /* Status icon */
   span {
     color: #e5e7eb;
+  }
+}
+
+/* ===============================
+   📱 MOBILE RESPONSIVE – MESSAGES
+================================ */
+@media (max-width: 768px) {
+  /* Padding section */
+  .p-6 {
+    padding: 1rem !important;
+  }
+
+  /* Header rapih */
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  /* ===============================
+     TABLE SCROLL HORIZONTAL
+  ================================ */
+  .card {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    min-width: 1000px; /* paksa scroll horizontal */
+    white-space: nowrap;
+  }
+
+  th,
+  td {
+    padding: 0.65rem !important;
+    vertical-align: top;
+    font-size: 13px;
+  }
+
+  /* Kolom pesan jangan terlalu tinggi */
+  td .text-slate-700 {
+    max-width: 260px;
+    white-space: normal;
+    line-height: 1.4;
+  }
+
+  /* ===============================
+     TEXTAREA & BUTTON
+  ================================ */
+  textarea.input {
+    font-size: 12px;
+    min-height: 60px;
+  }
+
+  .btn-primary {
+    font-size: 12px;
+    padding: 6px;
+  }
+}
+
+/* ===============================
+   🌙 DARK MODE – MOBILE
+================================ */
+.my-app-dark {
+  @media (max-width: 768px) {
+    table {
+      background-color: #020617;
+    }
+
+    th {
+      color: #94a3b8;
+    }
+
+    td {
+      color: #e5e7eb;
+    }
   }
 }
 </style>

@@ -201,4 +201,94 @@ import Card from "primevue/card";
     }
   }
 }
+
+/* ===============================
+   📱 MOBILE RESPONSIVE – PPDB PAYMENT
+================================ */
+@media (max-width: 768px) {
+  /* Padding halaman diperkecil */
+  .payment-page {
+    padding: 16px;
+  }
+
+  /* Tabs */
+  .tabs {
+    gap: 16px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 4px;
+
+    .tab {
+      font-size: 14px;
+      padding: 10px 0;
+    }
+  }
+
+  /* Card */
+  .payment-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  /* Title */
+  .title {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+
+  /* ===============================
+     FORM GRID → 1 COLUMN
+  ================================ */
+  .form-grid {
+    grid-template-columns: 1fr;
+
+    .full {
+      grid-column: span 1;
+    }
+  }
+
+  /* Field */
+  .field {
+    label {
+      font-size: 12px;
+    }
+
+    input {
+      font-size: 13px;
+      padding: 10px 12px;
+    }
+  }
+
+  /* Button */
+  .btn-pay {
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+}
+
+/* ===============================
+   🌙 DARK MODE – MOBILE
+================================ */
+.my-app-dark {
+  @media (max-width: 768px) {
+    .payment-page {
+      background: #020617;
+    }
+
+    .payment-card {
+      background: #020617;
+      border-color: #1e293b;
+    }
+
+    .tabs .tab {
+      color: #94a3b8;
+    }
+
+    .tabs .tab.active {
+      color: #60a5fa;
+      border-color: #60a5fa;
+    }
+  }
+}
 </style>

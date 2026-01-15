@@ -105,7 +105,7 @@
       </Card>
     </div>
 
-    <Toast />
+    <!-- <Toast /> -->
   </div>
 </template>
 
@@ -115,14 +115,15 @@ import Button from "primevue/button";
 import Card from "primevue/card";
 import Column from "primevue/column";
 import DataTable from "primevue/datatable";
-import Toast from "primevue/toast";
-import { useToast } from "primevue/usetoast";
+// import Toast from "primevue/toast";
+// import { useToast } from "primevue/usetoast";
 import { useApi } from "@src/utils/useApi";
+import * as H from "@src/utils/Helper";
 
 /* =============================
      STATE
   ============================= */
-const toast = useToast();
+// const toast = useToast();
 
 const token = ref<string>("");
 const createdAt = ref<string>("");
@@ -199,12 +200,12 @@ const generate = async () => {
   try {
     const session = await getUserSession();
     if (!session) {
-      notify("error", "Session not found", "User session not available");
+      H.alert("error", "User session not available", "Session not found");
       return;
     }
 
     const noteJson = parseNoteJson(session.note_json);
-    console.log('noteJson',noteJson);
+    console.log("noteJson", noteJson);
     // ensure path exists
     noteJson.aksesTokenKaryaGunaJaya ??= { access_tokens: [] };
 
@@ -216,10 +217,10 @@ const generate = async () => {
     );
 
     if (alreadyGeneratedToday) {
-      notify(
-        "warn",
-        "Token already generated",
-        "You have already generated a token today"
+      H.alert(
+        "warning",
+        "You have already generated a token today",
+        "Token already generated"
       );
       return;
     }
@@ -233,7 +234,7 @@ const generate = async () => {
       is_aktif: false,
       tanggal_buat_token: now,
     };
-  
+
     accessTokens.unshift(tokenPayload);
 
     /* 🔄 SAVE TO SERVER */
@@ -250,7 +251,7 @@ const generate = async () => {
       createdAt: now,
     });
   } catch (err) {
-    notify("error", "Error", "Failed to generate token");
+     H.alert("error", "Failed to generate token", "Error");
   } finally {
     loading.value = false;
   }
@@ -281,24 +282,24 @@ const fetchHistory = async () => {
 const copy = async (text: string) => {
   if (!text) return;
   await navigator.clipboard.writeText(text);
-  notify("success", "Copied", "Token copied to clipboard");
+  H.alert("success", "Token copied to clipboard", "Copied");
 };
 
 /* =============================
      TOAST
   ============================= */
-const notify = (
-  severity: "success" | "info" | "warn" | "error",
-  summary: string,
-  detail: string
-) => {
-  toast.add({
-    severity,
-    summary,
-    detail,
-    life: 2000,
-  });
-};
+// const notify = (
+//   severity: "success" | "info" | "warn" | "error",
+//   summary: string,
+//   detail: string
+// ) => {
+//   toast.add({
+//     severity,
+//     summary,
+//     detail,
+//     life: 2000,
+//   });
+// };
 
 const emit = defineEmits<{
   (e: "refresToken", value: boolean): void;
@@ -310,3 +311,86 @@ onMounted(() => {
   fetchHistory();
 });
 </script>
+
+<style lang="scss" scoped>
+/* =========================
+   MOBILE RESPONSIVE FIX
+   ========================= */
+@media (max-width: 768px) {
+  /* PAGE PADDING */
+  .min-h-screen {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  /* HEADER STACK */
+  .flex.items-center.justify-between {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  /* HEADER TITLE */
+  h2 {
+    font-size: 1.25rem !important; /* text-xl */
+  }
+
+  /* BUTTON GENERATE */
+  button {
+    width: 100%;
+  }
+
+  /* CARD RADIUS */
+  .p-card {
+    border-radius: 1rem !important;
+  }
+
+  /* GENERATED TOKEN BOX */
+  .font-mono {
+    font-size: 0.75rem !important;
+    line-height: 1.4;
+    padding: 0.75rem !important;
+  }
+
+  /* CREATED AT TEXT */
+  .text-xs {
+    font-size: 0.7rem !important;
+  }
+
+  /* DATATABLE WRAPPER */
+  .p-datatable {
+    font-size: 0.75rem;
+  }
+
+  /* DATATABLE CELL */
+  .p-datatable td,
+  .p-datatable th {
+    padding: 0.5rem 0.5rem !important;
+    white-space: nowrap;
+  }
+
+  /* TOKEN COLUMN TEXT */
+  .p-datatable td .font-mono {
+    font-size: 0.7rem !important;
+  }
+
+  /* COPY BUTTON IN TABLE */
+  .p-button.p-button-text {
+    padding: 0.25rem !important;
+  }
+
+  /* PAGINATOR */
+  .p-paginator {
+    font-size: 0.75rem;
+  }
+
+  /* TOAST (MOBILE COMPACT) */
+  .p-toast-message {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+  }
+}
+</style>

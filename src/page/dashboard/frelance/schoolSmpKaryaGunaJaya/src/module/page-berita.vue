@@ -69,12 +69,14 @@
             </td>
 
             <td class="px-6 py-4 space-x-3">
-              <button @click="openEdit(index)" class="text-blue-600 hover:underline">
+              <Button label="Edit" @click="openEdit(index)" class="text-blue-600 hover:underline" />
+              <!-- <button @click="openEdit(index)" class="text-blue-600 hover:underline">
                 Edit
-              </button>
-              <button @click="remove(index)" class="text-red-600 hover:underline">
+              </button>-->
+              <Button label="Hapus" severity="danger" @click="remove(index)" class="text-red-600 hover:underline" />
+              <!-- <button @click="remove(index)" class="text-red-600 hover:underline">
                 Hapus
-              </button>
+              </button> -->
             </td>
           </tr>
 
@@ -201,6 +203,8 @@ import Card from "primevue/card";
 import Dialog from "primevue/dialog";
 import * as H from "@src/utils/Helper";
 
+import Button from 'primevue/button';
+
 const is_verifikasi_remove: any = ref(false);
 const data_remove = ref({
   index: null as number | null,
@@ -231,7 +235,7 @@ const editIndex = ref<number | null>(null);
 /* =====================
    FORM
 ===================== */
-const form:any = ref({
+const form: any = ref({
   judul: "",
   konten: "",
   gambar: DEFAULT_IMAGE,
@@ -338,7 +342,7 @@ function resetForm() {
 .my-app-dark {
   background-color: #020617;
   .table-core {
-    background-color:  #1e293b;
+    background-color: #1e293b;
   }
   /* CARD */
   .p-card {
@@ -368,7 +372,7 @@ function resetForm() {
     background-color: #020617;
     color: #94a3b8;
   }
-  tbody td{
+  tbody td {
     background-color: #020617;
     color: #ffffff;
   }
@@ -383,6 +387,93 @@ function resetForm() {
     background-color: #020617;
     border-color: #334155;
     color: #f8fafc;
+  }
+}
+/* ===============================
+   📱 MOBILE RESPONSIVE FIX
+================================ */
+@media (max-width: 768px) {
+  /* Section padding diperkecil */
+  section {
+    padding: 1rem !important;
+  }
+
+  /* Header stack ke bawah */
+  .flex.items-center.justify-between.mb-6 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  /* Button full width di mobile */
+  // button {
+  //   width: 100%;
+  // }
+
+  /* Table scroll horizontal */
+  .table-core {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  table {
+    min-width: 200px;
+  }
+
+  th,
+  td {
+    padding: 0.75rem !important;
+  }
+
+  /* Image di table lebih kecil */
+  img {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Dialog PrimeVue full width */
+  .p-dialog {
+    width: 95vw !important;
+    margin: 0 auto;
+  }
+
+  .p-dialog-content {
+    padding: 1rem !important;
+  }
+
+  .p-dialog-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .p-dialog-footer button {
+    width: 100%;
+  }
+}
+
+/* ===============================
+   🌙 DARK MODE MOBILE
+================================ */
+.my-app-dark {
+  @media (max-width: 768px) {
+    section {
+      background-color: #020617;
+    }
+
+    table {
+      background-color: #020617;
+    }
+
+    th,
+    td {
+      color: #e5e7eb;
+    }
   }
 }
 </style>

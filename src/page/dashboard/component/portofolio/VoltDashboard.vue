@@ -284,4 +284,79 @@
     filter: brightness(0.92) contrast(1.05);
   }
 }
+
+/* =========================
+   MOBILE RESPONSIVE FIX
+   ========================= */
+@media (max-width: 768px) {
+
+  /* OUTER MARGIN */
+  .m-6 {
+    margin: 1rem !important;
+  }
+
+  /* CARD RADIUS & PADDING */
+  .dark-mode-card,
+  [style*="border-radius: 50px"] {
+    border-radius: 24px !important;
+  }
+
+  .p-4 {
+    padding: 1rem !important;
+  }
+
+  /* SECTION GAP */
+  .gap-20 {
+    gap: 1.5rem !important;
+  }
+
+  .mb-20 {
+    margin-bottom: 3rem !important;
+  }
+
+  /* HEADINGS */
+  .text-5xl {
+    font-size: 1.875rem !important; /* text-3xl */
+    line-height: 2.25rem !important;
+  }
+
+  .text-lg {
+    font-size: 0.95rem !important;
+  }
+
+  /* PARAGRAPH */
+  p {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+  }
+
+  /* IMAGE SIZE */
+  img {
+    max-height: 220px;
+    object-fit: contain;
+  }
+
+  /* LIST FIX (2 COL → 1 COL) */
+  ul li {
+    width: 100% !important;
+    padding: 0.5rem !important;
+    align-items: flex-start !important;
+  }
+
+  ul li span {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  /* ICON ALIGN */
+  .pi-check-circle {
+    margin-top: 0.25rem;
+  }
+
+  /* FLEX DIRECTION SAFETY */
+  .md\\:flex-row {
+    flex-direction: column !important;
+  }
+}
+
 </style>

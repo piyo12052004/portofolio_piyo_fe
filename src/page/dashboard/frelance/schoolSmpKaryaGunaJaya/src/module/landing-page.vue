@@ -1,12 +1,12 @@
 <template>
-  <section class="p-6">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <section class="p-4 sm:p-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
       <!-- ================= LEFT : IMAGE GRID ================= -->
-      <div class="lg:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div class="lg:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
         <div
           v-for="(img, i) in images"
           :key="i"
-          class="relative group overflow-hidden rounded-xl shadow bg-white dark:bg-slate-800 ring-1 ring-black/5 dark:ring-white/10"
+          class="relative group overflow-hidden rounded-lg sm:rounded-xl shadow bg-white ring-1 ring-black/5"
           :class="i % 5 === 0 ? 'md:col-span-2 md:row-span-2' : ''"
         >
           <img
@@ -17,75 +17,70 @@
 
           <!-- overlay -->
           <div
-            class="absolute inset-0 bg-black/40 dark:bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-end p-3"
+            class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-end p-2 sm:p-3"
           >
             <div class="text-white">
-              <p class="text-sm font-semibold">{{ img.title }}</p>
-              <p class="text-xs opacity-80">{{ img.category }}</p>
+              <p class="text-xs sm:text-sm font-semibold">
+                {{ img.title }}
+              </p>
+              <p class="text-[10px] sm:text-xs opacity-80">
+                {{ img.category }}
+              </p>
             </div>
           </div>
         </div>
       </div>
 
       <!-- ================= RIGHT : DETAIL ================= -->
-      <div class="rounded-xl shadow p-6 space-y-4 bg-white ring-1 ring-black/5">
-        <div class="flex items-center justify-between">
-          <h2 class="text-2xl font-bold text-slate-900">Landing Page</h2>
+      <div
+        class="rounded-xl shadow p-4 sm:p-6 space-y-3 sm:space-y-4 bg-white ring-1 ring-black/5 lg:sticky lg:top-24"
+      >
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+          <h2 class="text-lg sm:text-2xl font-bold text-slate-900">Landing Page</h2>
 
-          <span class="text-xs text-slate-500">
+          <span class="text-[11px] sm:text-xs text-slate-500">
             Developed by
             <span class="font-medium text-slate-700"> Ikhsan Adriansyah </span>
           </span>
         </div>
 
-        <p class="leading-relaxed text-slate-600">
+        <p class="leading-relaxed text-sm sm:text-base text-slate-600">
           This landing page was developed using
           <span class="font-semibold text-slate-500">Tailwind CSS</span>
-          with a modern, performance-oriented approach. All displayed content is
+          with a modern, performance-oriented approach. All content is
           <span class="font-semibold text-slate-500">dynamic</span>
-          and fully integrated with the
+          and integrated with the
           <span class="font-semibold text-slate-500">database</span>.
         </p>
 
-        <ul class="space-y-3 text-sm">
+        <ul class="space-y-2 sm:space-y-3 text-xs sm:text-sm">
           <li class="flex gap-2 text-slate-700">
             <span class="text-blue-600">•</span>
             <span>
-              <b>Scholarship Programs</b> are dynamically displayed and managed directly
-              through the database.
+              <b>Scholarship Programs</b> are dynamically managed via database.
             </span>
           </li>
 
           <li class="flex gap-2 text-slate-700">
             <span class="text-blue-600">•</span>
             <span>
-              <b>School Facilities</b> are categorized into Academic, Sports, Technology,
-              and Supporting facilities.
+              <b>School Facilities</b> categorized into Academic, Sports, and Technology.
             </span>
           </li>
 
           <li class="flex gap-2 text-slate-700">
             <span class="text-blue-600">•</span>
-            <span>
-              <b>News & Activities</b> are presented in an article format and can be
-              accessed via detailed pages.
-            </span>
+            <span> <b>News & Activities</b> presented in article format. </span>
           </li>
 
           <li class="flex gap-2 text-slate-700">
             <span class="text-blue-600">•</span>
-            <span>
-              <b>School Gallery</b> showcases activity documentation retrieved from the
-              database.
-            </span>
+            <span> <b>Gallery</b> content retrieved dynamically. </span>
           </li>
 
           <li class="flex gap-2 text-slate-700">
             <span class="text-blue-600">•</span>
-            <span>
-              <b>School Location</b> is integrated with an interactive map for easy
-              access.
-            </span>
+            <span> <b>Interactive Map</b> integration for school location. </span>
           </li>
         </ul>
       </div>

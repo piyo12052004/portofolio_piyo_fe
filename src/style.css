@@ -18,7 +18,7 @@
 /* =========================
      MOBILE & TABLET
      ========================= */
-@media (max-width: 1023px) {
+/* @media (max-width: 1023px) {
   #desktop-app {
     display: none !important;
   }
@@ -71,4 +71,4 @@
     opacity: 0.8;
     line-height: 1.6;
   }
-}
+} */

@@ -3,7 +3,7 @@ import Toast from "primevue/toast";
 </script>
 
 <template>
-  <div id="mobile-blocker">
+  <!-- <div id="mobile-blocker">
     <div class="mobile-box">
       <div class="icon">🚧</div>
       <h1>Still in Development</h1>
@@ -12,13 +12,15 @@ import Toast from "primevue/toast";
         laptop or PC.
       </p>
     </div>
-  </div>
-  <div id="desktop-app">
-    <Toast />
-    <!-- <ConfirmDialog /> -->
-    <ConfirmPopup />
-    <router-view />
-  </div>
+  </div> -->
+  <!-- <div id="desktop-app"> -->
+  <Toast group="desktop" position="top-right" />
+  <Toast group="mobile" position="top-center" class="w-[95vw]" />
+
+  <!-- <ConfirmDialog /> -->
+  <ConfirmPopup />
+  <router-view />
+  <!-- </div> -->
 </template>
 
 <style scoped></style>

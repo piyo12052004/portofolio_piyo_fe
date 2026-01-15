@@ -182,7 +182,7 @@ const editIndex = ref<number | null>(null);
 const removeIndex = ref<number | null>(null);
 
 /* FORM */
-const form:any = ref({
+const form: any = ref({
   nama: "",
   kategori: "Akademik",
   deskripsi: "",
@@ -295,6 +295,97 @@ function resetForm() {
   .p-dialog {
     background: #020617;
     color: #e5e7eb;
+  }
+}
+/* ===============================
+   📱 MOBILE RESPONSIVE – FASILITAS
+================================ */
+@media (max-width: 768px) {
+  /* Section padding */
+  .p-6 {
+    padding: 1rem !important;
+  }
+
+  /* Header stack */
+  .flex.items-center.justify-between {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  /* Button full width */
+  .p-button {
+    width: 100%;
+  }
+
+  /* ===============================
+     TABLE SCROLL HORIZONTAL
+  ================================ */
+  .card {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    min-width: 800px; /* paksa scroll */
+    white-space: nowrap;
+  }
+
+  th,
+  td {
+    padding: 0.75rem !important;
+    vertical-align: top;
+  }
+
+  /* Image lebih kecil */
+  table img {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* ===============================
+     PRIMEVUE DIALOG MOBILE
+  ================================ */
+  .p-dialog {
+    width: 95vw !important;
+    margin: 0 auto;
+  }
+
+  .p-dialog-content {
+    padding: 1rem !important;
+  }
+
+  .p-dialog-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .p-dialog-footer .p-button {
+    width: 100%;
+  }
+}
+
+/* ===============================
+   🌙 DARK MODE – MOBILE TABLE
+================================ */
+.my-app-dark {
+  @media (max-width: 768px) {
+    table {
+      background-color: #020617;
+    }
+
+    th {
+      color: #94a3b8;
+    }
+
+    td {
+      color: #e5e7eb;
+    }
   }
 }
 </style>

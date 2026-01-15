@@ -64,7 +64,7 @@
           <Column header="Aksi">
             <template #body="{ index }">
               <Button label="Edit" text class="text-blue-600" @click="openEdit(index)" />
-              <Button label="Hapus" text class="text-red-600" @click="askRemove(index)" />
+              <Button label="Hapus" severity="danger" text class="text-red-600" @click="askRemove(index)" />
             </template>
           </Column>
         </DataTable>
@@ -159,7 +159,7 @@ const DEFAULT_IMAGE =
   "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=200&q=80";
 
 /* ================= DATA ================= */
-const programs:any = ref([
+const programs: any = ref([
   { id: 1, title: "Program Tahfidz", image: DEFAULT_IMAGE, status: "Aktif", order: 1 },
   { id: 2, title: "Program IT", image: DEFAULT_IMAGE, status: "Aktif", order: 2 },
   { id: 3, title: "Bahasa Inggris", image: DEFAULT_IMAGE, status: "Aktif", order: 3 },
@@ -173,7 +173,7 @@ const editIndex = ref<number | null>(null);
 const removeIndex = ref<number | null>(null);
 
 /* ================= FORM ================= */
-const form:any = ref({
+const form: any = ref({
   title: "",
   description: "",
   image: DEFAULT_IMAGE,
@@ -270,6 +270,95 @@ function resetForm() {
   .bg-red-100 {
     background-color: rgba(239, 68, 68, 0.15);
     color: #fca5a5;
+  }
+}
+
+/* ===============================
+   📱 MOBILE RESPONSIVE – PROGRAM UNGGULAN
+================================ */
+@media (max-width: 768px) {
+  /* Padding section diperkecil */
+  .p-6 {
+    padding: 1rem !important;
+  }
+
+  /* Header stack */
+  .flex.items-center.justify-between {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  /* Button full width */
+  .p-button {
+    width: 100%;
+  }
+
+  /* ===============================
+     PRIMEVUE DATATABLE SCROLL
+  ================================ */
+  .p-datatable-wrapper {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .p-datatable-table {
+    min-width: 800px; /* paksa scroll */
+    white-space: nowrap;
+  }
+
+  .p-datatable-thead > tr > th,
+  .p-datatable-tbody > tr > td {
+    padding: 0.75rem !important;
+  }
+
+  /* Image lebih kecil */
+  .p-datatable img {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Dialog full width */
+  .p-dialog {
+    width: 95vw !important;
+    margin: 0 auto;
+  }
+
+  .p-dialog-content {
+    padding: 1rem !important;
+  }
+
+  .p-dialog-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .p-dialog-footer .p-button {
+    width: 100%;
+  }
+}
+
+/* ===============================
+   🌙 DARK MODE – MOBILE DATATABLE
+================================ */
+.my-app-dark {
+  @media (max-width: 768px) {
+    .p-datatable-table {
+      background-color: #020617;
+    }
+
+    .p-datatable-thead th {
+      color: #94a3b8;
+    }
+
+    .p-datatable-tbody td {
+      color: #e5e7eb;
+    }
   }
 }
 </style>
