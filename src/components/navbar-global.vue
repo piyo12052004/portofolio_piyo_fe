@@ -179,11 +179,11 @@ const initialName = computed(() => {
 const showSidebar = ref(false);
 const openIndex = ref(null);
 
-const toggleGroup = (i) => {
+const toggleGroup = (i:any) => {
   openIndex.value = openIndex.value === i ? null : i;
 };
 
-const go = (path) => {
+const go = (path:any) => {
   showSidebar.value = false;
   router.push(path);
 };
