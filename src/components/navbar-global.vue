@@ -462,6 +462,15 @@ onMounted(loadRoutes);
           />
           <span v-on:click="toggleNotifikasi" class="notification-dot"></span>
         </div>
+
+        <Button
+          v-if="!session"
+          label="Sign In"
+          text
+          class="signin-btn"
+          @click="goToLogin"
+        />
+        
         <div v-if="session" class="profile-trigger mt-2 ml-2" @click="toggleProfile">
           <Button severity="info" rounded variant="outlined">
             <template #icon>
