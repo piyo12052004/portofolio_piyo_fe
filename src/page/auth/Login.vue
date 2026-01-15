@@ -5,9 +5,13 @@
     </div>
 
     <div class="right-side">
-      <div class="top-action">
-        <Button :icon="isDark ? 'pi pi-moon' : 'pi pi-sun'" class="p-button-sm" variant="outlined"
-          @click="toggleDarkMode" />
+      <div class="top-action hidden md:block">
+        <Button
+          :icon="isDark ? 'pi pi-moon' : 'pi pi-sun'"
+          class="p-button-sm"
+          variant="outlined"
+          @click="toggleDarkMode"
+        />
       </div>
 
       <div class="logo-box">
@@ -24,7 +28,13 @@
 
         <IconField class="p-input-icon-left input-box">
           <InputIcon class="pi pi-lock" />
-          <Password v-model="form.password" toggleMask :feedback="false" placeholder="Password" style="width: 100%" />
+          <Password
+            v-model="form.password"
+            toggleMask
+            :feedback="false"
+            placeholder="Password"
+            style="width: 100%"
+          />
         </IconField>
 
         <div class="bottom-options">
@@ -36,7 +46,13 @@
           <a class="forgot-link" @click="goToSignUp">Sign Up?</a>
         </div>
 
-        <Button label="Login" @click="toggelForLogin" icon="pi pi-arrow-right" iconPos="right" class="confirm-btn" />
+        <Button
+          label="Login"
+          @click="toggelForLogin"
+          icon="pi pi-arrow-right"
+          iconPos="right"
+          class="confirm-btn"
+        />
         <div class="bottom-options">
           <div class="remember-wrap"></div>
 
@@ -96,7 +112,7 @@ function toggleDarkMode() {
 
 async function toggelForLogin() {
   if (form.value.email == "" || form.value.password == "") {
-    toaster.warning("Email and password cannot be empty", 'warning');
+    toaster.warning("Email and password cannot be empty", "warning");
     return;
   }
   let prePare = {
@@ -106,7 +122,7 @@ async function toggelForLogin() {
   try {
     const res = await useApi().post("/login", prePare);
     H.saveStorege(res.data.token);
-    H.typeLogin('login');
+    H.typeLogin("login");
     getSession();
   } catch (err) {
     // Jika backend mengirim response
@@ -165,6 +181,109 @@ onMounted(() => {
 @media (max-width: 768px) {
   .google-btn-wrapper {
     transform: scale(1.05);
+  }
+}
+
+/* ===============================
+   📱 MOBILE RESPONSIVE LOGIN
+================================ */
+@media (max-width: 768px) {
+  .login-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* Sembunyikan ilustrasi kiri */
+  .left-side {
+    display: none;
+  }
+
+  .right-side {
+    width: 100%;
+    min-height: 100vh;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Top dark mode button */
+  .top-action {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
+
+  /* Logo */
+  .logo-box {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .logo-3d {
+    font-size: 48px;
+  }
+
+  /* Title */
+  .login-title {
+    text-align: center;
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+  }
+
+  /* Form */
+  .login-form {
+    width: 100%;
+  }
+
+  .input-box {
+    width: 100%;
+  }
+
+  .input-box input {
+    width: 100%;
+  }
+
+  /* Bottom options */
+  .bottom-options {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .forgot-link {
+    font-size: 14px;
+  }
+
+  /* Login button */
+  .confirm-btn {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  /* Social login */
+  .social-buttons {
+    width: 100%;
+  }
+
+  .google-btn-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    transform: scale(1);
+  }
+}
+.my-app-dark {
+  @media (max-width: 768px) {
+    .right-side {
+      background-color: #020617;
+    }
+
+    .login-title {
+      color: #f8fafc;
+    }
   }
 }
 </style>

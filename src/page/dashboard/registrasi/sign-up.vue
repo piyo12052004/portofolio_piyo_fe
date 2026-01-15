@@ -1,162 +1,307 @@
 <template>
-  <div class="login-wrapper">
-    <div class="left-side"></div>
+  <!-- Desktop -->
+  <div class="hidden md:block">
+    <div class="login-wrapper">
+      <div class="left-side"></div>
 
-    <div class="right-side">
-      <!-- DARK MODE TOGGLE -->
-      <div class="top-action">
-        <Button
+      <div class="right-side">
+        <!-- DARK MODE TOGGLE -->
+        <div class="top-action">
+          <Button
+            :icon="isDark ? 'pi pi-moon' : 'pi pi-sun'"
+            class="p-button-sm"
+            variant="outlined"
+            @click="toggleDarkMode"
+          />
+        </div>
+
+        <!-- TITLE + SIGN IN LINK -->
+        <div class="flex justify-between items-center">
+          <h3 class="login-title">User Registration</h3>
+          <a class="forgot-link" @click="goToSignIn">Sign In?</a>
+        </div>
+
+        <div class="card">
+          <Stepper value="1">
+            <!-- ======================== STEP 1 ========================= -->
+            <StepItem value="1">
+              <Step>Identity</Step>
+
+              <StepPanel v-slot="{ activateCallback }">
+                <ScrollPanel style="width: 100%; height: 200px">
+                  <div class="flex flex-col gap-4">
+                    <div class="input-group">
+                      <label>Full Name</label>
+                      <InputText
+                        v-model="form.full_name"
+                        placeholder="Enter your full name"
+                      />
+                    </div>
+
+                    <div class="input-group">
+                      <label>Email</label>
+                      <InputText
+                        v-model="form.email"
+                        type="email"
+                        placeholder="Enter your email"
+                      />
+                    </div>
+
+                    <div class="input-group">
+                      <label>Phone Number</label>
+                      <InputText v-model="form.phone" placeholder="08xxxxxxxxxx" />
+                    </div>
+
+                    <div class="input-group">
+                      <label>From Country</label>
+                      <Dropdown
+                        v-model="form.country"
+                        :options="listCountry"
+                        optionLabel="label"
+                        optionValue="value"
+                        placeholder="Select Country"
+                        filter
+                        filterPlaceholder="Search country..."
+                        showClear
+                        class="w-full"
+                      />
+                    </div>
+                  </div>
+                </ScrollPanel>
+
+                <div class="p-2 text-right">
+                  <Button
+                    icon="pi pi-chevron-right"
+                    iconPos="right"
+                    label="Next"
+                    severity="info"
+                    rounded
+                    @click="goToStep2(activateCallback)"
+                  />
+                </div>
+              </StepPanel>
+            </StepItem>
+
+            <!-- ======================== STEP 2 ========================= -->
+            <StepItem value="2">
+              <Step>Hobby</Step>
+
+              <StepPanel v-slot="{ activateCallback }">
+                <ScrollPanel style="width: 100%; height: 200px">
+                  <div class="flex flex-wrap justify-center gap-3 p-4">
+                    <div v-for="(item, index) in listHobby" :key="index">
+                      <ToggleButton
+                        :modelValue="form.hobby.includes(item.value)"
+                        @update:modelValue="(val) => toggleHobby(val, item.value)"
+                        :onLabel="item.label"
+                        :offLabel="item.label"
+                      />
+                    </div>
+                  </div>
+                </ScrollPanel>
+
+                <div class="flex py-6 justify-between">
+                  <Button
+                    icon="pi pi-chevron-left"
+                    label="Back"
+                    severity="info"
+                    rounded
+                    @click="activateCallback('1')"
+                  />
+                  <Button
+                    icon="pi pi-chevron-right"
+                    iconPos="right"
+                    label="Next"
+                    severity="info"
+                    rounded
+                    @click="goToStep3(activateCallback)"
+                  />
+                </div>
+              </StepPanel>
+            </StepItem>
+
+            <!-- ======================== STEP 3 ========================= -->
+            <StepItem value="3">
+              <Step>Create Account</Step>
+
+              <StepPanel v-slot="{ activateCallback }">
+                <div class="flex flex-col gap-4">
+                  <div class="input-group">
+                    <label>Username</label>
+                    <InputText v-model="form.username" placeholder="Enter username" />
+                  </div>
+
+                  <div class="input-group">
+                    <label>Password</label>
+                    <Password v-model="form.password" toggleMask :feedback="false" />
+                  </div>
+
+                  <div class="input-group">
+                    <label>Confirm Password</label>
+                    <Password
+                      v-model="form.confirm_password"
+                      toggleMask
+                      :feedback="false"
+                    />
+                  </div>
+                </div>
+
+                <div class="flex py-6 justify-between">
+                  <Button
+                    icon="pi pi-chevron-left"
+                    label="Back"
+                    severity="info"
+                    rounded
+                    @click="activateCallback('2')"
+                  />
+                  <Button label="Sign Up" severity="info" rounded @click="submitForm" />
+                </div>
+              </StepPanel>
+            </StepItem>
+          </Stepper>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile -->
+  <!-- ================= MOBILE ================= -->
+  <div class="md:hidden min-h-screen bg-slate-50 flex flex-col">
+    <!-- HEADER -->
+    <div
+      class="sticky top-0 z-20 bg-white border-b px-4 py-3 flex items-center justify-between"
+    >
+      <h3 class="text-base font-semibold">User Registration</h3>
+
+      <div class="flex items-center gap-3">
+        <button class="text-sm text-blue-600" @click="goToSignIn">Sign In</button>
+
+        <!-- <Button
           :icon="isDark ? 'pi pi-moon' : 'pi pi-sun'"
           class="p-button-sm"
           variant="outlined"
           @click="toggleDarkMode"
-        />
+        /> -->
       </div>
+    </div>
 
-      <!-- TITLE + SIGN IN LINK -->
-      <div class="flex justify-between items-center">
-        <h3 class="login-title">User Registration</h3>
-        <a class="forgot-link" @click="goToSignIn">Sign In?</a>
-      </div>
+    <!-- CONTENT -->
+    <div class="flex-1 overflow-y-auto px-4 py-6">
+      <div class="max-w-md mx-auto">
+        <div class="bg-white rounded-2xl shadow p-4">
+          <Stepper value="1">
+            <!-- STEP 1 -->
+            <StepItem value="1">
+              <Step>Identity</Step>
 
-      <div class="card">
-        <Stepper value="1">
-          <!-- ======================== STEP 1 ========================= -->
-          <StepItem value="1">
-            <Step>Identity</Step>
-
-            <StepPanel v-slot="{ activateCallback }">
-              <ScrollPanel style="width: 100%; height: 200px">
-                <div class="flex flex-col gap-4">
+              <StepPanel v-slot="{ activateCallback }">
+                <div class="space-y-4">
                   <div class="input-group">
                     <label>Full Name</label>
-                    <InputText
-                      v-model="form.full_name"
-                      placeholder="Enter your full name"
-                    />
+                    <InputText v-model="form.full_name" class="w-full" />
                   </div>
 
                   <div class="input-group">
                     <label>Email</label>
-                    <InputText
-                      v-model="form.email"
-                      type="email"
-                      placeholder="Enter your email"
-                    />
+                    <InputText v-model="form.email" type="email" class="w-full" />
                   </div>
 
                   <div class="input-group">
-                    <label>Phone Number</label>
-                    <InputText v-model="form.phone" placeholder="08xxxxxxxxxx" />
+                    <label>Phone</label>
+                    <InputText v-model="form.phone" class="w-full" />
                   </div>
 
                   <div class="input-group">
-                    <label>From Country</label>
+                    <label>Country</label>
                     <Dropdown
                       v-model="form.country"
                       :options="listCountry"
                       optionLabel="label"
                       optionValue="value"
-                      placeholder="Select Country"
                       filter
-                      filterPlaceholder="Search country..."
                       showClear
                       class="w-full"
                     />
                   </div>
+
+                  <Button
+                    label="Next"
+                    icon="pi pi-chevron-right"
+                    iconPos="right"
+                    class="w-full"
+                    @click="goToStep2(activateCallback)"
+                  />
                 </div>
-              </ScrollPanel>
+              </StepPanel>
+            </StepItem>
 
-              <div class="p-2 text-right">
-                <Button
-                  icon="pi pi-chevron-right"
-                  iconPos="right"
-                  label="Next"
-                  severity="info"
-                  rounded
-                  @click="goToStep2(activateCallback)"
-                />
-              </div>
-            </StepPanel>
-          </StepItem>
+            <!-- STEP 2 -->
+            <StepItem value="2">
+              <Step>Hobby</Step>
 
-          <!-- ======================== STEP 2 ========================= -->
-          <StepItem value="2">
-            <Step>Hobby</Step>
-
-            <StepPanel v-slot="{ activateCallback }">
-              <ScrollPanel style="width: 100%; height: 200px">
-                <div class="flex flex-wrap justify-center gap-3 p-4">
-                  <div v-for="(item, index) in listHobby" :key="index">
-                    <ToggleButton
-                      :modelValue="form.hobby.includes(item.value)"
-                      @update:modelValue="(val) => toggleHobby(val, item.value)"
-                      :onLabel="item.label"
-                      :offLabel="item.label"
-                    />
-                  </div>
-                </div>
-              </ScrollPanel>
-
-              <div class="flex py-6 justify-between">
-                <Button
-                  icon="pi pi-chevron-left"
-                  label="Back"
-                  severity="info"
-                  rounded
-                  @click="activateCallback('1')"
-                />
-                <Button
-                  icon="pi pi-chevron-right"
-                  iconPos="right"
-                  label="Next"
-                  severity="info"
-                  rounded
-                  @click="goToStep3(activateCallback)"
-                />
-              </div>
-            </StepPanel>
-          </StepItem>
-
-          <!-- ======================== STEP 3 ========================= -->
-          <StepItem value="3">
-            <Step>Create Account</Step>
-
-            <StepPanel v-slot="{ activateCallback }">
-              <div class="flex flex-col gap-4">
-                <div class="input-group">
-                  <label>Username</label>
-                  <InputText v-model="form.username" placeholder="Enter username" />
+              <StepPanel v-slot="{ activateCallback }">
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                  <ToggleButton
+                    v-for="(item, i) in listHobby"
+                    :key="i"
+                    :modelValue="form.hobby.includes(item.value)"
+                    @update:modelValue="(val) => toggleHobby(val, item.value)"
+                    :onLabel="item.label"
+                    :offLabel="item.label"
+                    class="w-full"
+                  />
                 </div>
 
-                <div class="input-group">
-                  <label>Password</label>
-                  <Password v-model="form.password" toggleMask :feedback="false" />
+                <div class="flex flex-col gap-3">
+                  <Button
+                    label="Back"
+                    icon="pi pi-chevron-left"
+                    @click="activateCallback('1')"
+                  />
+                  <Button
+                    label="Next"
+                    icon="pi pi-chevron-right"
+                    iconPos="right"
+                    @click="goToStep3(activateCallback)"
+                  />
                 </div>
+              </StepPanel>
+            </StepItem>
 
-                <div class="input-group">
-                  <label>Confirm Password</label>
+            <!-- STEP 3 -->
+            <StepItem value="3">
+              <Step>Account</Step>
+
+              <StepPanel>
+                <div class="space-y-4">
+                  <InputText
+                    v-model="form.username"
+                    placeholder="Username"
+                    class="w-full"
+                  />
+                  <Password
+                    v-model="form.password"
+                    toggleMask
+                    :feedback="false"
+                    class="w-full"
+                  />
                   <Password
                     v-model="form.confirm_password"
                     toggleMask
                     :feedback="false"
+                    class="w-full"
+                  />
+
+                  <Button
+                    label="Sign Up"
+                    class="w-full bg-blue-600 border-none"
+                    @click="submitForm"
                   />
                 </div>
-              </div>
-
-              <div class="flex py-6 justify-between">
-                <Button
-                  icon="pi pi-chevron-left"
-                  label="Back"
-                  severity="info"
-                  rounded
-                  @click="activateCallback('2')"
-                />
-                <Button label="Sign Up" severity="info" rounded @click="submitForm" />
-              </div>
-            </StepPanel>
-          </StepItem>
-        </Stepper>
+              </StepPanel>
+            </StepItem>
+          </Stepper>
+        </div>
       </div>
     </div>
   </div>
@@ -240,7 +385,7 @@ function toggleHobby(isSelected: boolean, value: number) {
       form.value.hobby.push(value);
     }
   } else {
-    form.value.hobby = form.value.hobby.filter((h:any) => h !== value);
+    form.value.hobby = form.value.hobby.filter((h: any) => h !== value);
   }
 }
 
@@ -324,6 +469,6 @@ function goToSignIn() {
 fetchGetDataMaster();
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
 @use "@src/assets/scss/signUp.scss";
 </style>
