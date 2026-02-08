@@ -50,7 +50,7 @@ const props = withDefaults(
 
 function deleteRole(row: any) {
   emit('fetchDeletDataById',row)
-  emit('refresh','')
+  emit('refresh',null)
 }
 
 const emit = defineEmits<{

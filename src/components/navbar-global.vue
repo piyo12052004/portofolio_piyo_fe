@@ -224,7 +224,7 @@ onMounted(loadRoutes);
               <i class="pi pi-chevron-down" />
 
               <div
-                class="dropdown-menu"
+                class="dropdown-menu mt-6"
                 v-show="activeDropdown === i"
                 @mouseover="stopHide"
                 @mouseleave="closeDropdownWithDelay"
