@@ -3,36 +3,44 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#47474C;}
+	.st0{fill:#0B0F14;}      
+	.st14{fill:#1C1F26;}     
+	.st15{fill:#000000;}   
+
 	.st1{opacity:0.1;}
-	.st2{opacity:0.3;fill-rule:evenodd;clip-rule:evenodd;fill:#E0E0E0;enable-background:new    ;}
 	.st3{opacity:0.3;}
-	.st4{fill-rule:evenodd;clip-rule:evenodd;fill:#F5F5F5;}
-	.st5{fill-rule:evenodd;clip-rule:evenodd;fill:#E0E0E0;}
-	.st6{fill-rule:evenodd;clip-rule:evenodd;fill:#EBEBEB;}
-	.st7{fill:#EBEBEB;}
-	.st8{opacity:0.1;fill:#E0E0E0;enable-background:new    ;}
-	.st9{fill:#E0E0E0;}
-	.st10{opacity:0.1;fill:#F5F5F5;enable-background:new    ;}
-	.st11{fill:#F5F5F5;}
-	.st12{display:none;}
-	.st13{display:inline;fill-rule:evenodd;clip-rule:evenodd;fill:#EBEBEB;}
-	.st14{fill:#455A64;}
-	.st15{fill:#263238;}
-	.st16{fill:#62CC9A;}
 	.st17{opacity:0.2;}
-	.st18{fill:#353538;}
-	.st19{fill:#62626B;}
-	.st20{fill:#28282B;}
+
+	.st2{opacity:0.3;fill-rule:evenodd;clip-rule:evenodd;fill:#5DADE2;}
+	.st4{fill-rule:evenodd;clip-rule:evenodd;fill:#EBF5FB;}
+	.st5{fill-rule:evenodd;clip-rule:evenodd;fill:#D6EAF8;}
+	.st8{opacity:0.1;fill:#D6EAF8;}
+	.st10{opacity:0.1;fill:#EBF5FB;}
+	.st11{fill:#EBF5FB;}
+	.st9{fill:#AED6F1;}
+	.st19{fill:#5499C7;}
+
+	.st18{fill:#21618C;}
+	.st23{fill:#2E86C1;}
+	.st24{fill:#2874A6;}
+
+	.st20{fill:#1A5276;}
+	.st25{fill:#154360;}
+
 	.st21{fill:#FFFFFF;}
-	.st22{fill:#E8505B;}
-	.st23{fill:#46464C;}
-	.st24{fill:#36363A;}
-	.st25{fill:#1B1B1E;}
-	.st26{fill:#FFBE9D;}
-	.st27{fill:#EB996E;}
-	.st28{fill:#FAFAFA;}
+	.st28{fill:#FBFCFC;}
+
+	.st12{display:none;}
+	.st13{display:inline;fill-rule:evenodd;clip-rule:evenodd;fill:#5DADE2;}
+
+	.st6{fill:#5DADE2;}
+	.st7{fill:#5DADE2;}
+	.st16{fill:#2E86C1;}
+	.st22{fill:#3498DB;}
+	.st26{fill:#EBF5FB;}
+	.st27{fill:#3498DB;}
 </style>
+
 <g id="Background_Complete">
 	<g>
 		<g>
